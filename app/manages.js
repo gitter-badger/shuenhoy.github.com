@@ -1,6 +1,5 @@
 this.github = {
 	needUpdateTest: function(config,database) {
-		console.log("= =")
 		var info = JSON.parse(getSync('https://api.github.com/repos/' + config.manage.user + '/' + config.manage.repo + '/branches'));
 		
 		if(database.version != info[0].commit.sha) {

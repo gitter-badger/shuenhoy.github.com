@@ -193,6 +193,8 @@ load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascr
 						hljs.highlightBlock(e)
 					});
 					$("title").text(post.title + " | " + config.title);
+					if(config.duoshuo_id)
+						DUOSHUO.initView();
 					return true;
 				}
 			}
@@ -212,6 +214,8 @@ load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascr
 				$('pre code').each(function(i, e) {
 					hljs.highlightBlock(e)
 				});
+				if(config.duoshuo_id)
+						DUOSHUO.initView();
 
 			}).fail(function() {
 				this.notFound();
