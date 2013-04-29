@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="styles/tomorrow.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+   <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+  <link  rel="stylesheet" type="text/css" href="stylesheets/prettify.css" />
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+
+</head>
+<body >
+  <script id="header-tmpl" type="text/html">
+   <div id="container">
+     
+       <header class="inner">
+         <div class="allleft">
+           <a href="#!/">
+       	   <h1>{config.title}</h1>
+           </a>
+           <h2>{config.subtitle}</h2>
+
+          </div>
+          <nav id="main-nav" class="allright">
+           <ul>
+             <li><a href="#!/about">关于</a></li>
+             <li><a href="#!/about">留言板</a></li>
+           </ul>
+
+         </nav>
+         
+         <div  class="clearfix"></div>
+         
+       </header>
+       
+       
+       <hr />
+     <div class="inner">
+       <section id="main_content">
+  </script>
+
+  <script id="404-tmpl" type="text/html5" >
+   {include 'header-tmpl'}
+    <p>
+      这里什么也没有……
+    </p>
+    {include 'footer-tmpl'}
+  </script>
+
+  <script id="footer-tmpl" type="text/html5">
+       </section>
+       <footer>
+         由Shubo强力驱动<br>
+         Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+       </footer>  
+     </div>
+   </div>
+  </script>
+  <script id="loading-tmpl" type="text/html">
+    {include 'header-tmpl'}
+      <p>loading...</p>
+    {include 'footer-tmpl'}
+  </script>
+  <script id="index-tmpl" type="text/html">
+    {include 'header-tmpl'}
+    {each posts}   
+      <article class="post">
+        <a href="{post_url $value}"><h2>{$value.title}</h2></a>
+        
+       
+        <div class="post-entry">
+          {echo more($value.body)}
+        </div>
+       
+        <div align="right">
+		  <a href="{post_url $value}" class="more-link" >继续阅读 »</a>
+        </div>
+        
+      </article>
+
+    {/each}
+    {include 'footer-tmpl'}
+  </script>
+
+  <script id="post-tmpl" type="text/html">
+    {include 'header-tmpl'}
+    <h2>{title}</h1>
+    <article class="post-entry">{echo body}</article>
+     {if config.duoshuo_id}
+    <!-- Duoshuo Comment BEGIN -->
+
+    <div class="ds-thread" data-thread-key="{thread_key||name}" data-title="{title}" data-author-key="2"></div>
+
+<!-- Duoshuo Comment END -->
+    {/if}
+    {include 'footer-tmpl'}
+  </script>
+  <script id="page-tmpl" type="text/html">
+    {include 'header-tmpl'}
+    <h2>{title}</h1>
+    <article class="post-entry">{echo body}</article>
+    {if config.duoshuo_id}
+    <!-- Duoshuo Comment BEGIN -->
+
+    <div class="ds-thread" data-thread-key="{thread_key||name}" data-title="{title}" data-author-key="2"></div>
+
+<!-- Duoshuo Comment END -->
+    {/if}
+    {include 'footer-tmpl'}
+  </script>
+  <div id="content"></div>
+  
+
+  <script src="javascript/main.js"></script>
+  
+</body>
+</html>
