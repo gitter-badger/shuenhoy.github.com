@@ -74,13 +74,12 @@ function getSync(url) {
 
 
 
-load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascript/sammy-latest.min.js', 'javascript/template.min.js', 'javascript/template-syntax.js', 'javascript/jsyaml.mini.js', 'javascript/showdown.js', 'javascript/showdown-ext/github.js', 'javascript/showdown-ext/table.js', 'javascript/showdown-ext/prettify.js'], function() {
+load([ 'javascript/jsyaml.mini.js','javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascript/sammy-latest.min.js',  'javascript/template.min.js', 'javascript/template-syntax.js','javascript/showdown.js','javascript/showdown-ext/github.js', 'javascript/showdown-ext/table.js', 'http://tajs.qq.com/stats?sId=16049737'], function() {
 	hljs.initHighlightingOnLoad();
 
 	// initialize the application
 	var app = Sammy(function() {
 		var that = this;
-
 		localStorage = localStorage || {}; //兼容
 		var config = jsyaml.load(getSync('config.yml'));
 
@@ -88,8 +87,9 @@ load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascr
 			posts: []
 		};
 		var main_content = $("#content"); //['github','table','prettify']
+		
 		var converter = new Showdown.converter({
-			extensions: ['github', 'table', 'prettify']
+			extensions: ['github', 'table']
 		});
 		var manages = {};
 		if(config.duoshuo_id) {
@@ -160,7 +160,12 @@ load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascr
 		}
 
 		function setTmpl(id, context) {
-			var html = template.render(id, context);
+			if (context) {
+				var html = template.render(id, context);
+			} else {
+				var html = template.render(id);
+			}
+			
 			main_content.html(html);
 		}
 		this.notFound = function() {
@@ -168,8 +173,9 @@ load(['javascript/highlight.pack.js', 'javascript/jquery-1.9.1.min.js', 'javascr
 
 			return false;
 		}
+
 		this.get('#!/', function() {
-			//setTmpl('404-tmpl');
+			setTmpl('loading-tmpl', config);
 			update(function() {
 				setTmpl('index-tmpl', database);
 				$("title").text("Home | " + config.title);
