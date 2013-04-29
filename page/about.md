@@ -1,4 +1,5 @@
 title: 关于我
+thread_key: test
 ---
 嗨,你好,欢迎来到我的博客.
 
