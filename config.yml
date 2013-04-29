@@ -3,7 +3,7 @@ subtitle: Shuenhoy's Blog
 manage:
   type: github
   user: Shuenhoy
-  repo: the_test_blog
+  repo: shuenhoy.github.com
   version: 1
   always: true
 duoshuo_id: shuenhoyblog
