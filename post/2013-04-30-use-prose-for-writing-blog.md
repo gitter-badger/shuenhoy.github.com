@@ -19,4 +19,4 @@ Prose还具有很强大的预览功能可以随时查看效果
 ![preview](https://www.diigo.com/item/p/poebsbqzbpdbpabqdzbabprcoe/87e9821ab06de98349defe9fcd1dd061)
 
 #### 缺点
-似乎不支持使用中文
+似乎不支持使用中文作为文件名
