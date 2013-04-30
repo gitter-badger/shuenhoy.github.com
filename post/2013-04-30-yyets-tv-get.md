@@ -60,7 +60,7 @@ function askmonth() {
 
 
 function get_tv_json(month) {
-	return JSON.stringify(get_monthshow(month || askmonth())); //没有给予月份的时候赋予
+	return get_monthshow(month || askmonth()); //没有给予月份的时候赋予
 }
 //返回截断的Json
 
@@ -75,10 +75,11 @@ function just_get_tv (year,start,end) {
 		m[i]=get_tv_json(i);
 	}
 	document.write(html);
-	return m;
+	return JSON.stringify(m);
 }
 console.log("耶哈！开始获得吧！");
 console.log(just_get_tv(2013,5,6));
 console.log("就这些了！拿去吧！请加以致谢yyets维护时间表的人！");
+
 
 ```
