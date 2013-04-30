@@ -67,7 +67,7 @@ function get_tv_json(month) {
 
 
 function just_get_tv (year,start,end) {
-	var m=[];
+	var m={};
 	for(var i=start;i<=end;i++){
 		var html=$.ajax({url:'http://www.yyets.com/tv/schedule/index/year/'+year+'/month/'+(i>=10?i:"0"+i),async:false}).responseText;
 		var s=html.match(/<body>[\s\S]*?<\/body>/)[0];
@@ -80,6 +80,5 @@ function just_get_tv (year,start,end) {
 console.log("耶哈！开始获得吧！");
 console.log(just_get_tv(2013,5,6));
 console.log("就这些了！拿去吧！请加以致谢yyets维护时间表的人！");
-
 
 ```
