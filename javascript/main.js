@@ -83,8 +83,8 @@ function getSync(url) {
 	}).responseText;
 }
 
-loadList(['http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', 'javascript/showdown.js', 'javascript/template.min.js', 'javascript/jsyaml.mini.js', 'javascript/highlight.pack.js'], function() {
-	loadList(['javascript/sammy-latest.min.js', 'javascript/showdown-ext/github.js', 'javascript/showdown-ext/table.js','javascript/template-syntax.js'], function() {
+loadList(['http://ajax.microsoft.com/ajax/jquery/jquery-1.9.1.min.js', 'javascript/showdown.js', 'javascript/template.min.js', 'javascript/jsyaml.mini.js', 'javascript/highlight.pack.js'], function() {
+	loadList(['javascript/sammy-latest.min.js', 'javascript/showdown-ext/github.js', 'javascript/showdown-ext/table.js', 'javascript/template-syntax.js'], function() {
 		loadAsync('http://tajs.qq.com/stats?sId=16049737');
 		hljs.initHighlightingOnLoad();
 
@@ -150,36 +150,59 @@ loadList(['http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', 'ja
 				return head;
 			}
 
-			function getPost(postList, index, callback) {
-				if(!postList[index]) return callback();
+			function getPost(postList, callback) {
+				var num = postList.length;
 
-				$.get('post/' + postList[index][1], function(data) {
+				for(var i = 0; i < postList.length; i++) {
+					(function(j) {
+						$.get('post/' + postList[i][1], function(data) {
 
-					database.posts[index] = readPostInfo(data, postList[index][0]);
-					getPost(postList, index + 1, callback);
-				});
+							database.posts[j] = readPostInfo(data, postList[j][0]);
+							if(--num == 0) {
+
+								callback();
+							}
+						});
+					})(i);
+				};
+
+
 			}
 
-
-			function update(callback) {
-
-				var newVersion = manages[config.manage.type].needUpdateTest(config, database);
-
-
-				if( !! newVersion) {
+/*if( !! newVersion) {
 					database.version = newVersion;
 					var postList = manages[config.manage.type].getlist(config);
 					for(var i in postList) {
 						postList[i] = [postList[i].replace(/^([0-9]*-[0-9]*-[0-9]*-)/, '').replace(/\.md$/, ''), postList[i].replace(/\.md/g, '.md')];
 					}
-					getPost(postList, 0, function() {
+					getPost(postList, function() {
 						localStorage.database = JSON.stringify(database);
 						callback();
 					});
 
 				} else {
 					callback();
-				}
+				}*/
+			function update(callback) {
+
+				manages[config.manage.type].update(config, database, function(newVersion, list) {
+					if( !! newVersion) {
+						database.version = newVersion;
+						var postList = list;
+						for(var i in postList) {
+							postList[i] = [postList[i].replace(/^([0-9]*-[0-9]*-[0-9]*-)/, '').replace(/\.md$/, ''), postList[i].replace(/\.md/g, '.md')];
+						}
+						getPost(postList, function() {
+							localStorage.database = JSON.stringify(database);
+							callback();
+						});
+
+					} else {
+						callback();
+					}
+				});
+
+
 
 			}
 
