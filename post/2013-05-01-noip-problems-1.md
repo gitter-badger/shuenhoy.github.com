@@ -1,4 +1,4 @@
-title: 两道NOIP题-开心的金明 Jam计数法
+title: 1道NOIP题-开心的金明
 category: noip
 tags: 背包问题
 ---
