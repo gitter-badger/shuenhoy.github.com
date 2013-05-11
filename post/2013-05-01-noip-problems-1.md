@@ -1,5 +1,5 @@
 title: 1道NOIP题-开心的金明
-category: noip
+categories: noip
 tags: 背包问题 
 ---
 以后每个周都要做NOIP题或者在这里记录,先放1道 开心的金明
