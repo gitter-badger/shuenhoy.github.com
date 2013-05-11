@@ -1,6 +1,10 @@
 title: 关于我
 
 ---
+![me](https://www.diigo.com/item/p/poebsbqzbpeoerqsbzbacrbbpp/c395b420b0b71837a6ae7b2d25c8eda3)
+
+
+
 嗨,你好,欢迎来到我的博客.
 
 ###我是谁?
