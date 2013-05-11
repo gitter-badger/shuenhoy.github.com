@@ -1,5 +1,5 @@
 title: 使用Prose更舒服的写博客
-category: 默认分类
+categories: 默认分类
 ---
 
 在[上一篇](#!/post/new-blog-system)文章中提到了我自己做的纯前端的博客系统,通过github API和github的在线编辑功能写博客并自动生成.虽然这样已经很方便了但还有一些问题,比如不能在线删除文件,github在线编辑器的速度比较慢等.
