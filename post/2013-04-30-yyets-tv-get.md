@@ -1,5 +1,5 @@
 title: 美剧播出时间表取得JSON代码
-category: 一些代码
+categories: 一些代码
 ---
 好吧这是[Sen](http://sl088.com)给出的挑战,然后好像是获得美剧播出时间表的= =放在Chrome的console里运行
 
