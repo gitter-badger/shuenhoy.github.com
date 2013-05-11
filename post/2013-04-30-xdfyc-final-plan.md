@@ -1,5 +1,5 @@
 title: 淀粉养成记最终方案
-category: 默认分类
+categories: 默认分类
 tags: 淀粉养成记
 ---
 这几天打岔去做了[这个博客系统](#!/post/new-blog-system)但是还是要回来做淀粉养成记的.现在的时间越来越少,[一开始的设计](#!/post/dfyc)太大太难实现,[后来意识到了这个问题](#!/post/some-new-idea-about-dfyc)进行了简化,但还是太复杂
