@@ -83,7 +83,22 @@ function getSync(url) {
 	}).responseText;
 }
 
-loadList(['http://ajax.microsoft.com/ajax/jquery/jquery-1.9.1.min.js', 'javascript/showdown.js', 'javascript/template.min.js', 'javascript/jsyaml.mini.js', 'javascript/highlight.pack.js'], function() {
+loadList(['http://ajax.microsoft.com/ajax/jquery/jquery-1.9.1.min.js', 'javascript/showdown.js','javascript/marked.js', 'javascript/template.min.js', 'javascript/jsyaml.mini.js', 'javascript/highlight.pack.js'], function() {
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  langPrefix: 'language-',
+  highlight: function(code, lang) {
+    if (lang === 'js') {
+      return highlighter.javascript(code);
+    }
+    return code;
+  }
+});
 	loadList(['javascript/sammy-latest.min.js', 'javascript/showdown-ext/github.js', 'javascript/showdown-ext/table.js', 'javascript/template-syntax.js'], function() {
 		loadAsync('http://tajs.qq.com/stats?sId=16049737');
 		hljs.initHighlightingOnLoad();
@@ -102,7 +117,7 @@ loadList(['http://ajax.microsoft.com/ajax/jquery/jquery-1.9.1.min.js', 'javascri
 			var converter = new Showdown.converter({
 				extensions: ['github', 'table']
 			});
-
+      converter.makeHtml= marked;
 			template.helper('post_url', function(v) {
 				return '#!/post/' + v.name;
 			});
