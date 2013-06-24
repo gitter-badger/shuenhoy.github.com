@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Shuenhoy's Blog]]></title>
+  <link href="http://shuenhoy.com/atom.xml" rel="self"/>
+  <link href="http://shuenhoy.com"/>
+  <updated>2013-06-24T06:04:03.907Z</updated>
+  <id>http://shuenhoy.com/</id>
+  <author>
+    <name><![CDATA[Shuenhoy]]></name>
+    <email><![CDATA[shuenhoy@gmail.com]]></email>
+  </author>
+  <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[�ټ����ῼ]]></title>
+    <link href="http://shuenhoy.com/2013/06/24/goodbye-hbc/"/>
+    <id>http://shuenhoy.com/2013/06/24/goodbye-hbc/</id>
+    <published>2013-06-24T05:48:41.000Z</published>
+    <updated>2013-06-24T06:03:54.000Z</updated>
+    <content type="html"><![CDATA[<p>����һ�������¶�ʮһ�գ��������ڽ������������ʷ����Ϣ�Ľ�ҵ���ԣ�����ν�ġ��ῼ����</p>
+<p>�Դ�ѧ�ڿ�ʼ֮�����Ǳ������˻ῼ��ϰ����ǰ�����ܸ��ǽ�������������ѧ����ѧϰ���ῼ����</p>
+<p>���ٽ��ῼ����������������Ϊ�����˱�����û����Уѧϰ�����Ի�У�󱻰����ν�ץѧ��һ�졣</p>
+<p>��ʮ�յĻῼ��ȴ�������о��棬��һ�����ұ��Ķ���һ��Ҳû����ȫ��û�������ʴ𡢲����⡣</p>
+<p>Ȼ����һ����ƽ���Ĺ�ȥ�ˣ��Ҷ�ͬѧ˵��������֪�������������������ϻ��������ϻ���Ҳ�С�</p>
+<p>Ȼ���Ժ���û����ʷ������Ϣ������ѧ���ˣ��ῼҲ����Ϊ���䣨������Ϊ�Ҳ���ȥ���������⡣</p>
+<p>�����أ�</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags//" term="ѧУ"/>
+    <category scheme="http://shuenhoy.com/categories//" term="Ĭ�Ϸ���"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[1道NOIP题-开心的金明]]></title>
+    <link href="http://shuenhoy.com/2013/05/01/noip-problems-1/"/>
+    <id>http://shuenhoy.com/2013/05/01/noip-problems-1/</id>
+    <published>2013-05-01T06:07:05.000Z</published>
+    <updated>2013-05-23T06:16:19.000Z</updated>
+    <content type="html"><![CDATA[<p>以后每个周都要做 NOIP 题或者在这里记录, 先放 1 道 开心的金明</p>
+<p><strong>注意! 这里纯粹是我自己记录的, 被误导了概不负责</strong></p>
+<a name="more"></a>
+
+<h3>开心的金明</h3>
+<p>题目描述:</p>
+<blockquote>
+<p>金明今天很开心，家里购置的新房就要领钥匙了，新房里有一间他自己专用的很宽敞的房间。
+更让他高兴的是，妈妈昨天对他说：“你的房间需要购买哪些物品，怎么布置，你说了算，只要不超过 N 元钱就行”。
+今天一早金明就开始做预算，但是他想买的东西太多了，肯定会超过妈妈限定的 N 元。
+于是，他把每件物品规定了一个重要度，分为 5 等：用整数 1~5 表示，第 5 等最重要。
+他还从因特网上查到了每件物品的价格（都是整数元）。他希望在不超过 N 元（可以等于 N 元）的前提下，
+使每件物品的价格与重要度的乘积的总和最大。设第 j 件物品的价格为 v[j]，重要度为 w[j]，共选中了 k 件物品，
+编号依次为 j1...jk，则所求的总和为：v[j1]<em>w[j1]+..+v[jk]</em>w[jk] 请你帮助金明设计一个满足要求的购物单.</p>
+<p><strong>输入格式</strong></p>
+<p>输入的第 1 行，为两个正整数，用一个空格隔开：
+N m
+（其中 N（&lt;30000）表示总钱数，m(&lt;25) 为希望购买物品的个数。） 
+从第 2 行到第 m+1 行，第 j 行给出了编号为 j-1 的物品的基本数据，
+每行有 2 个非负整数 v p（其中 v 表示该物品的价格（v≤10000），p 表示该物品的重要度（1~5））</p>
+<p><strong>输出格式</strong></p>
+<p>输出只有一个正整数，为不超过总钱数的物品的价格与重要度乘积的总和的
+最大值（&lt;100000000）</p>
+</blockquote>
+<p>据说这是一个叫做 0/1 背包问题的诡异玩意</p>
+<p>也就是说有一大堆东西, 每个都有一定的价值和重量, 同时你有一个有限容量的包, 要求是使价值最大. 在这里价值就是重要度 * 价格, 重量就是价格, 容量就是总钱数</p>
+<p>现在所有所有的物品的重量和价值分别被仍在了 P 和 I 两个数组中, 我们设 W(n,N) 表示将数组的 0 到 n 这些物品放入容量为 N 的最大收益, 我们可以知道如果 N&lt;=0, 即这些没法装, 这是 W(n,N)=0</p>
+<p>如果 N&gt;0, 就是可以装的下, 分为两种情况, 就是装第 n 个或不装. 装的时候就是就是第 n 的价格加上到第 n-1 个物品扔到 N- 第 n 个的重量, 即 W1=P[n]+(n,N-V[n]), 否则是不装,W2=W(n,N), 两者中大的即是结果</p>
+<p>说了一大堆发现我说不太明白, 上代码吧 = =</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre></td><td class="code"><pre><span class="comment">#include&lt;cstdio&gt;</span>
+<span class="comment">#include&lt;algorithm&gt;</span>
+<span class="comment">#include&lt;functional&gt;</span>
+<span class="comment">#include&lt;iostream&gt;</span>
+
+using namespace std;
+const <span class="keyword">int</span> MAX=<span class="number">25</span>;
+inline <span class="keyword">int</span> Max(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+    <span class="keyword">return</span> a&<span class="keyword">gt</span>;b?a:b;
+}
+
+<span class="keyword">int</span> <span class="keyword">m</span>;
+
+<span class="keyword">int</span> P[MAX]=<span class="string">{0}</span>; <span class="regexp">//</span> 价值 
+
+<span class="keyword">int</span> V[MAX]=<span class="string">{0}</span>; 
+<span class="keyword">int</span> C[MAX][<span class="number">30000</span>]={ { -<span class="number">1</span>, -<span class="number">1</span> } };
+<span class="keyword">int</span> work(<span class="keyword">int</span> n,<span class="keyword">int</span> N){
+    <span class="keyword">if</span>(n==<span class="number">0</span> || N&<span class="keyword">lt</span>;=<span class="number">0</span>){
+        C[n][N]=<span class="number">0</span>;
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+    <span class="keyword">if</span>(C[n][N]!=-<span class="number">1</span>){
+        
+        <span class="keyword">return</span> C[n][N];
+    }
+    <span class="keyword">int</span> i=n-<span class="number">1</span>;
+    <span class="keyword">if</span>(V[i]&<span class="keyword">gt</span>;N){
+        C[n][N]= work(i,N);
+    } <span class="keyword">else</span> {
+        <span class="keyword">int</span> tmp1=work(i,N);
+        
+        <span class="keyword">int</span> tmp2=P[i]+work(i,N-V[i]);
+        
+        C[n][N]= Max(tmp1,tmp2);
+    }
+    <span class="keyword">return</span> C[n][N];
+    
+    
+}
+<span class="keyword">int</span> main(){
+    <span class="keyword">int</span> N;
+   
+    scanf(<span class="string">"<span class="variable">%d</span> <span class="variable">%d</span>"</span>,&N,&<span class="keyword">m</span>);
+    
+    
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&<span class="keyword">lt</span>;<span class="keyword">m</span>;i++){
+        
+        scanf(<span class="string">"<span class="variable">%d</span> <span class="variable">%d</span>"</span>,V+i,P+i);
+
+        P[i]<span class="variable">*=</span>V[i];
+    }
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&<span class="keyword">lt</span>;=<span class="keyword">m</span>;i++){
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&<span class="keyword">lt</span>;=N;j++){
+            C[i][j]=-<span class="number">1</span>;
+        }
+    }
+    <span class="keyword">printf</span>(<span class="string">"<span class="variable">%d</span>\n"</span>,work(<span class="keyword">m</span>,N));
+    <span class="keyword">system</span>(<span class="string">"pause"</span>);
+    <span class="keyword">return</span> <span class="number">0</span>;   
+}
+
+
+</pre></td></tr></table></figure>]]></content>
+    <category scheme="http://shuenhoy.com/tags/beibaowenti/" term="背包问题"/>
+    <category scheme="http://shuenhoy.com/categories/noip/" term="noip"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[换了新的博客系统]]></title>
+    <link href="http://shuenhoy.com/2013/04/29/new-blog-system/"/>
+    <id>http://shuenhoy.com/2013/04/29/new-blog-system/</id>
+    <published>2013-04-29T06:07:05.000Z</published>
+    <updated>2013-05-23T06:07:29.000Z</updated>
+    <content type="html"><![CDATA[<p>好吧我承认我又折腾了, 前面刚换的 hexo. 前几天我看到了<a href="http://sneezry.com/#!/2013/04/09/ 在 GitHub 上按前端的方式舒服地写博客">这篇文章</a>. 我本来就像做一个类似的前端的博客, 看到有人做了也 clone 下来玩了一下, 不过不太明白怎么用的 = = 然后我最后就蛋疼的造了个轮子 = = 也就是你现在看到的这个</p>
+<p>现在除了文章和页面什么功能也没有 = = 而且还不支持 IE6/7/8/9= =IE10 好像支持的样子 = = 而且访问速度比较慢不知道是不是 GithubAPI 的问题</p>
+<p>暂时就这样, 等有空扔到 github 上:)</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于这个周(4月14日)]]></title>
+    <link href="http://shuenhoy.com/2013/04/14/this-week-2/"/>
+    <id>http://shuenhoy.com/2013/04/14/this-week-2/</id>
+    <published>2013-04-14T11:24:45.000Z</published>
+    <updated>2013-04-14T13:46:10.000Z</updated>
+    <content type="html"><![CDATA[<ul>
+<li>这个周比较意外的星期五就回家了</li>
+<li>准备每天做一道 NOIP 题</li>
+<li>买了四本书 &lt; 算法导论 &gt; &lt; 编程珠玑 &gt; &lt; 黑客与画家 &gt; <C++Primer></li>
+<li>写了 2013 年 7-8 合刊的稿子</li>
+<li>重新启用番茄工作法</li>
+<li>最后时刻, 奇怪的 QQ 病毒</li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/shenghuozashi/" term="生活杂事"/>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[对博客做了一些更新]]></title>
+    <link href="http://shuenhoy.com/2013/04/12/some-update/"/>
+    <id>http://shuenhoy.com/2013/04/12/some-update/</id>
+    <published>2013-04-12T10:26:17.000Z</published>
+    <updated>2013-04-12T11:27:05.000Z</updated>
+    <content type="html"><![CDATA[<p>刚才花了一些时间修改了博客, 主要有</p>
+<ul>
+<li>更新了标签 / 分类地址<br>  如你所见,Github pages 不支持含有中文的 URL, 直接 404, 于是我就改了下 model.js, 直接翻译成拼音了 = =</li>
+<li>修改了 CSS <em>尚未完成</em></li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于这个周(4月6日)]]></title>
+    <link href="http://shuenhoy.com/2013/04/06/this-week-1/"/>
+    <id>http://shuenhoy.com/2013/04/06/this-week-1/</id>
+    <published>2013-04-06T05:16:44.000Z</published>
+    <updated>2013-04-12T10:54:51.000Z</updated>
+    <content type="html"><![CDATA[<p>这个周是清明节, 放了三天 = = 但是好像没有做出什么东西</p>
+<ul>
+<li>先是在泰拉瑞亚上浪费了 1 上午的时间</li>
+<li>然后又去研究 IO 语言耗了一下午 = =</li>
+<li>接着我做<em>**</em>用了一整天 = =</li>
+<li>又捣鼓博客废了很长时间</li>
+<li>今天下午应该会大部分用来写作业 = =</li>
+<li>给淀粉养成记实际开发了代码只有 20 几行 = =</li>
+</ul>
+<p>恩先这样吧 = = 最近效率很低, 下周要调整了</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/shenghuozashi/" term="生活杂事"/>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于「离线下载」与「高速通道」]]></title>
+    <link href="http://shuenhoy.com/2013/04/05/about-offline-download/"/>
+    <id>http://shuenhoy.com/2013/04/05/about-offline-download/</id>
+    <published>2013-04-04T23:50:56.000Z</published>
+    <updated>2013-04-12T10:55:33.000Z</updated>
+    <content type="html"><![CDATA[<p>本文只是闲来无事随意谈谈, 不提供破解版下载. 伸手党请绕道. 本文不接受任何提问<br>以上<a name="more"></a></p>
+<h1>历史</h1>
+<p>  自从迅雷做出「高速下载」与「离线下载」这两大功能起, 网友便开始与其斗智斗勇.</p>
+<p>  先是各中针对「离线下载」的「迅雷 VIP 账号获取器」, 一大堆崇高的 ** 主义的青少年自愿花钱购买迅雷 Vip 放在网上供人使用. 起初效果颇为不错, 大家都用上了离线下载, 仿佛世界一下子变得美好了很多.</p>
+<p>  可是, 迅雷马上回击「同一账号每天仅限 10 个 ip 登陆」. 最初并没有带来很大的影响, 但伟大的人类都知晓「获取器」以后便悲剧了. 人们互相被挤掉线, 直到 10 个 ip 被用尽, 便又在凌晨零点争第二天的名额. 哪怕只有几分钟, 或是几秒钟又会被挤掉, 如此循环,while(true).</p>
+<p>  由于第一种方法的失败, 机智勇敢的网友把目光投向了「高速下载」:</p>
+<blockquote>
+<p>虽然「高速下载」本身就是个坑爹的货, 但总比没有好吧.</p>
+</blockquote>
+<p>  伟大的 Hacker 们反编译或者注入——不论如何他们成功更改了迅雷客户端的行为——利用「试用高速通道」</p>
+<p>  新建任务, 试用高速通道,「剩余 1 分钟」,</p>
+<blockquote>
+<p>FK, 不是破解了吗怎么还有时间限制?</p>
+</blockquote>
+<p>  不对!「剩余 1 分钟」 「剩余 2 分钟」 ——「剩余 65536 分钟」. 似乎奏效了, 时间的递减变成了递增, 你再也没有看到可恶的「试用结束」</p>
+<p>  然而, 事情并没有如此简单——仔细观察,3 分钟后, 高速通道速度变成了 0kb/s. 这不是和没破解没区别么!</p>
+<p>  将目光投向世界的彼岸, 一阵旋风如期而至——新版的 QQ 旋风, 也加入了「离线下载」, 但腾讯比较厚道地提供了 90 天的试用期. 广大人民忘记了各种迅雷破解, 高兴地享受起他们合法的新生活, 尽管离线空间稍小. 但大家还是沉浸在这美好的世界里.</p>
+<p>  直到 3 个月以后, 试用期纷纷过期, 下载速度又回到了原来的龟速,. 腾讯再次厚道地说</p>
+<blockquote>
+<p>使劲下载吧! 等升到 8 级就可以永久免费用 25G 的啦, 看, 下载一个 2G 文件 xxx 分, 每天最多 xxx 分, 只要连续 50 天就可以升到 8 级了</p>
+</blockquote>
+<p>  FK, 天朝人民会这么做么?</p>
+<p>  于是……</p>
+<p>  于是我自己做了一个<em>**</em>, 不打算发出来, 主要是给我爸爸下高清电影用的, 以上, 吐槽完毕</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/xiazai/" term="下载"/>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[不想当美工的程序不是好音乐]]></title>
+    <link href="http://shuenhoy.com/2013/04/01/programmer-paint-music/"/>
+    <id>http://shuenhoy.com/2013/04/01/programmer-paint-music/</id>
+    <published>2013-04-01T06:07:05.000Z</published>
+    <updated>2013-05-23T06:05:10.000Z</updated>
+    <content type="html"><![CDATA[<p>有人说 &quot; 不想当美工的程序不是好音乐 &quot;, 这句话果然不错
+我最近很深刻的体会到了.</p>
+<p>我自己在课余时间一直专注于编程, 主要是自己做游戏,
+大概也算是独立游戏制作者吧.</p>
+<p>以前都是用现成的图片和音乐等素材,
+但果然还是应该使用正版的素材, 正如你所看到的我只是一个穷学生, 买不起正版素材, 那么开发游戏就只能自己制作了 = =</p>
+<p>我本人画画的能力很低的, 画出的图片基本没法看, 前几天在网上看到了<a href="http://gamerboom.com/archives/39884">这篇教材</a>. 我发现用 Inscape 画矢量图还是可以接受的, 就自己画起素材来了 = =</p>
+<p>音乐暂时还没有尝试, 但应该也是必然的吧 = =</p>
+<p>嗯现在在学校, 本文也是为了测试 Hexo 在学校是否成功. 所以我画的图回家不完</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/tucao/" term="吐槽"/>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[hello world]]></title>
+    <link href="http://shuenhoy.com/2013/03/31/hello-world/"/>
+    <id>http://shuenhoy.com/2013/03/31/hello-world/</id>
+    <published>2013-03-31T03:33:35.000Z</published>
+    <updated>2013-04-12T10:55:13.000Z</updated>
+    <content type="html"><![CDATA[<p>经过了一番蛋疼的折腾我的博客又弄好了<br>于是我的博客已经经历了 Octopress-&gt;Wordpress-&gt;Hexo 的过程了 = =</p>
+<p>Hexo 生成确实很快, 我比较喜欢这种静态博客, 所以果断切换了</p>
+<p>以前的文章懒得转了, 没有什么太重要的内容, 有空稍微保存在本地好了<br>另外就是评论也被全部干掉了 - -</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/morenfenlei/" term="默认分类"/>
+  </entry>
+</feed>
