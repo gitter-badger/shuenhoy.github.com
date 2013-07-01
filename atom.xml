@@ -3,7 +3,7 @@
   <title><![CDATA[Shuenhoy's Blog]]></title>
   <link href="http://shuenhoy.com/atom.xml" rel="self"/>
   <link href="http://shuenhoy.com"/>
-  <updated>2013-06-24T06:05:50.627Z</updated>
+  <updated>2013-07-01T06:10:32.785Z</updated>
   <id>http://shuenhoy.com/</id>
   <author>
     <name><![CDATA[Shuenhoy]]></name>
@@ -15,13 +15,13 @@
     <link href="http://shuenhoy.com/2013/06/24/goodbye-hbc/"/>
     <id>http://shuenhoy.com/2013/06/24/goodbye-hbc/</id>
     <published>2013-06-24T05:48:41.000Z</published>
-    <updated>2013-06-24T06:05:42.000Z</updated>
-    <content type="html"><![CDATA[<p>二〇一三年六月二十一日，我们终于结束初中生物、历史、信息的结业考试，即所谓的「会考」。</p>
-<p>自从学期开始之初我们便进入了会考复习，在前几个周更是结束了所有其他学科来学习「会考」。</p>
-<p>在临近会考的五天中有四天因为机器人比赛而没有在校学习，所以回校后被班主任紧抓学了一天。</p>
-<p>二十日的会考题却让我稍有惊奇，这一天中我背的东西一样也没考，全是没见过的问答、材料题。</p>
-<p>然后这一天就平淡的过去了，我对同学说：『如果知道是这种情况今天早上或昨天晚上回来也行。</p>
-<p>然后以后就没有历史生物信息这三个学科了，会考也会成为回忆（但我认为我不会去回忆这玩意。</p>
+    <updated>2013-06-24T06:16:16.000Z</updated>
+    <content type="html"><![CDATA[<p>二〇一三年六月二十一日，我们终于结束初中生物、历史、信息的结业考试，即所谓的「会考」。
+自从学期开始之初我们便进入了会考复习，在前几个周更是结束了所有其他学科来学习「会考」。
+在临近会考的五天中有四天因为机器人比赛而没有在校学习，所以回校后被班主任紧抓学了一天。
+二十日的会考题却让我稍有惊奇，这一天中我背的东西一样也没考，全是没见过的问答、材料题。
+然后这一天就平淡的过去了，我对同学说：『如果知道是这种情况今天早上或昨天晚上回来也行。
+然后以后就没有历史生物信息这三个学科了，会考也会成为回忆（但我认为我不会去回忆这玩意。</p>
 <p>下面呢？</p>
 ]]></content>
     <category scheme="http://shuenhoy.com/tags/xuexiao/" term="学校"/>
@@ -124,36 +124,34 @@ N m
 60
 61
 62
-63
-64
-</pre></td><td class="code"><pre><span class="comment">#include&lt;cstdio&gt;</span>
-<span class="comment">#include&lt;algorithm&gt;</span>
-<span class="comment">#include&lt;functional&gt;</span>
-<span class="comment">#include&lt;iostream&gt;</span>
+</pre></td><td class="code"><pre><span class="preprocessor">#include&lt;cstdio&gt;</span>
+<span class="preprocessor">#include&lt;algorithm&gt;</span>
+<span class="preprocessor">#include&lt;functional&gt;</span>
+<span class="preprocessor">#include&lt;iostream&gt;</span>
 
-using namespace std;
-const <span class="keyword">int</span> MAX=<span class="number">25</span>;
-inline <span class="keyword">int</span> Max(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
-    <span class="keyword">return</span> a&<span class="keyword">gt</span>;b?a:b;
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">const</span> <span class="title">int</span> <span class="title">MAX</span>=25;
+<span class="title">inline</span> <span class="title">int</span> <span class="title">Max</span>(<span class="title">int</span> <span class="title">a</span>,<span class="title">int</span> <span class="title">b</span>){</span>
+    <span class="keyword">return</span> a&gt;b?a:b;
 }
 
-<span class="keyword">int</span> <span class="keyword">m</span>;
+<span class="keyword">int</span> m;
 
-<span class="keyword">int</span> P[MAX]=<span class="string">{0}</span>; <span class="regexp">//</span> 价值 
+<span class="keyword">int</span> P[MAX]={<span class="number">0</span>}; <span class="comment">// 价值 </span>
 
-<span class="keyword">int</span> V[MAX]=<span class="string">{0}</span>; 
+<span class="keyword">int</span> V[MAX]={<span class="number">0</span>}; 
 <span class="keyword">int</span> C[MAX][<span class="number">30000</span>]={ { -<span class="number">1</span>, -<span class="number">1</span> } };
 <span class="keyword">int</span> work(<span class="keyword">int</span> n,<span class="keyword">int</span> N){
-    <span class="keyword">if</span>(n==<span class="number">0</span> || N&<span class="keyword">lt</span>;=<span class="number">0</span>){
+    if(n==<span class="number">0</span> || N&lt;=<span class="number">0</span>){
         C[n][N]=<span class="number">0</span>;
         <span class="keyword">return</span> <span class="number">0</span>;
     }
-    <span class="keyword">if</span>(C[n][N]!=-<span class="number">1</span>){
+    if(C[n][N]!=-<span class="number">1</span>){
         
         <span class="keyword">return</span> C[n][N];
     }
     <span class="keyword">int</span> i=n-<span class="number">1</span>;
-    <span class="keyword">if</span>(V[i]&<span class="keyword">gt</span>;N){
+    if(V[i]&gt;N){
         C[n][N]= work(i,N);
     } <span class="keyword">else</span> {
         <span class="keyword">int</span> tmp1=work(i,N);
@@ -169,28 +167,27 @@ inline <span class="keyword">int</span> Max(<span class="keyword">int</span> a,<
 <span class="keyword">int</span> main(){
     <span class="keyword">int</span> N;
    
-    scanf(<span class="string">"<span class="variable">%d</span> <span class="variable">%d</span>"</span>,&N,&<span class="keyword">m</span>);
+    scanf(<span class="string">"%d %d"</span>,&N,&m);
     
     
     
-    <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&<span class="keyword">lt</span>;<span class="keyword">m</span>;i++){
+    <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;m;i++){
         
-        scanf(<span class="string">"<span class="variable">%d</span> <span class="variable">%d</span>"</span>,V+i,P+i);
+        scanf(<span class="string">"%d %d"</span>,V+i,P+i);
 
-        P[i]<span class="variable">*=</span>V[i];
+        P[i]*=V[i];
     }
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&<span class="keyword">lt</span>;=<span class="keyword">m</span>;i++){
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&<span class="keyword">lt</span>;=N;j++){
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;i++){
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=N;j++){
             C[i][j]=-<span class="number">1</span>;
         }
     }
-    <span class="keyword">printf</span>(<span class="string">"<span class="variable">%d</span>\n"</span>,work(<span class="keyword">m</span>,N));
-    <span class="keyword">system</span>(<span class="string">"pause"</span>);
+    printf(<span class="string">"%d\n"</span>,work(m,N));
+    system(<span class="string">"pause"</span>);
     <span class="keyword">return</span> <span class="number">0</span>;   
 }
-
-
-</pre></td></tr></table></figure>]]></content>
+</pre></td></tr></table></figure>
+]]></content>
     <category scheme="http://shuenhoy.com/tags/beibaowenti/" term="背包问题"/>
     <category scheme="http://shuenhoy.com/categories/noip/" term="noip"/>
   </entry>
