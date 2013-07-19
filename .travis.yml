@@ -3,15 +3,16 @@ node_js:
    - "0.8"
 before_install:
    - "npm install hexo"
+   - "ls"
+   - "./node_modules/hexo/bin/hexo version"
 
 script:
-   - "hexo version"
-   - "curl -o node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
-   - "curl -o node_modules/hexo/lib/ChinesePY.js https://gist.github.com/Shuenhoy/6039380/raw/d935a140e3f1dcd8b1ea2f526fac71b43fa72412/ChinesePY"
-   - "curl -o node_modules/hexo/lib/plugins/deployer https://gist.github.com/Shuenhoy/6039407/raw/26785b478179d6b45ca2854629431f3cdeb1f9a4/github.js"
-   - "hexo generate"
+   - "curl -o ./node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
+   - "curl -o ./node_modules/hexo/lib/ChinesePY.js https://gist.github.com/Shuenhoy/6039380/raw/d935a140e3f1dcd8b1ea2f526fac71b43fa72412/ChinesePY"
+   - "curl -o ./node_modules/hexo/lib/plugins/deployer https://gist.github.com/Shuenhoy/6039407/raw/26785b478179d6b45ca2854629431f3cdeb1f9a4/github.js"
+   - "./node_modules/hexo/bin/hexo generate"
 
-after_script:
+after_script:""
    - "hexo deploy"
 env:
    global:
@@ -40,3 +41,4 @@ env:
       - secure: "avCwVWgQW0XnWoZ0RDhFoCl0KEcntEo++Lw1sdDib8LRPUS+3NopzBX10tT23yF/XFSdDwx/Zjuz10CLbm0fnVpaavoj8zlpL2aR9djGZxuLgyrik5bhaYDCcw3vsoZvgP8Su8gg2QjC8XWuWuhsQv8A/K3GjxERvkWNhS4YEHI="
       - secure: "dhE5j8YBk2PemN36maYVR49ryhxnQ722qvCzYJXqJqVHlwVMu0dMFIkbAX7z18P6hfBV9f9NUi0JLjjUu5RaIYuYagVVswVhh2ZtSUUlMW6F3qPdc77syFEqiRhw2uouYUgE77d6GcJd9CXDjyvs7GewHCNflxcj/33sGXzk+rE="
 
+""
