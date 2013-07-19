@@ -1,0 +1,1917 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"loca",
+				"loadCallback"
+			],
+			[
+				"lo",
+				"loadCallback"
+			],
+			[
+				"pos",
+				"postList"
+			],
+			[
+				"re",
+				"replace"
+			],
+			[
+				"t",
+				"tlist"
+			],
+			[
+				"fo",
+				"for	for (…) {…} (Improved Native For-Loop)"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"text",
+				"text-indent"
+			],
+			[
+				"pre",
+				"prettify"
+			],
+			[
+				"pr",
+				"prettify"
+			],
+			[
+				"pl",
+				"plugin"
+			],
+			[
+				"post",
+				"post-entry"
+			],
+			[
+				"head",
+				"header-tmpl"
+			],
+			[
+				"html",
+				"html5shiv"
+			],
+			[
+				"main",
+				"main_content"
+			],
+			[
+				"h",
+				"helper"
+			],
+			[
+				"te",
+				"template"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"p",
+				"php	<?php … ?>"
+			],
+			[
+				"po",
+				"posts"
+			],
+			[
+				"new",
+				"newVersion"
+			],
+			[
+				"ar",
+				"arg1"
+			],
+			[
+				"da",
+				"database"
+			],
+			[
+				"get",
+				"getPost"
+			],
+			[
+				"di",
+				"DIV"
+			],
+			[
+				"if",
+				"ife	if … else … end"
+			],
+			[
+				"m",
+				"manages"
+			],
+			[
+				"man",
+				"manageDefine"
+			],
+			[
+				"read",
+				"readPostInfo"
+			],
+			[
+				"S",
+				"STATE_PAGES"
+			],
+			[
+				"gen",
+				"generate_pages"
+			],
+			[
+				"fun",
+				"fun	Function"
+			],
+			[
+				"ge",
+				"generate_posts"
+			],
+			[
+				"f",
+				"f	Anonymous Function"
+			],
+			[
+				"mo",
+				"month"
+			],
+			[
+				"upda",
+				"update_each_event"
+			],
+			[
+				"def",
+				"define"
+			],
+			[
+				"up",
+				"update_event"
+			],
+			[
+				"fu",
+				"fun	function"
+			],
+			[
+				"me",
+				"method"
+			],
+			[
+				"upd",
+				"update"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"st",
+				"stop"
+			],
+			[
+				"wa",
+				"waits_down"
+			],
+			[
+				"else",
+				"else"
+			],
+			[
+				"ti",
+				"timer"
+			],
+			[
+				"e",
+				"event"
+			],
+			[
+				"con",
+				"coroutine"
+			],
+			[
+				"load",
+				"loadfile"
+			],
+			[
+				"cal",
+				"call_type"
+			],
+			[
+				"sc",
+				"scene_manager"
+			],
+			[
+				"Sc",
+				"SceneNewGame"
+			],
+			[
+				"hei",
+				"height"
+			],
+			[
+				"b",
+				"bottom"
+			],
+			[
+				"ms",
+				"msg_center"
+			],
+			[
+				"se",
+				"select_items"
+			],
+			[
+				"v",
+				"visible"
+			],
+			[
+				"Dis",
+				"DisplaySelectItem"
+			],
+			[
+				"text_",
+				"text_render"
+			],
+			[
+				"msg",
+				"msg_center"
+			],
+			[
+				"co",
+				"coroutine"
+			],
+			[
+				"str",
+				"str_index"
+			],
+			[
+				"ite",
+				"item_index"
+			],
+			[
+				"it",
+				"item_index"
+			],
+			[
+				"com",
+				"comment:func	comment2"
+			],
+			[
+				"bg",
+				"bg_sprite"
+			],
+			[
+				"ca",
+				"call_type"
+			],
+			[
+				"crea",
+				"create_scene_func"
+			],
+			[
+				"sta",
+				"start_scene"
+			],
+			[
+				"game",
+				"gameloop"
+			],
+			[
+				"old",
+				"old_pattern"
+			],
+			[
+				"fil",
+				"filet"
+			],
+			[
+				"ma",
+				"main_name"
+			],
+			[
+				"fi",
+				"filename"
+			],
+			[
+				"cl",
+				"close"
+			],
+			[
+				"de",
+				"debase64"
+			],
+			[
+				"loc",
+				"local function	local function"
+			],
+			[
+				"M",
+				"MusicSound"
+			],
+			[
+				"func",
+				"function	function"
+			],
+			[
+				"Im",
+				"ImageRender"
+			],
+			[
+				"val",
+				"value_name"
+			],
+			[
+				"g",
+				"get	Get Elements"
+			],
+			[
+				"getTi",
+				"getTime"
+			],
+			[
+				"Timer",
+				"TimerManager"
+			],
+			[
+				"Time",
+				"TimerManager"
+			],
+			[
+				"Ti",
+				"TimerManager"
+			],
+			[
+				"pro",
+				"proto	Prototype"
+			],
+			[
+				"to",
+				"token"
+			],
+			[
+				"sa",
+				"saveGame"
+			],
+			[
+				"wind",
+				"window_write_attr"
+			],
+			[
+				"window",
+				"window_arg"
+			],
+			[
+				"op",
+				"options"
+			],
+			[
+				"arg",
+				"_args"
+			],
+			[
+				"app",
+				"appendML"
+			],
+			[
+				"map",
+				"mapClick"
+			],
+			[
+				"le",
+				"leaveMap"
+			],
+			[
+				"value_v",
+				"value_var"
+			],
+			[
+				"va",
+				"value_name"
+			],
+			[
+				"vale",
+				"value_value"
+			],
+			[
+				"value",
+				"value_name"
+			],
+			[
+				"ope",
+				"dropdown_opeator"
+			],
+			[
+				"na",
+				"value_name"
+			],
+			[
+				"color",
+				"colorRgb"
+			],
+			[
+				"th",
+				"theRegexp"
+			],
+			[
+				"d",
+				"dropdown_pos"
+			],
+			[
+				"valu",
+				"value_while"
+			],
+			[
+				"s",
+				"statements_do"
+			],
+			[
+				"bloc",
+				"blockToCode"
+			],
+			[
+				"in",
+				"inputList"
+			],
+			[
+				"cas",
+				"caseItem"
+			],
+			[
+				"ala_se",
+				"ala_selectboxitem"
+			],
+			[
+				"_co",
+				"_config"
+			],
+			[
+				"wai",
+				"waitDone"
+			],
+			[
+				"_f",
+				"_file"
+			],
+			[
+				"_te",
+				"_textVisible"
+			],
+			[
+				"c",
+				"clean"
+			],
+			[
+				"Win",
+				"Window"
+			],
+			[
+				"im",
+				"image"
+			],
+			[
+				"over",
+				"overY"
+			],
+			[
+				"height",
+				"height-32"
+			],
+			[
+				"til",
+				"_tile"
+			],
+			[
+				"W",
+				"Window"
+			],
+			[
+				"update",
+				"updateFor"
+			],
+			[
+				"Wind",
+				"Window"
+			],
+			[
+				"win",
+				"windows"
+			],
+			[
+				"scale",
+				"scaleX"
+			],
+			[
+				"sca",
+				"scaleY"
+			],
+			[
+				"a",
+				"_args"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/E/blog/shubo/page/about.md",
+			"settings":
+			{
+				"buffer_size": 456,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/javascript/main.js",
+			"settings":
+			{
+				"buffer_size": 5899,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "about-rm/index.md",
+			"settings":
+			{
+				"buffer_size": 113,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/config.yml",
+			"settings":
+			{
+				"buffer_size": 209,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/list.yml",
+			"settings":
+			{
+				"buffer_size": 139,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/index.html",
+			"settings":
+			{
+				"buffer_size": 4531,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/百度云/blog/blog/.deploy/index.html",
+			"settings":
+			{
+				"buffer_size": 4537,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/百度云/blog/blog/.deploy/javascript/main.js",
+			"settings":
+			{
+				"buffer_size": 6381,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Coding/bins/node-webkit-v0.4.1-win-ia32/node-webkit-v0.4.1-win-ia32/alaala/package.json",
+			"settings":
+			{
+				"buffer_size": 273,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/mdmfkkgbifpockljpdagggdaiheefbpp/3.34_0/smallface.css",
+			"settings":
+			{
+				"buffer_size": 3265,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/app/manages.js",
+			"settings":
+			{
+				"buffer_size": 898,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Coding/libs/Luaet 5.2.1 (FULL MSVC)/projects/smallRK/wqlibrary.lua",
+			"settings":
+			{
+				"buffer_size": 12948,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/E/blog/Hooloo-master/javascripts/getmd.js",
+			"settings":
+			{
+				"buffer_size": 2869,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/E/blog/shubo/stylesheets/stylesheet.css",
+			"settings":
+			{
+				"buffer_size": 8609,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/E/blog/百度云/blog/blog/.deploy/page/about.md",
+			"settings":
+			{
+				"buffer_size": 440,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/hoge.sublime-build",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"gitc",
+				"Git: Commit"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"newfile",
+				"File: New File Relative to Current View"
+			],
+			[
+				"file:del",
+				"File: Delete"
+			],
+			[
+				"file:",
+				"File: New File Relative to Current View"
+			],
+			[
+				"git sta",
+				"Git: Status"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: luaclass"
+			],
+			[
+				"tas",
+				"Tasks: New document"
+			],
+			[
+				"git co",
+				"Git: Commit"
+			],
+			[
+				"git add.",
+				"Git: Add..."
+			],
+			[
+				"git c",
+				"Git: Commit"
+			],
+			[
+				" git com",
+				"Git: Commit"
+			],
+			[
+				"git re",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git st",
+				"Git: Status"
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"gitadd",
+				"Git: Add..."
+			],
+			[
+				"git res",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"git add .",
+				"Git: Add..."
+			],
+			[
+				"clo",
+				"Closure Linter: Run Closure Linter"
+			],
+			[
+				"git s",
+				"Git: Status"
+			],
+			[
+				"lint",
+				"Closure Linter: Run Closure Linter"
+			],
+			[
+				"pack",
+				"Package Control: Disable Package"
+			],
+			[
+				"gits",
+				"Git: Status"
+			],
+			[
+				"js",
+				"Minify Javascript"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"sublime",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"disa",
+				"SublimeLinter: Disable Linting"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Enable Package"
+			],
+			[
+				"s",
+				"Sort Lines"
+			],
+			[
+				"gitcom",
+				"Git: Commit"
+			],
+			[
+				"githi",
+				"Git: Commit history"
+			],
+			[
+				"gitadd.",
+				"Git: Add..."
+			],
+			[
+				"gitst",
+				"Git: Status"
+			],
+			[
+				"gitsta",
+				"Git: Status"
+			],
+			[
+				"git:s",
+				"Git: Status"
+			],
+			[
+				"git:add",
+				"Git: Add..."
+			],
+			[
+				"docu",
+				"Tasks: New document"
+			],
+			[
+				"git:co",
+				"Git: Commit"
+			],
+			[
+				"git:re",
+				"Git: Reset (hard) HEAD"
+			],
+			[
+				"task",
+				"Tasks: New document"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"git: add",
+				"Git: Add Current File"
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git :s",
+				"Git: Status"
+			],
+			[
+				"git add ...",
+				"Git: Add..."
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				":q",
+				"Set Syntax: SQL"
+			],
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				":",
+				":0 - BOF"
+			],
+			[
+				"settings",
+				"Preferences: Settings - User"
+			]
+		],
+		"width": 514.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": false,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/E/blog/百度云/blog/blog/public/guestbook/index.html",
+		"/E/blog/百度云/blog/blog/public/about-rm/index.html",
+		"/E/Coding/libs/Luaet 5.2.1 (FULL MSVC)/projects/smallRK/ExampleBot.lua",
+		"/E/blog/百度云/blog/deploy/the_test_blog/javascript/main.js",
+		"/E/blog/shubo/post/b.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/this-week-2.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/programmer-paint-music.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/some-update.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/this-week-1.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/some-new-idea-about-dfyc.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/2013-04-28-just-a-test.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/dfyc.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/hello-world.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/about-offline-download.md",
+		"/E/blog/百度云/blog/deploy/the_test_blog/post/2013-04-14-this-week-2.md",
+		"/E/blog/shubo/post/dfyc.md",
+		"/E/blog/shubo/stylesheets/stylesheet.css",
+		"/E/blog/shubo/stylesheets/prettify.css",
+		"/E/blog/shubo/post/a.md",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/Terminal/Default (Windows).sublime-keymap",
+		"/E/blog/shubo/javascript/showdown-ext/prettify.js",
+		"/E/blog/shubo/javascript/showdown-ext/table.js",
+		"/E/blog/shubo/javascript/google-code-prettify/prettify.js",
+		"/E/blog/shubo/javascript/showdown.js",
+		"/E/blog/shubo/javascript/showdown-ext/github.js",
+		"/C/Users/Administrator/Downloads/the_test_blog-gh-pages/the_test_blog-gh-pages/index.html",
+		"/E/blog/shubo/stylesheets/styles.css",
+		"/E/blog/holog/javascripts/main.js",
+		"/E/blog/Hooloo-master/javascripts/getmd.js",
+		"/E/Coding/libs/showdown-master/showdown-master/compressed/extensions/prettify.js",
+		"/E/blog/shubo/app/manages.js",
+		"/E/blog/shubo/javascript/sammy-latest.min.js",
+		"/E/Coding/libs/artTemplate-master/artTemplate-master/extensions/README.md",
+		"/E/blog/shubo/test.html",
+		"/E/blog/shubo/javascript/template.min.js",
+		"/E/Coding/libs/showdown-master/showdown-master/compressed/extensions/twitter.js",
+		"/E/Coding/libs/showdown-master/showdown-master/compressed/extensions/table.js",
+		"/E/Coding/libs/showdown-master/showdown-master/compressed/extensions/github.js",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/sublime-closure-linter/sublime-closure-linter.sublime-settings",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/SublimeCodeIntel/Default (Windows).sublime-keymap",
+		"/E/blog/shubo/theme/default/index.htm",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/GBK Encoding Support/tmp/jsyaml.mini.js                E%3A%5Cblog%5Cshubo%5Cjavascript%5Cjsyaml.mini.js",
+		"/E/blog/shubo/javascript/jsyaml.mini.js",
+		"/E/blog/shubo/theme/default/index.ejs",
+		"/E/blog/shubo/theme/default/index.html",
+		"/E/blog/shubo/theme/default/index.tml",
+		"/E/blog/shubo/list.ym",
+		"/E/blog/百度云/blog/blog/source/_posts/some-new-idea-about-dfyc.md",
+		"/E/blog/百度云/blog/blog/source/_posts/this-week-2.md",
+		"/E/blog/shubo/readme.md",
+		"/E/blog/shubo/javascript/mian.js",
+		"/E/blog/holog/index - 副本.html",
+		"/E/blog/holog/index.html",
+		"/E/blog/百度云/blog/blog/source/_posts/this-week-1.md",
+		"/E/blog/Hooloo-master/javascripts/showdown.js",
+		"/E/blog/Hooloo-master/javascripts/404.js",
+		"/E/blog/Hooloo-master/index.html",
+		"/E/blog/holog/md/a.md",
+		"/E/blog/holog/index2.html",
+		"/C/Users/Administrator/Downloads/用ce打开压缩包里的列表My Cheat Tables/My Cheat Tables/QQDownload.CT",
+		"/D/MinGW/msys/1.0/msys.bat",
+		"/E/blog/holog/javascripts/jsyaml.mini.js",
+		"/E/blog/百度云/blog/blog/source/_posts/about-offline-download.md",
+		"/E/blog/百度云/blog/blog/source/_posts/hello-world.md",
+		"/E/blog/百度云/blog/blog/source/_posts/programmer-paint-music.md",
+		"/E/blog/百度云/blog/blog/_config.yml",
+		"/E/blog/百度云/blog/npm/node_modules/node_modules/hexo/lib/model.js",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/GBK Encoding Support/tmp/ChinesePY.js                E%3A%5Cblog%5C%E7%99%BE%E5%BA%A6%E4%BA%91%5Cblog%5Cnpm%5Cnode_modules%5Cnode_modules%5Chexo%5Clib%5CChinesePY.js",
+		"/E/blog/百度云/blog/blog/themes/light/source/css/_partial/article.styl",
+		"/E/blog/百度云/blog/npm/node_modules/node_modules/hexo/lib/pinyin.js",
+		"/E/blog/百度云/blog/npm/node_modules/node_modules/hexo/lib/ChinesePY.js",
+		"/E/blog/百度云/blog/npm/node_modules/hexo/lib/model.js",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 2/Packages/GBK Encoding Support/tmp/category.js                E%3A%5Cblog%5C%E7%99%BE%E5%BA%A6%E4%BA%91%5Cblog%5Cnpm%5Cnode_modules%5Cnode_modules%5Chexo%5Clib%5Cplugins%5Cgenerator%5Ccategory.js",
+		"/E/blog/百度云/blog/blog/source/_posts/dfyc.md",
+		"/E/blog/百度云/blog/npm/node_modules/node_modules/hexo/lib/plugins/generator/category.js",
+		"/E/blog/百度云/blog/blog/db.json",
+		"/E/blog/百度云/blog/npm/node_modules/node_modules/hexo/node_modules/pinyin/src/pinyin.js",
+		"/E/blog/百度云/blog/npm/node_modules/hexo2",
+		"/E/blog/百度云/blog/blog/themes/light/_config.yml",
+		"/E/Coding/bins/io-master/io-master/build.sh",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/CHash.c",
+		"/D/MinGW/include/sys/types.h",
+		"/E/blog/百度云/blog/blog/themes/light/layout/_partial/article.ejs",
+		"/E/blog/百度云/blog/blog/themes/light/layout/_widget/visitors.ejs",
+		"/E/blog/百度云/blog/blog/themes/light/layout/_widget/ads.ejs",
+		"/D/MinGW/include/basetsd.h",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/CHash.h",
+		"/C/Users/Administrator/Downloads/用ce打开压缩包里的列表My Cheat Tables/My Cheat Tables/QQDownload3.CT",
+		"/D/QQDownload/Minecraft",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/bin/test.io",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/CollectorMarker.h",
+		"/E/Coding/bins/io-master/io-master/libs/iovm/source/IoObject_inline.h",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/Collector_inline.h",
+		"/E/Coding/bins/io-master/io-master/buildf/_build/headers/Common_inline.h",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/CollectorMarker_inline.h",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/CollectorMarker.c",
+		"/E/Coding/bins/io-master/io-master/buildf/_build/headers/CollectorMarker.h",
+		"/E/Coding/bins/io-master/io-master/libs/iovm/source/IoSeq_immutable.c",
+		"/E/Coding/Game/Dfyc/script/display/button.moon",
+		"/F/Program Files/Microsoft Visual Studio 10.0/Common7/Tools/VCVarsQueryRegistry.bat",
+		"/E/Coding/bins/io-master/io-master/buildf/CMakeCache.txt",
+		"/E/Coding/bins/io-master/io-master/CMakeLists.txt",
+		"/E/Coding/bins/io-master/io-master/buildf/Makefile",
+		"/E/Coding/bins/io-master/io-master/build/libs/CMakeFiles/iovmall_static.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/Collector.c",
+		"/E/Coding/bins/io-master/io-master/libs/garbagecollector/source/Collector.h",
+		"/E/Coding/bins/io-master/io-master/build/libs/iovm/CMakeFiles/iovmall.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/build/tools/CMakeFiles/io.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/libs/iovm/tools/CMakeLists.txt",
+		"/E/Coding/bins/io-master/io-master/libs/iovm/CMakeLists.txt",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/Stack.c",
+		"/E/Coding/bins/io-master/io-master/build/Makefile",
+		"/E/Coding/bins/io-master/io-master/build/libs/coroutine/Makefile",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/List.c",
+		"/E/Coding/bins/io-master/io-master/build/libs/coroutine/CMakeFiles/coroutine.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/build/libs/basekit/CMakeFiles/basekit.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/List_inline.h",
+		"/E/Coding/bins/io-master/io-master/build/libs/garbagecollector/CMakeFiles/garbagecollector.dir/build.make",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/Stack.h",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/Stack_inline.h",
+		"/E/Coding/bins/io-master/io-master/libs/basekit/source/List.h",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/lib/io/addons/Flux/samples/Diagram/main.io",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/lib/io/addons/Flux/samples/Test/main.io",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/lib/io/addons/Flux/depends",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/lib/io/addons/Flux/protos",
+		"/E/Coding/bins/iobin-win32-current/IoLanguage/lib/io/addons/Flux/io/Flux.io",
+		"/E/Coding/Game/Dfyc/rakefile",
+		"/E/Coding/libs/Luaet 5.2.1 (FULL MSVC)/projects/smallRK - 副本/ExampleBot.lua"
+	],
+	"find":
+	{
+		"height": 54.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"",
+			"(this.config.height||600)",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"conso",
+			"console.log",
+			"DUOSHUO",
+			"for",
+			"config",
+			"load",
+			"md",
+			"eog",
+			"span",
+			"code",
+			"\\n",
+			"'  '",
+			"  ",
+			"prettify",
+			"stdExtName",
+			"right",
+			"	",
+			"hr",
+			"main",
+			"sd",
+			"msys",
+			"msy",
+			"sh",
+			"hr",
+			"console.log",
+			"cd",
+			"SSIZE_T",
+			"SSize_t",
+			"SIZE_T",
+			"{*}",
+			"-md",
+			"/md",
+			"CMAKE_CXX_COMPILER",
+			"f:/",
+			"f:",
+			"F:/Program Files/Microsoft Visual Studio 10.0/VC/bin/cl.exe",
+			"F:",
+			"/MD",
+			"machine",
+			"CollectorMarker_remove",
+			"remove",
+			"List",
+			"List_append_",
+			"append",
+			"append_",
+			"append",
+			"appen",
+			"size_to",
+			"List",
+			"List_if",
+			"List_append",
+			"mach",
+			"machi",
+			"link",
+			"machine",
+			"CMAKE_C_COMPILER",
+			"width",
+			"goto",
+			"test",
+			"goto",
+			"pause",
+			"assert",
+			"messagebox",
+			"resume",
+			".image",
+			".image.*=",
+			".image",
+			"puts",
+			"update",
+			"test",
+			"runcode",
+			"sendQun",
+			"send",
+			"SendQun",
+			"Send",
+			"RUBY_LIB",
+			"DEF",
+			"LIBRUBY_SO",
+			"fclose",
+			"RUBY_SO_NAME",
+			"RUBY_SO_NAME =",
+			"RUBY_SO_NAME",
+			"RUBY_SO_NAME =",
+			"RUBY_SO_NAME = ",
+			"RUBY_SO_NAME",
+			"RUBYDEF",
+			"mD",
+			"/MD",
+			"/MT",
+			"/MD",
+			"\".+\"",
+			";;",
+			"(%rename.*)",
+			"new Image",
+			"SwigClassSprite",
+			"Sprite",
+			"paint",
+			"sprite",
+			"@[a-z_]*",
+			"config.h",
+			"2",
+			"?",
+			"item_index",
+			"frame",
+			"string",
+			"std::string",
+			"util",
+			"until",
+			"5.1",
+			"Init",
+			"const",
+			"HoGE",
+			"parse",
+			"parseSequence",
+			"Malformed inline YAML",
+			"throw e",
+			"throw",
+			"parseSequence",
+			"','",
+			"YAML",
+			"Yaml",
+			"return Yaml",
+			"yaml",
+			"' '",
+			"','",
+			"processValue",
+			"' '",
+			"','"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"  ",
+			";",
+			"/MT",
+			"List_appenda_",
+			"paused",
+			".image ",
+			";",
+			"$1;",
+			"",
+			"str_index",
+			"char*",
+			"Hoge",
+			"  ",
+			"",
+			"code.push(statements_block);\nif(value_x){",
+			"code.join(', ')",
+			"newProjectModal",
+			"welcomeModal",
+			"注释",
+			"制",
+			"复",
+			"this.config.width||800",
+			"imageRender",
+			"var",
+			"$1var$2",
+			"var",
+			"y",
+			"height",
+			"height\nheight",
+			"",
+			"this.executeObj",
+			"callInfo.lastType",
+			"this.callInfo.args",
+			"this.callInfo.type",
+			"this.callInfo.instructions",
+			"Scene",
+			"paused",
+			"ActorManager",
+			"Hoge",
+			"hoge",
+			"    ",
+			"	",
+			"defineList",
+			"moduleHash",
+			"	",
+			"fuck_y",
+			"fuck_x",
+			"	",
+			"luaL_addchar",
+			"lua_rawlen",
+			"context",
+			"runtime",
+			"MessageView",
+			"TopView",
+			"BGView",
+			"insp",
+			"assert",
+			""
+		],
+		"reverse": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 11,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/E/blog/shubo/page/about.md",
+					"settings":
+					{
+						"buffer_size": 456,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								27,
+								27
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/E/blog/shubo/javascript/main.js",
+					"settings":
+					{
+						"buffer_size": 5899,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5682,
+								5682
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4177.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "about-rm/index.md",
+					"settings":
+					{
+						"buffer_size": 113,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								94,
+								94
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/E/blog/shubo/config.yml",
+					"settings":
+					{
+						"buffer_size": 209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								156,
+								156
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/YAML/YAML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/E/blog/shubo/list.yml",
+					"settings":
+					{
+						"buffer_size": 139,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/YAML/YAML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/E/blog/shubo/index.html",
+					"settings":
+					{
+						"buffer_size": 4531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								100,
+								101
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/E/blog/百度云/blog/blog/.deploy/index.html",
+					"settings":
+					{
+						"buffer_size": 4537,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								592,
+								592
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/E/blog/百度云/blog/blog/.deploy/javascript/main.js",
+					"settings":
+					{
+						"buffer_size": 6381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3139,
+								3139
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.811177047558,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 396.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/E/Coding/bins/node-webkit-v0.4.1-win-ia32/node-webkit-v0.4.1-win-ia32/alaala/package.json",
+					"settings":
+					{
+						"buffer_size": 273,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								234,
+								234
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/mdmfkkgbifpockljpdagggdaiheefbpp/3.34_0/smallface.css",
+					"settings":
+					{
+						"buffer_size": 3265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3265,
+								3265
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3449.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/E/blog/shubo/app/manages.js",
+					"settings":
+					{
+						"buffer_size": 898,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								60
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/E/Coding/libs/Luaet 5.2.1 (FULL MSVC)/projects/smallRK/wqlibrary.lua",
+					"settings":
+					{
+						"buffer_size": 12948,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4637,
+								4637
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/GMod Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3255.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/E/blog/Hooloo-master/javascripts/getmd.js",
+					"settings":
+					{
+						"buffer_size": 2869,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2825,
+								2825
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1297.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "/E/blog/shubo/stylesheets/stylesheet.css",
+					"settings":
+					{
+						"buffer_size": 8609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								102,
+								102
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 1.0,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/E/blog/百度云/blog/blog/.deploy/page/about.md",
+					"settings":
+					{
+						"buffer_size": 440,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"encoding_helper_confidence": 0.99,
+							"encoding_helper_encoding": "UTF-8",
+							"encoding_helper_encoding_sublime": "UTF-8",
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 36.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 139.0
+	},
+	"output.git":
+	{
+		"height": 102.0
+	},
+	"output.gjslint_result_view":
+	{
+		"height": 102.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 30.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"tim",
+				"script/display/timer.moon"
+			],
+			[
+				"but",
+				"script/display/button.moon"
+			],
+			[
+				"mes",
+				"script/display/messagebox.moon"
+			],
+			[
+				"sc",
+				"script/scene/main.moon"
+			],
+			[
+				"m",
+				"script/display/messagebox.moon"
+			],
+			[
+				"me",
+				"script/display/messagebox.moon"
+			],
+			[
+				"scene",
+				"script/scene/main.moon"
+			],
+			[
+				"in",
+				"Dfyc/script/scene/init.moon"
+			],
+			[
+				"bu",
+				"script/module/button.js"
+			],
+			[
+				"b",
+				"script/module/button.js"
+			],
+			[
+				"g",
+				"script/game.js"
+			],
+			[
+				"s",
+				"script/module/select.js"
+			],
+			[
+				"e",
+				"script/event.js"
+			],
+			[
+				"event",
+				"script/event.js"
+			],
+			[
+				"ev",
+				"script/event.js"
+			],
+			[
+				"se",
+				"script/module/select.js"
+			],
+			[
+				"ac",
+				"script/graphic/actorManager.js"
+			],
+			[
+				"ga",
+				"script/game.js"
+			],
+			[
+				"map",
+				"script/scene/map.js"
+			],
+			[
+				"event.js",
+				"script/event.js"
+			],
+			[
+				"",
+				"script/graphic/message.js"
+			],
+			[
+				"tas",
+				"alaala.tasks"
+			],
+			[
+				"ma",
+				"script/main.js"
+			],
+			[
+				"u",
+				"script/utilities.js"
+			],
+			[
+				"a",
+				"script/graphic/actor.js"
+			],
+			[
+				"r",
+				"AlaalA/r"
+			],
+			[
+				"sy",
+				"config/system.yml"
+			],
+			[
+				"model/m",
+				"src/model/main.lua"
+			],
+			[
+				"v",
+				"src/view.lua"
+			],
+			[
+				"i",
+				"src/init.lua"
+			],
+			[
+				"app",
+				"gameapp.lua"
+			],
+			[
+				"vi",
+				"view.lua"
+			],
+			[
+				"_",
+				"/E/HoGE-Luaet/projects/Dfyc/source/_HoGE"
+			],
+			[
+				"base",
+				"window/base.lua"
+			],
+			[
+				"mo",
+				"model.lua"
+			],
+			[
+				"bar",
+				"window/map-bar.lua"
+			],
+			[
+				"ba",
+				"window/base.lua"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/E/HoGE-Luaet/projects/Dfyc/pro.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 206.0,
+	"status_bar_visible": true
+}

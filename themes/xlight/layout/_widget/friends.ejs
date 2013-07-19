@@ -1,0 +1,10 @@
+<% if (config.friends){ %>
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  <% config.friends.forEach(function(item){ %>
+    <li><a href="<%- item.path %>"><%= item.name %></a><small><%= item.desc||"" %></small></li>
+  <% }); %>
+  </ul>
+</div>
+<% } %>
