@@ -12,7 +12,7 @@ script:
    - "curl -o ./node_modules/hexo/lib/plugins/deployer https://gist.github.com/Shuenhoy/6039407/raw/26785b478179d6b45ca2854629431f3cdeb1f9a4/github.js"
    - "./node_modules/hexo/bin/hexo generate"
 
-after_script:""
+after_script:
    - "hexo deploy"
 env:
    global:
