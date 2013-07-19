@@ -6,3 +6,5 @@ before_install:
 
 script:
    - "hexo version"
+   - "ls"
+   - "cat /usr/lib/node_modues/hexo/lib"
