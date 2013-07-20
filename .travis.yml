@@ -5,7 +5,7 @@ before_install:
    - "npm install -g hexo"
    - "ls"
    - "hexo version"
-before:
+before_script:
    - git config --global user.name "shuenhoy"
    - git config --global user.email "shuenhoy@gmail.com"
 script:
