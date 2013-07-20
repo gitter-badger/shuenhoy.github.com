@@ -2,9 +2,9 @@ language: node_js
 node_js:
    - "0.8"
 before_install:
-   - "npm install hexo"
+   - "npm install -g hexo"
    - "ls"
-   - "./node_modules/hexo/bin/hexo version"
+   - "hexo version"
 
 script:
    - "curl -o ./node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
