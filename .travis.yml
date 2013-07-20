@@ -5,7 +5,9 @@ before_install:
    - "npm install -g hexo"
    - "ls"
    - "hexo version"
-
+before:
+   - git config --global user.name "shuenhoy"
+   - git config --global user.email "shuenhoy@gmail.com"
 script:
    - "curl -o /usr/lib/node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
    - "curl -o /usr/lib/node_modules/hexo/lib/ChinesePY.js https://gist.github.com/Shuenhoy/6039380/raw/d935a140e3f1dcd8b1ea2f526fac71b43fa72412/ChinesePY"
