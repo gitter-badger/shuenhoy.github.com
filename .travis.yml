@@ -7,10 +7,10 @@ before_install:
    - "hexo version"
 
 script:
-   - "curl -o ./node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
-   - "curl -o ./node_modules/hexo/lib/ChinesePY.js https://gist.github.com/Shuenhoy/6039380/raw/d935a140e3f1dcd8b1ea2f526fac71b43fa72412/ChinesePY"
-   - "curl -o ./node_modules/hexo/lib/plugins/deployer https://gist.github.com/Shuenhoy/6039407/raw/26785b478179d6b45ca2854629431f3cdeb1f9a4/github.js"
-   - "./node_modules/hexo/bin/hexo generate"
+   - "curl -o /usr/lib/node_modules/hexo/lib/model.js https://gist.github.com/Shuenhoy/6039360/raw/ab01e9aaa61f6db5639967b3db1b668504906678/model.js"
+   - "curl -o /usr/lib/node_modules/hexo/lib/ChinesePY.js https://gist.github.com/Shuenhoy/6039380/raw/d935a140e3f1dcd8b1ea2f526fac71b43fa72412/ChinesePY"
+   - "curl -o /usr/lib/node_modules/hexo/lib/plugins/deployer https://gist.github.com/Shuenhoy/6039407/raw/26785b478179d6b45ca2854629431f3cdeb1f9a4/github.js"
+   - "hexo generate"
 
 after_script:
    - "hexo deploy"
