@@ -1,0 +1,2593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Shuenhoy's Blog]]></title>
+  <link href="http://shuenhoy.com/atom.xml" rel="self"/>
+  <link href="http://shuenhoy.com"/>
+  <updated>2013-11-10T13:12:35.596Z</updated>
+  <id>http://shuenhoy.com/</id>
+  <author>
+    <name><![CDATA[Shuenhoy]]></name>
+    <email><![CDATA[shuenhoy@gmail.com]]></email>
+  </author>
+  <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[Lua的Short Anonymous Function]]></title>
+    <link href="http://shuenhoy.com/2013/09/15/lambda-for-lua/"/>
+    <id>http://shuenhoy.com/2013/09/15/lambda-for-lua/</id>
+    <published>2013-09-15T10:36:08.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>Lua 的 function 这个关键字有时候挺烦人的。比如我就想要个<code>f(a, b)=a+b</code>的函数就要写成</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(a,b)</span></span> <span class="keyword">return</span> a+b <span class="keyword">end</span>
+</pre></td></tr></table></figure>
+
+<p>于是在 boost::lambda 的启发下，我利用 lua 的重载运算符的特性做了一个“Short Anonymous Function” 我暂时把它狂妄地叫做 lambda 了，不过我也没有仔细研究过不知道能不能称得上 lambda。<br><a id="more"></a><br>现在可以做到这些： </p>
+<h3>普通的计算</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f1 = _1 + _2
+<span class="built_in">print</span>(f1(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">--&gt; 4</span>
+</pre></td></tr></table></figure>
+
+<h3>调用其他函数</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f2 = _call(<span class="built_in">print</span>,<span class="number">1</span>)
+f2() <span class="comment">--&gt; 1</span>
+</pre></td></tr></table></figure>
+
+<h3>读取 table 值</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f3 = _index({<span class="number">1</span>,<span class="number">2</span>},<span class="number">1</span>)
+<span class="built_in">print</span>(f3) <span class="comment">--&gt;1</span>
+</pre></td></tr></table></figure>
+
+<h3>if 和 递归</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">local</span> fbi = _if(_lt(_1,<span class="number">3</span>)):
+            _then(<span class="number">1</span>):
+            _else(_resuc(_1-<span class="number">1</span>)+_resuc(_1-<span class="number">2</span>))
+<span class="built_in">print</span>(fbi(<span class="number">40</span>)) <span class="comment">--&gt;102334155</span>
+</pre></td></tr></table></figure>
+
+<h2>实现</h2>
+<p>因为我的水平比较低，所以实现的也比较烂了。</p>
+<p>为了方便起见我直接把 lambda 定义为表达式了，表达式本身也是一个递归的定义：</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>Exp={Exp1,Exp2,Operator}
+</pre></td></tr></table></figure>
+
+<p>表达式的基本单位就是<code>_1</code> <code>_2</code>这样的参数，参数也是表达式，但是它只需要返回在上下文 (Context) 中自身的值。</p>
+<p>这样比如<code>_1+_2 * _3</code>这个表达式实际上就拆成了<code>{_1, {_2, _3, *}, +}</code></p>
+<p>在调用一个 lambda 时 （即使用形如<code>f()</code>的调用）时，会创建一个上下文环境，里面保存着参数，表达式本身。上下文环境会一直传到参数那里。接着表达式使用对 Exp1 和 Exp2 进行 Operator 操作，并返回结果到上一层。递归的为每一层都这样计算，直到表达式不可以继续计算为止。</p>
+<p>比如<code>_1+_2 * _3</code>（即<code>{_1, {_2, _3, *}, +}</code>）调用参数为 (2,3,4) 时：</p>
+<ul>
+<li>建立上下文</li>
+<li>首先对<code>_1</code> 和<code>{_2, _3, *}</code>进行<code>+</code>运算</li>
+<li><ul>
+<li><code>{_2, _3, *}</code> 是一个可以继续计算的表达式，对<code>_2</code> <code>_3</code>进行`* 运算</li>
+</ul>
+</li>
+<li><ul>
+<li>从上下文中获得<code>_2</code>的值为 3 <code>_3</code>的值为 4，返回 3*4=12</li>
+</ul>
+</li>
+<li>从上下文中获得<code>_1</code>的值为 2，并得到<code>{_2, _3, *}</code>的值为 12 返回 2*12=24</li>
+</ul>
+<p>至于递归也很容易就实现了，只需要在调用 () 的时候把自身保存在 context 即可</p>
+<h3>存在问题</h3>
+<ol>
+<li>Lua 的<code>__lt</code> <code>__le</code>以及<code>__eq</code>的重载只会返回 boolean，不管你在函数里返回了什么，只要不是 nil 或 false，在外面只会得到 true。以及无法重载 and or not</li>
+<li>嵌套的定义 lambda 问题。<code>a = _index(_call(table.sort,_lt(_1,_2)),2)+_1</code> 怎么知道哪部分是 新的 lambda？</li>
+<li>运算速度太慢</li>
+</ol>
+<p>对于第一点，除了改 lua 的源码给他打补丁以外的方法都比较蛋疼。我最后是实现了<code>_lt</code> <code>_le</code> <code>_rt</code> <code>_re</code> <code>_eq</code> <code>_and</code> <code>_or</code> <code>_not</code> 这几个函数。。。</p>
+<p>对于第二点，我发现其实 lamdba 之间本身是没有区别的，他们的区别只在于得到的参数不同，也就是 Context 不同，而且这种不同只在计算的时候才表现出来。所以要实现区别不同的函数，只需要设置一个标志，然后告诉表达式“这个不是你的一部分，不用计算了！”就可以解决。</p>
+<p>我的方法是定义一个 lambda 函数, 用第二个返回值做标志，这样即使在普通的时候调用它也不会出现问题</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">lambda</span><span class="params">(exp)</span></span>
+  <span class="keyword">return</span> exp, NOT_EXEC
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> f1 = _call(<span class="built_in">table</span>.sort, lambda(_lt(_1, _2)))
+<span class="keyword">local</span> f2 = lambda(_1 + _2)
+</pre></td></tr></table></figure>
+
+<p>第三个问题比较严重，前面提到的 fbi，在 25 的时候普通的函数耗时 0s 而 lambda 却用了整整 11s！</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="keyword">local</span> fbi = _if(_lt(_1,<span class="number">3</span>)):
+            _then(<span class="number">1</span>):
+            _else(_resuc(_1-<span class="number">1</span>)+_resuc(_1-<span class="number">2</span>))
+<span class="function"><span class="keyword">function</span> <span class="title">fbin</span><span class="params">(n)</span></span>
+	<span class="keyword">if</span> n&lt;<span class="number">3</span> <span class="keyword">then</span>
+		<span class="keyword">return</span> <span class="number">1</span>
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> fbin(n-<span class="number">1</span>)+fbin(n-<span class="number">2</span>)
+<span class="keyword">end</span>
+<span class="keyword">local</span> t
+
+t=<span class="built_in">os</span>.time()
+<span class="built_in">print</span>(fbin(<span class="number">25</span>))
+<span class="built_in">print</span>(<span class="built_in">os</span>.time()-t) <span class="comment">--&gt; 0</span>
+
+t=<span class="built_in">os</span>.time()
+<span class="built_in">print</span>(fbi(<span class="number">25</span>))
+<span class="built_in">print</span>(<span class="built_in">os</span>.time()-t) <span class="comment">--&gt; 11</span>
+</pre></td></tr></table></figure>
+
+<p>这个问题确实不好办，但是考虑到这些 lambda 大概都没有副作用，所以我是用了一个表来存了参数和结果的对应关系。。。</p>
+<p>使用<code>lambda()</code>建立 lambda 时就会自动开启这个效果</p>
+<p>最后仍上实现代码，前面有 50 行左右 lambda 依赖的我自己写的类似 IO 语言的对象系统</p>
+<p>欢迎吐槽</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+</pre></td><td class="code"><pre><span class="comment">---------------- 功能函数部分 ----------------------</span>
+<span class="function"><span class="keyword">function</span> <span class="title">table.eachi</span><span class="params">(t, f)</span></span>
+	<span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">ipairs</span>(t) <span class="keyword">do</span>
+		<span class="keyword">if</span> f(i, v,t[i+<span class="number">1</span>]) == <span class="keyword">false</span> <span class="keyword">then</span> <span class="keyword">break</span> <span class="keyword">end</span>
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+Object = {property={}}
+<span class="function"><span class="keyword">function</span> <span class="title">Object:clone</span> <span class="params">( _t )</span></span>
+	_t.property = _t.property <span class="keyword">or</span> self.property <span class="keyword">or</span> {}
+	<span class="built_in">setmetatable</span>(_t, {__index = self.__index, __newindex = self.__newindex, __pa=self, __call = self.__call,
+						__add = self.__add, __sub = self.__sub, __div = self.__div, 
+						__mul = self.__mul, __pow = self.__pow, __mod = self.__mod,
+						__eq = self.__eq, __lt = self.__lt, __le = self.__le} )
+
+	<span class="keyword">if</span> _t.property ~= self.property <span class="keyword">then</span>
+		<span class="built_in">setmetatable</span>(_t.property, {__index = self.property})
+	<span class="keyword">end</span>
+	<span class="keyword">if</span> self.init <span class="keyword">then</span> self.init(_t) <span class="keyword">end</span>
+	<span class="keyword">return</span> _t
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Object:__index</span><span class="params">( key )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	
+	<span class="keyword">if</span> self.property[key] <span class="keyword">and</span> self.property[key].get <span class="keyword">then</span> 
+		<span class="keyword">return</span> self.property[key].get() 
+	<span class="keyword">end</span>
+	<span class="keyword">if</span> <span class="built_in">type</span>(mt.__pa)==<span class="string">"table"</span> <span class="keyword">then</span>
+		<span class="keyword">return</span> mt.__pa[key]
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> <span class="keyword">nil</span>
+<span class="keyword">end</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">Object:__newindex</span><span class="params">( key,value )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	<span class="keyword">if</span> self.property[key] <span class="keyword">and</span> self.property[key].set <span class="keyword">then</span> <span class="keyword">return</span> self.property[key].set(self,value) <span class="keyword">end</span>
+	<span class="built_in">rawset</span>(self,key,value)
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Object:is_a</span><span class="params">( pa )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	<span class="keyword">if</span> mt.__pa==pa <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">true</span> <span class="keyword">end</span>
+	<span class="keyword">return</span> mt.__pa:is_a(pa)
+<span class="keyword">end</span>
+
+<span class="built_in">setmetatable</span>(Object,{__index=Object.__index,__newindex=Object.__newindex})
+
+<span class="built_in">table</span>.eachi({<span class="string">"add"</span>,<span class="string">"sub"</span>,<span class="string">"div"</span>, <span class="string">"mul"</span>, <span class="string">"pow"</span>, <span class="string">"mod"</span>, <span class="string">"call"</span>, <span class="string">"eq"</span> , <span class="string">"le"</span>, <span class="string">"lt"</span>}, function(k, v)
+	Object.property[<span class="string">"__"</span>..v] = {set = function(self, value)
+		<span class="built_in">getmetatable</span>(self)[<span class="string">"__"</span>..v] = value
+		<span class="built_in">rawset</span>(self, <span class="string">"__"</span>..v, value)
+	<span class="keyword">end</span>}	
+<span class="keyword">end</span>)
+<span class="comment">------------------ 功能函数部分结束 -----------------------</span>
+<span class="comment">------------------ Lambda 部分开始 ------------------------</span>
+Lambda = Object:clone{
+	__call = function(...)
+		
+	<span class="keyword">end</span>
+}
+<span class="keyword">local</span> op={
+	add = function(a, b) <span class="keyword">return</span> a + b <span class="keyword">end</span>;	sub = function(a, b) <span class="keyword">return</span> a - b <span class="keyword">end</span>;
+	div = function(a, b) <span class="keyword">return</span> a / b <span class="keyword">end</span>;	mul = function(a, b) <span class="keyword">return</span> a * b <span class="keyword">end</span>;
+	mod = function(a, b) <span class="keyword">return</span> a % b <span class="keyword">end</span>;	pow = function(a, b) <span class="keyword">return</span> a ^ b <span class="keyword">end</span>;
+	eq  = function(a, b) <span class="keyword">return</span> a == b <span class="keyword">end</span>;	lt  = function(a, b) <span class="keyword">return</span> a &lt;  b <span class="keyword">end</span>;
+	le  = function(a, b) <span class="keyword">return</span> a &lt;= b <span class="keyword">end</span>;
+}
+<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">exec</span><span class="params">(obj, context)</span></span>
+	<span class="keyword">if</span> <span class="built_in">type</span>(obj) == <span class="string">"table"</span> <span class="keyword">and</span> obj:is_a(Exp) <span class="keyword">then</span>
+		<span class="keyword">return</span> obj:exec(context)
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> obj
+<span class="keyword">end</span>
+<span class="keyword">local</span> NOT_CALL = {}
+<span class="keyword">local</span> VAR = {}
+Exp = Lambda:clone{
+	
+	And = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context) <span class="keyword">and</span> exec(second, context)
+	<span class="keyword">end</span>;
+	Or = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context) <span class="keyword">or</span> exec(second, context)
+	<span class="keyword">end</span>;
+
+	Not = function(first, second, context)
+		<span class="keyword">return</span> <span class="keyword">not</span> exec(first, context)
+	<span class="keyword">end</span>;
+
+	Index = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context)[exec(second, context)]
+	<span class="keyword">end</span>;
+
+	IndexSet = function(first, second, context)
+		<span class="keyword">local</span> result = exec(second, context)
+		first[<span class="number">1</span>]:exec(context)[first[<span class="number">2</span>]:exec(context)] = result
+		<span class="keyword">return</span> result
+	<span class="keyword">end</span>;
+
+	Call = function(first, second, context)
+		<span class="keyword">local</span> args = {} 
+		<span class="built_in">table</span>.eachi(second, function(i, arg, n)
+			<span class="keyword">if</span> arg ~= NOT_CALL <span class="keyword">then</span>
+				<span class="keyword">if</span> n ~= NOT_CALL <span class="keyword">then</span>
+					<span class="built_in">table</span>.insert(args, exec(arg, context))
+				<span class="keyword">else</span>
+					<span class="built_in">table</span>.insert(args, arg)
+				<span class="keyword">end</span>
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>)
+		<span class="keyword">return</span> exec(first, context)(<span class="built_in">unpack</span>(args))
+	<span class="keyword">end</span>;
+
+	exec = function(self, context)
+		<span class="keyword">return</span> self.operator(self.first, self.second,context)
+	<span class="keyword">end</span>;
+	__call = function(self, ...)
+		<span class="keyword">local</span> context = {args = {...}, base = self}
+		<span class="keyword">if</span> self.memorize <span class="keyword">then</span>
+			self.memory = self.memory <span class="keyword">or</span> {}
+			<span class="keyword">local</span> match = <span class="keyword">true</span>
+			<span class="keyword">local</span> m = self.memory
+			<span class="keyword">local</span> ret
+			<span class="keyword">for</span> i=<span class="number">1</span>, #context.args <span class="keyword">do</span>
+				m[context.args[i]] = m[context.args[i]] <span class="keyword">or</span> {}
+				m = m[context.args[i]]
+			<span class="keyword">end</span>
+			m[context.args[#context.args]] = m[context.args[#context.args]] <span class="keyword">or</span> {}
+			m[context.args[#context.args]][VAR] = m[context.args[#context.args]][VAR] <span class="keyword">or</span> exec(self, context)
+			<span class="keyword">return</span> m[context.args[#context.args]][VAR]
+		<span class="keyword">end</span>
+		<span class="keyword">return</span> exec(self, context)
+	<span class="keyword">end</span>;
+}
+<span class="built_in">table</span>.eachi({<span class="string">"Add"</span>,<span class="string">"Sub"</span>,<span class="string">"Div"</span>, <span class="string">"Mul"</span>, <span class="string">"Pow"</span>, <span class="string">"Mod"</span>,  <span class="string">"Eq"</span> , <span class="string">"Le"</span>, <span class="string">"Lt"</span>},function(k, v)
+	Exp[v] = function(first, second, context)
+		<span class="keyword">return</span> op[v:lower()](exec(first, context),exec(second, context))
+	<span class="keyword">end</span>;
+	Exp[<span class="string">"__"</span>..v:lower()] = function(self, other)		
+		<span class="keyword">return</span> Exp:clone{first = self, second = other, operator = Exp[v]}
+	<span class="keyword">end</span>;
+<span class="keyword">end</span>)
+
+<span class="keyword">local</span> IfExp = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">if</span> exec(self.exp, context) <span class="keyword">then</span>
+			<span class="keyword">return</span> exec(self.thenexp, context)
+		<span class="keyword">else</span>
+			<span class="keyword">return</span> exec(self.elseexp, context)
+		<span class="keyword">end</span>
+	<span class="keyword">end</span>;
+	_then = function(self, exp)
+		self.thenexp = exp
+		<span class="keyword">return</span> self
+	<span class="keyword">end</span>;
+	_else = function(self, exp)
+		self.elseexp = exp
+		<span class="keyword">return</span> self
+	<span class="keyword">end</span>;
+	_elseif = function(self, exp)
+		self.elseexp = _if(exp)
+		<span class="keyword">return</span> self.elseexp
+	<span class="keyword">end</span>
+}
+<span class="keyword">local</span> resuc = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">return</span> context.base
+	<span class="keyword">end</span>
+}
+Argument = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">return</span> context.args[self.index]
+	<span class="keyword">end</span>;
+	__call = function(self, val)
+		<span class="keyword">return</span> val
+	<span class="keyword">end</span>;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">_indexset</span><span class="params">(obj, key, value)</span></span>
+	<span class="keyword">return</span> Exp:clone{first = {obj, key}, second = value, operator = Exp.IndexSet}
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">_call</span><span class="params">(func, ...)</span></span>
+	<span class="keyword">return</span> Exp:clone{first = func, second = {...}, operator = Exp.Call}
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">getf1</span><span class="params">(name)</span></span>
+	<span class="keyword">return</span> function(a, b)
+		<span class="keyword">return</span> Exp:clone{first = a, second = b, operator = Exp[name]}	
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+_and   = getf1(<span class="string">"And"</span>)   _or    = getf1(<span class="string">"Or"</span>)
+_not   = getf1(<span class="string">"Not"</span>)   _index = getf1(<span class="string">"Index"</span>)
+_lt    = getf1(<span class="string">"Lt"</span>)    _le    = getf1(<span class="string">"Le"</span>)
+_rt    = getf1(<span class="string">"Rt"</span>)    _re    = getf1(<span class="string">"Re"</span>)
+_eq    = getf1(<span class="string">"Eq"</span>)
+<span class="function"><span class="keyword">function</span> <span class="title">_if</span><span class="params">(exp)</span></span>
+	<span class="keyword">return</span> IfExp:clone{exp = exp}
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">_resuc</span><span class="params">(...)</span></span>
+	<span class="keyword">return</span> _call(resuc,...)
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">lambda</span><span class="params">(exp, nmemorize)</span></span>
+	exp.memorize = <span class="keyword">not</span> nmemorize
+	<span class="keyword">return</span> exp, NOT_CALL
+<span class="keyword">end</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">args</span><span class="params">(index)</span></span>
+	<span class="keyword">return</span> Argument:clone{index = index}
+<span class="keyword">end</span>
+
+_1 = args(<span class="number">1</span>)
+_2 = args(<span class="number">2</span>)
+_3 = args(<span class="number">3</span>)
+</pre></td></tr></table></figure>
+
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/Function/" term="Function"/>
+    <category scheme="http://shuenhoy.com/categories/Lua/" term="Lua"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[为了一种新的生活]]></title>
+    <link href="http://shuenhoy.com/2013/08/31/为了一种新的生活方式/"/>
+    <id>http://shuenhoy.com/2013/08/31/为了一种新的生活方式/</id>
+    <published>2013-08-31T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>明天就是暑假的最后一天了, 今天在这里胡说八道一下。：）<br><a id="more"></a></p>
+<p>首先说一下这个暑假，自我感觉过的还是蛮不错的。首先是开始的几天做了一下 Hotarw（我的一个游戏引擎），给少年电脑世界写了几篇稿子，然后花了 1 个星期去参加了 NOIP 夏令营。</p>
+<p>去年的暑假也和我爸一起来参加夏令营了，不过当时水平太低，基本上什么也没听明白。。。然后今年呢，我爸让我自己来参加，于是就和一中的学哥学姐们混到一起了。这几天过的各种欢乐啊，一起刷题，听课，吃饭，晚上在宿舍耍游戏，然后他们还教了我玩三国杀。。。然后学哥晚上还借我的手机谈恋爱（啥） 然后一个周就过来了，相比去年一下午照着 pascal 的原题还只能作出一道（我学 c++ 滴），还显得没事搞什么『Program without if』 今年的情况有了很大的改变了，至少我知道快排是怎么回事了，虽然我还是只用 std::sort（阿喂），然后 DFS 和 BFS 也会写了，顺便还学会了一些简单的动规，总之除了图都弄明白了一些。至于图，我只记得那个老师在讲 Prim 算法的时候说的『圈内圈外』。在机房的时候，我们一起研究怎么破解网络限制然后被老师抓到了一会。。。</p>
+<p>最后呢，他们邀请我回去以后继续到一中和他们 <del>玩</del> 学习，于是我就愉快的答应了。时间是 8 月 5 号到 25 号中间休息 2 天。借此机会我还顺便探测了一中的内部环境哈哈哈。这几天就是上午下午刷题，顺便我还知道了 vijos 这个网站，这几天也刷了 20 多道题了。恩中午就一起打红警，他们打红警都是很厉害啊！我每天经常要输个两三次才会有点起色。。。后来，万恶的远程培训开始了，于是 6 个机房全部被坑，我就在家呆了 2 天，后来得知他们在一个机房占据了一块土地，我忍不住就冒着老师的危险（啥）又回到了一中，然后就愉快的结束了。</p>
+<p>回来后的这几天倒也没有做什么，只是做出了一个叫《快手阿丢》的游戏，发给了少电编辑部，恩做的很坑爹啊 因为时间不够只做了一关（因为时间不够这里不发截图了。）。 顺便说一下在少年电脑世界连载的《游戏梦工厂》栏目也快要结束了。稿费大概能有 2000~3000 吧。然后就是刷作业。。。</p>
+<p>另外值得一提的就是暑假的作息习惯发生了很奇怪的变化，今天这是第一次这么晚（22:10）还没睡觉 从夏令营回来基本上 9:30 左右就睡觉了 大概是白天脑力劳动太剧烈了哈哈。 其实到 9:00 左右就已经比较困了，这时候我一般就在床上有 Kindle Paperwhite 看一会《知乎日报》啦，或者是《精灵宝钻》，此外我还产生了看英文原版书的想法，所以有几天看了一下英文版的《人月神话》。</p>
+<p>说道 Kindle，真是好神奇啊，喜欢读书的同学们一定要来一个，电子墨水屏幕效果极佳！现在随着微博微信之类的兴起 阅读都开始碎片化了，其实找个时间坐下来专心的看一下书也不错啊。买了 Kindle 收益众生啊（这不是广告啊喂）。</p>
+<p>另一方面，关于知乎，也是个很神奇的网站啊，推荐大家可以去逛一逛，如果时间不够的话，在手机上装个知乎日报也不错。</p>
+<p>上面这一坨废话就是大概说了一下假期的情况。</p>
+<p><strong>警告：以下内容仅为都是我猜的 而且语言逻辑不通 请勿仔细观看</strong></p>
+<p>当然，谈到假期就不能不说开学，对于学生党来说这似乎是一个难以回避的难题，更何况我们『初四党』呢。（9 年级，学制问题）今天早上在班里的群里和单阳同学奇葩的用 Chiglish 讨论了一下这个问题。其实在当前的状态下，你很难突破考试，升学这一套路，当然这是废话我不应该重复。那么我们应该向学习妥协吗，考上一个好大学，应该会帮助你找到好工作，获得高收入（我猜的如有不对请指出）。（至于有的人问为什么会有学习好的人给学习不好的人打工，那是因为学习不好的人给学习好的人打工成不了新闻）</p>
+<p>但是如果我希望做的更好（我指的是像扎克伯格这样改变世界的习惯的人，而不是当个煤老板），我们需要保留独立思考的能力，我需要记住我是谁。我们不希望被局限。其实，学校学习的东西，都是有用处的。只是太重视考试，太大的负担，令人没有时间思考。我们要将为分数学习，转变成真正的为自己学习，它会变成自己有益的知识，而不是一坨奇葩。我们不要太注意它，但不要忽略它，它是普通的，平常的，或者无关紧要的。但是它是存在的，需要面对的，如果我们既不去消极的对待它，也不是故意奉承它，说不定在不经意间就达到了目标。我们让它成为我们自身，而不是让我们自身兼容它。这时，它就不存在了，它不在是我们害怕的东西，也不是我们崇拜的东西，它什么也不是。只是三维空间中存在的一个抽象的东西。地球还在转，熵还在增加，但是它却不见了。</p>
+<p>这样，初四之类时的沉重负担的感觉也就似乎消失的无影无踪了，它还存在 但是也不存在，你能碰到它 却抓不住它， 就像微观粒子的叠加态，似乎令人捉摸不透——实际上，又为什么要捉摸它呢，实际上你已经懒得去管它。老师喜欢说：『当你喜欢学习的时候你就会越学越轻松越学越高兴』。这是什么逻辑！这假设了你喜欢学习，却没告诉你怎样喜欢学习，实际上，不过你从哪个方面关注他，你就不会轻松高兴，你以为学霸就是快乐的吗？所以最好的方式就是让他消失到你碰得着 摸不到的程度，让它自然 不做作。</p>
+<p>为了一种新的生活，忽视一切，得到一切。</p>
+<p>今夜如此，夜夜亦然。</p>
+<p>以上，<br>Shuenhoy<br>2013 年 8 月 31 日 晚 22:48</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/生活杂事/" term="生活杂事"/>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[八数码问题]]></title>
+    <link href="http://shuenhoy.com/2013/08/23/八数码问题/"/>
+    <id>http://shuenhoy.com/2013/08/23/八数码问题/</id>
+    <published>2013-08-23T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p><a href="https://vijos.org/p/1360" target="_blank">https://vijos.org/p/1360</a></p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "map"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node{
+	<span class="keyword">int</span> n,d;
+};
+<span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+<span class="keyword">int</span> power10[<span class="number">10</span>]={<span class="number">0</span>,<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>,<span class="number">1000</span>,<span class="number">10000</span>,<span class="number">100000</span>,<span class="number">1000000</span>,<span class="number">10000000</span>,<span class="number">100000000</span>};
+<span class="keyword">inline</span> <span class="keyword">int</span> geti(<span class="keyword">int</span> n,<span class="keyword">int</span> i){
+	<span class="keyword">return</span> n/power10[i]%<span class="number">10</span>;
+}
+<span class="keyword">inline</span> <span class="keyword">int</span> seti(<span class="keyword">int</span> n,<span class="keyword">int</span> i,<span class="keyword">int</span> v){
+	<span class="keyword">return</span> n-geti(n,i)*power10[i]-geti(n,v)*power10[v]+geti(n,v)*power10[i]+geti(n,i)*power10[v];
+}
+<span class="keyword">int</span> p[<span class="number">10</span>][<span class="number">5</span>]={<span class="number">0</span>},inp;
+
+<span class="stl_container"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">bool</span>&gt;</span> ma;
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="built_in">cin</span>&gt;&gt;inp;
+	p[<span class="number">1</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">1</span>][<span class="number">1</span>]=<span class="number">4</span>;
+	p[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">1</span>;p[<span class="number">2</span>][<span class="number">1</span>]=<span class="number">3</span>;p[<span class="number">2</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">3</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">3</span>][<span class="number">1</span>]=<span class="number">6</span>;
+	p[<span class="number">4</span>][<span class="number">0</span>]=<span class="number">1</span>;p[<span class="number">4</span>][<span class="number">1</span>]=<span class="number">7</span>;p[<span class="number">4</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">5</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">5</span>][<span class="number">1</span>]=<span class="number">4</span>;p[<span class="number">5</span>][<span class="number">2</span>]=<span class="number">6</span>;p[<span class="number">5</span>][<span class="number">3</span>]=<span class="number">8</span>;
+	p[<span class="number">6</span>][<span class="number">0</span>]=<span class="number">3</span>;p[<span class="number">6</span>][<span class="number">1</span>]=<span class="number">9</span>;p[<span class="number">6</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">7</span>][<span class="number">0</span>]=<span class="number">4</span>;p[<span class="number">7</span>][<span class="number">1</span>]=<span class="number">8</span>;
+	p[<span class="number">8</span>][<span class="number">0</span>]=<span class="number">9</span>;p[<span class="number">8</span>][<span class="number">1</span>]=<span class="number">7</span>;p[<span class="number">8</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">9</span>][<span class="number">0</span>]=<span class="number">8</span>;p[<span class="number">9</span>][<span class="number">1</span>]=<span class="number">6</span>;
+	q.push((Node){inp,<span class="number">0</span>});
+	<span class="keyword">while</span>(!q.empty()){
+		Node t=q.front();q.pop();
+		<span class="keyword">if</span>(t.n==<span class="number">123804765</span>){
+			<span class="built_in">cout</span>&lt;&lt;t.d&lt;&lt;endl;
+			<span class="comment">//system("pause");</span>
+			exit(<span class="number">0</span>);
+		}
+		<span class="keyword">int</span> v=t.n;
+		<span class="keyword">int</span> i;
+		<span class="keyword">for</span> (i = <span class="number">1</span>; geti(t.n,i)!=<span class="number">0</span>; ++i);
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; ++j)
+			<span class="keyword">if</span>(p[<span class="number">9</span>-i+<span class="number">1</span>][j]!=<span class="number">0</span>){
+				<span class="keyword">int</span> ns=seti(t.n,i,p[i][j]);
+				<span class="keyword">if</span>(!ma[ns]){
+					ma[ns]=<span class="keyword">true</span>;
+					q.push((Node){ns,t.d+<span class="number">1</span>});	
+				}
+			}		
+	}
+}
+</pre></td></tr></table></figure>
+
+<p>先上代码，原理有空补</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/搜索/" term="搜索"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[kruskal算法]]></title>
+    <link href="http://shuenhoy.com/2013/08/12/kruskal-最小生成树/"/>
+    <id>http://shuenhoy.com/2013/08/12/kruskal-最小生成树/</id>
+    <published>2013-08-12T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>代码镇楼</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "algorithm"</span>
+using namespace std;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+	<span class="keyword">bool</span> operator &lt;(<span class="keyword">const</span> Node &o) <span class="keyword">const</span>{
+		<span class="keyword">return</span> w&lt;o<span class="variable">.w</span>;
+	}
+};
+
+Node fli[<span class="number">10000</span>];
+<span class="keyword">int</span> father[<span class="number">10000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="keyword">int</span> find(<span class="keyword">int</span> x){
+	<span class="keyword">if</span>(father[x]==x) <span class="keyword">return</span> x;
+	father[x]=find(father[x]);
+	<span class="keyword">return</span> father[x];
+}
+<span class="keyword">void</span> Union(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+	father[find(a)]=find(father[b]);
+}
+<span class="preprocessor">#define MAX(a,b) (a)&lt;(b)?(b):(a)</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("ff.txt");</span>
+	cin&gt;&gt;N&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+		father[i]=i;
+
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= M; ++i)
+		cin&gt;&gt;fli[i]<span class="variable">.u</span>&gt;&gt;fli[i]<span class="variable">.v</span>&gt;&gt;fli[i]<span class="variable">.w</span>;
+	sort(fli,fli+M);
+	<span class="keyword">int</span> ans=<span class="number">0</span>;
+	<span class="keyword">int</span> ingraph=<span class="number">1</span>;
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">while</span>(ingraph&lt;N){
+		i++;
+		<span class="keyword">if</span>(find(fli[i]<span class="variable">.u</span>)!=find(fli[i]<span class="variable">.v</span>)){
+			ingraph++;
+			ans=MAX(ans,fli[i]<span class="variable">.w</span>);
+			Union(fli[i]<span class="variable">.u</span>,find(fli[i]<span class="variable">.v</span>));
+		}
+	}
+	cout&lt;&lt;N-<span class="number">1</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;ans;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>题目：<a href="https://vijos.org/p/1190" target="_blank">https://vijos.org/p/1190</a></p>
+<p>这个最小生成树好像是把图里所有节点连接且权值之和最小的样子吧。</p>
+<p>算法好像是把所有路径排序然后找出最小的如果两个不在一个联通分量（用并查集）就添加。</p>
+<p>↑<br>啊喂哪有这么简单啊</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/最小生成树/" term="最小生成树"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[SPFA]]></title>
+    <link href="http://shuenhoy.com/2013/08/12/SPFA最短路/"/>
+    <id>http://shuenhoy.com/2013/08/12/SPFA最短路/</id>
+    <published>2013-08-12T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>今天写某道难度 1 的最短路问题 (  <a href="https://vijos.org/p/1635" target="_blank">https://vijos.org/p/1635</a>  )  ，然后一开始用 Dijkstra 写写了半天发现一直很奇葩的只输出 0= = 于是一怒之下竟然删掉了代码重新用 SPFA 写。</p>
+<p>SPFA 就是要用一个队列，一开始起点放在队列里，如果队列空了就说明寻路完毕。然后不断取出队首元素，遍历与其相邻的结点，如果从对首结点到遍历到的结点距离之和加起来比遍历到的结点本身的距离小就替换。</p>
+<p>p.s. 自我感觉 SPFA 比 Dijkstra 要好理解到现在我也没弄明白 Dijkstara 是怎么回事 = =</p>
+<p>然后发现输出还是 0 = = == = = = =</p>
+<p>于是折腾了半个下午，最后发现原来竟然是输出的时候输出了 N 而不是 N-1 所以输出了 0.</p>
+<p>然后满心欢喜的去提交了测试，然后奇葩的发现不是超时就是错误啊啊啊啊</p>
+<p>程序附上求好心人解答：</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="code"><pre>
+<span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,c;
+};
+<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span> fklist[<span class="number">10000</span>];
+<span class="keyword">int</span> N;
+<span class="keyword">unsigned</span> <span class="keyword">int</span> D[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">bool</span> inq[<span class="number">100000</span>]={<span class="keyword">false</span>};
+<span class="keyword">int</span> prev[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	scanf(<span class="string">"%d"</span>,&N);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; ++j)
+		{
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a!=<span class="number">0</span>){
+				fklist[i].push_back((Node){i,j,a});
+				fklist[j].push_back((Node){j,i,a});
+			}
+		}
+		D[i]=INT_MAX;
+		prev[i]=-<span class="number">1</span>;
+	}
+	
+	D[<span class="number">0</span>]=<span class="number">0</span>;
+	q.push(<span class="number">0</span>);
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();inq[u]=<span class="keyword">false</span>;
+		<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span>::iterator i = fklist[u].begin(); i != fklist[u].end(); ++i){
+			<span class="keyword">if</span>(D[(*i).v]&gt;D[u]+(*i).c){
+				D[(*i).v]=D[u]+(*i).c;
+				prev[(*i).v]=u;
+				<span class="keyword">if</span>(!inq[(*i).v]){
+					q.push((*i).v);
+					inq[(*i).v]=<span class="keyword">true</span>;
+				}
+			}
+			
+		}
+	}
+	<span class="keyword">int</span> out[<span class="number">10000</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> j=<span class="number">0</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=N-<span class="number">1</span>;i!=-<span class="number">1</span>;i=prev[i],j++) out[j]=i+<span class="number">1</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=j-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) <span class="built_in">cout</span>&lt;&lt;out[i]&lt;&lt;<span class="string">" "</span>;
+	<span class="built_in">cout</span>&lt;&lt;endl&lt;&lt;D[N-<span class="number">1</span>]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<h1>8 月 14 日修正</h1>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+};
+<span class="keyword">unsigned</span> <span class="keyword">int</span> L[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span> fl[<span class="number">5001</span>];
+
+<span class="keyword">int</span> s,t;
+<span class="keyword">bool</span> inq[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> pa[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">int</span> bb;
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("cl.txt");</span>
+	<span class="built_in">cin</span>&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j &lt;= N; ++j){
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a){
+				fl[i].push_back((Node){i,j,a});
+				<span class="comment">//fl[j].push_back((Node){j,i,a});	</span>
+			}
+		}
+		
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		L[i]=INT_MAX;
+	}
+	
+	L[<span class="number">1</span>]=<span class="number">0</span>;
+
+	q.push(<span class="number">1</span>);
+	inq[<span class="number">1</span>]=<span class="keyword">true</span>;
+
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();
+
+		<span class="keyword">for</span>(<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span>::iterator it=fl[u].begin();it!=fl[u].end();++it){
+			<span class="keyword">int</span> v=(*it).v;
+			<span class="keyword">int</span> w=(*it).w;
+
+			<span class="keyword">if</span>(L[u]+w&lt;L[v] ){
+				L[v]=L[u]+w;
+				pa[v]=u;
+				<span class="keyword">if</span>(!inq[v]){
+					q.push(v);
+					inq[v]=<span class="keyword">true</span>;
+				}
+			}
+		}
+		inq[u]=<span class="keyword">false</span>;
+	}
+	<span class="keyword">int</span> ff[<span class="number">1001</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">int</span> f=N;
+	<span class="keyword">while</span>(f){
+		ff[i++]=f;
+		f=pa[f];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> j = i-<span class="number">1</span>; j &gt; <span class="number">0</span>; --j)
+	{
+		<span class="built_in">cout</span>&lt;&lt;ff[j]&lt;&lt;<span class="string">" "</span>;
+	}
+	<span class="built_in">cout</span>&lt;&lt;ff[<span class="number">0</span>]&lt;&lt;endl;
+	<span class="built_in">cout</span>&lt;&lt;L[N]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<p>这个题有个坑爹的地方就是是有向图所以昨天当做无向图就全错了 = =</p>
+<p>然后超时的问题直接用 scanf 代替 cin 解决了 = =</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/最短路/" term="最短路"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[替换式密码小试]]></title>
+    <link href="http://shuenhoy.com/2013/08/11/替换式密码小试/"/>
+    <id>http://shuenhoy.com/2013/08/11/替换式密码小试/</id>
+    <published>2013-08-11T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<hr>
+<blockquote>
+<p>替换式密码，又名取代加密法 [1]，是密码学中按规律将文字加密的一种方式 [2]。替换式密码中可以用不同字母数为一单元，例如每一个或两个字母为一单元，然后再作加密。密文接收者解密时需用原加密方式解码才可取得原文本。由于拼音文字中字的组成为有限的字母，以英语为例只有 26 个字母，组成可能的单元数较少，因此使用替换式密码相对较为容易，而且亦可使用简单机械进行加密；相反，非拼音文字如中文则因单元数非常大难以使用一般加密方式，必需建立密码本，然后逐字替换。更何况某些非拼音文字中字字皆由不同大小的字根来组字，较难转换，因此使用替换式密码的示例比较少。</p>
+</blockquote>
+<p>——来自维基百科</p>
+<p>今天上午的 NOIP 题中奇葩的出现了这样的一道题 = = 竟然是完全自己翻译，于是一上午后整出一了个</p>
+<blockquote>
+<p>O Dmoee cy Npmz<br>A Glass of Milk<br>Cxu goa, o lccr vca kbc koe wrapxd wc loa bpe koa wbrctdb eibccm va eummpxd dccge gccr wc gccr yctxg wbow bu cxma bog cxu gpnu muyw. Bu koe btxdra ec bu guipgug wc vud ycr o nuom ow wbu xufw bcteu. </p>
+<p>Bckusur, bu mcew bpe xursu kbux o mcsuma actxd kcnox cluxug wbu gccr. Pxewuog cy o nuom bu oezug ycr o grpxz cy kowur. Ebu wbctdbw bu mcczug btxdra ec ebu vrctdbw bpn o mordu dmoee cy npmz. Bu groxz pw emckma, oxg wbux oezug, “Bck ntib gc P cku act?” </p>
+<p>“Act gcx&#39;w cku nu oxawbpxd,” ebu rulmpug. “Ncwbur boe wotdbw nu xusur wc oiiulw loa ycr o zpxgxuee.” Bu eopg, “Wbux P wboxz act yrcn wbu vcwwcn cy na buorw.” Oe Bckorg Zumma muyw wbow bcteu, bu xcw cxma yumw ewrcxdur lbaepiomma, vtw pw omec pxiruoeug bpe yopwb px Dcg oxg wbu btnox roiu. Bu koe ovctw wc dpsu tl oxg htpw vuycru wbpe lcpxw. </p>
+<p>Auore mowur wbu actxd kcnox vuionu irpwpiomma pmm. Wbu mciom gciwcre kuru voyymug. Wbua ypxomma euxw bur wc wbu vpd ipwa, kburu eluipompewe iox vu iommug px wc ewtga bur roru gpeuoeu. Gr. Bckorg Zumma, xck yoncte koe iommug px ycr wbu icxetmwowpcx. Kbux bu buorg wbu xonu cy wbu wckx ebu ionu yrcn, o ewroxdu mpdbw ypmmug bpe uaue. Pnnugpowuma, bu rceu oxg kuxw gckx wbrctdb wbu bcelpwom bomm pxwc bur rccn. </p>
+<p>Grueeug px bpe gciwcr&#39;e dckx bu kuxw px wc euu bur. Bu ruicdxpqug bur ow cxiu. Bu kuxw voiz wc wbu icxetmwowpcx rccn oxg guwurnpxug wc gc bpe vuew wc eosu bur mpyu. Yrcn wbow goa cx, bu dosu eluipom owwuxwpcx wc bur ioeu.</p>
+<p>Oywur o mcxd ewrtddmu, wbu vowwmu koe kcx. Gr. Zumma ruhtuewug wbu vtepxuee cyypiu wc loee wbu ypxom vpmm wc bpn ycr ollrcsom. Bu mcczug ow pw oxg wbux krcwu ecnuwbpxd cx wbu epgu. Wbu vpmm koe euxw wc bur rccn. Ebu koe oyropg wc clux pw vuioteu ebu koe lcepwpsu wbow pw kctmg wozu wbu ruew cy bur mpyu wc loa pw cyy. Ypxomma ebu mcczug, oxg wbu xcwu cx wbu epgu cy wbu vpmm iotdbw bur owwuxwpcx. Ebu ruog wbueu kcrge… </p>
+<p>“Lopg px ytmm kpwb o dmoee cy npmz.”<br>(Epdxug) Gr. Bckorg Zumma </p>
+<p>Wuore cy jca ymccgug bur uaue oe ebu lroaug epmuxwma: “Wboxz Act, Dcg. Actr mcsu boe elruog wbrctdb btnox buorwe oxg boxge.” </p>
+</blockquote>
+<p>通过分析得出的密码本：</p>
+<ul>
+<li>A - y</li>
+<li>B - h</li>
+<li>C - o</li>
+<li>D - g</li>
+<li>E - s</li>
+<li>F - x</li>
+<li>G - d</li>
+<li>H - Q</li>
+<li>I - c</li>
+<li>J - j</li>
+<li>K - w</li>
+<li>L - p</li>
+<li>M - l</li>
+<li>N - m</li>
+<li>O - a</li>
+<li>P - i</li>
+<li>Q - z</li>
+<li>R - r</li>
+<li>S - v</li>
+<li>T - u</li>
+<li>U - e</li>
+<li>V - b</li>
+<li>W - t</li>
+<li>X - n</li>
+<li>Y - f</li>
+<li>Z - k</li>
+</ul>
+<p>于是最后竟然是 A Glass Of Milk = = = =</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/密码学/" term="密码学"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[8-10存档]]></title>
+    <link href="http://shuenhoy.com/2013/08/10/2013-08-10-8-10/"/>
+    <id>http://shuenhoy.com/2013/08/10/2013-08-10-8-10/</id>
+    <published>2013-08-10T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<h3>P1093 文科生的悲哀</h3>
+<pre><code><span class="comment">/*</span>
+                 <span class="comment">1</span>
+               <span class="comment">/</span>
+             <span class="comment">/</span>
+         <span class="comment">1</span> <span class="comment">3</span>
+       <span class="comment">/</span>         <span class="comment">4</span>
+     <span class="comment">/</span>
+<span class="comment">1</span> <span class="comment">3</span>  <span class="comment">\</span>     <span class="comment">2</span>     <span class="comment">4</span>
+       <span class="comment">\</span>  <span class="comment">/</span>
+         <span class="comment">4</span>
+          <span class="comment">\</span>
+           <span class="comment">3</span>     <span class="comment">4</span>
+                 <span class="comment">1</span>
+<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+<span class="comment">1</span> <span class="comment">1</span>      <span class="comment">2</span> <span class="comment">3</span>     <span class="comment">5</span>
+<span class="comment">*/</code></pre>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>=0;
+
+<span class="title">unsigned</span> <span class="title">long</span> <span class="title">long</span> <span class="title">f</span>[10001]={</span><span class="number">0</span>};
+
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	cin&gt;&gt;N;
+
+	f[<span class="number">1</span>]=<span class="number">1</span>;
+	f[<span class="number">2</span>]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= N; ++i)
+	{
+		f[i]=(f[i-<span class="number">1</span>]+f[i-<span class="number">2</span>])%<span class="number">7654321</span>;
+	}
+	cout&lt;&lt;(f[N])&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 644 KiB, score = 10</li>
+<li>Accepted, time = 0 ms, mem = 644 KiB, score = 100</li>
+</ul>
+<h3>P1057 盖房子</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">M</span>;
+<span class="title">int</span> <span class="title">t</span>[1001][1001]={</span><span class="number">0</span>};
+<span class="keyword">int</span> f[<span class="number">1001</span>][<span class="number">1001</span>]={<span class="number">0</span>};
+
+<span class="preprocessor">#define MAX(a,b) ((a)&gt;(b)?(a):(b))</span>
+<span class="preprocessor">#define MIN(a,b,c) MIN2(a,MIN2(b,c))</span>
+<span class="preprocessor">#define MIN2(a,b) ((a)&lt;(b)?(a):(b))</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="keyword">int</span> max=<span class="number">0</span>;
+	cin&gt;&gt;N&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= M; ++j)
+		{
+			cin&gt;&gt;t[i][j];
+		}
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= M; ++j)
+		{
+			if(t[i][j]!=<span class="number">0</span>){
+				f[i][j]=MIN(f[i-<span class="number">1</span>][j-<span class="number">1</span>],f[i-<span class="number">1</span>][j],f[i][j-<span class="number">1</span>])+<span class="number">1</span>;
+	
+			}
+			max=MAX(max,f[i][j]);
+		}
+	}
+	cout&lt;&lt;max&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 15 ms, mem = 8304 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 15 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 15 ms, mem = 8304 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 15 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 31 ms, mem = 8304 KiB, score = 10</li>
+<li>Accepted, time = 121 ms, mem = 8312 KiB, score = 100</li>
+</ul>
+<h3>P1076 海战</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "limits.h"</span>
+using namespace <span class="keyword">std</span><span class="comment">;</span>
+int R,C,D[<span class="number">1001</span>][<span class="number">1001</span>]={<span class="number">0</span>},s<span class="comment">;</span>
+struct point
+{
+	point(){
+		<span class="built_in">x</span>=<span class="built_in">y</span>=<span class="number">0</span><span class="comment">;</span>
+	}
+	int <span class="built_in">x</span>,<span class="built_in">y</span><span class="comment">;</span>
+}<span class="comment">;</span>
+bool dfs(int <span class="built_in">x</span>,int <span class="built_in">y</span>,int p,point &l,point &r,point &t,point &b){
+	if(D[<span class="built_in">x</span>][<span class="built_in">y</span>]!=<span class="number">1</span>) return false<span class="comment">;</span>
+	
+	if(p==<span class="number">0</span>) s++<span class="comment">;</span>
+	D[<span class="built_in">x</span>][<span class="built_in">y</span>]=-<span class="number">1</span><span class="comment">;</span>
+	if(l<span class="preprocessor">.x</span>&gt;<span class="built_in">x</span>){
+		l<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+		l<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+	}
+	if(r<span class="preprocessor">.x</span>&lt;<span class="built_in">x</span>){
+		r<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+		r<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+	}
+	if(t<span class="preprocessor">.y</span>&gt;<span class="built_in">y</span>){
+		t<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+		t<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+	}
+	if(b<span class="preprocessor">.y</span>&lt;<span class="built_in">y</span>){
+		b<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+		b<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+	}
+	dfs(<span class="built_in">x</span>,<span class="built_in">y</span>-<span class="number">1</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>,<span class="built_in">y</span>+<span class="number">1</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>+<span class="number">1</span>,<span class="built_in">y</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>-<span class="number">1</span>,<span class="built_in">y</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	return true<span class="comment">;</span>
+}
+int main(int argc, char const *argv[])
+{
+	cin&gt;&gt;R&gt;&gt;C<span class="comment">;</span>
+	for (int i = <span class="number">1</span><span class="comment">; i &lt;= R; ++i)</span>
+	{
+		for (int j = <span class="number">1</span><span class="comment">; j &lt;= C; ++j)</span>
+		{
+			char c<span class="comment">;</span>
+			cin&gt;&gt;c<span class="comment">;</span>
+			D[i][j]=c==<span class="string">'.'</span>?<span class="number">0</span>:<span class="number">1</span><span class="comment">;</span>
+		}
+	}
+	for (int i = <span class="number">1</span><span class="comment">; i &lt;= R; ++i)</span>
+	{
+		for (int j = <span class="number">1</span><span class="comment">; j &lt;= C; ++j)</span>
+		{
+			point l,r,t,b<span class="comment">;</span>
+			l<span class="preprocessor">.x</span>=INT_MAX<span class="comment">;</span>
+			t<span class="preprocessor">.y</span>=INT_MAX<span class="comment">;</span>
+			r<span class="preprocessor">.x</span>=-<span class="number">1</span><span class="comment">;</span>
+			b<span class="preprocessor">.y</span>=-<span class="number">1</span><span class="comment">;</span>
+			bool bs=dfs(i,j,<span class="number">0</span>,l,r,t,b)<span class="comment">;</span>
+			if(bs){
+				for(int <span class="built_in">x</span>=l<span class="preprocessor">.x</span><span class="comment">;x&lt;=r.x;x++){</span>
+					for(int <span class="built_in">y</span>=t<span class="preprocessor">.y</span><span class="comment">;y&lt;=b.y;y++){</span>
+						if(D[<span class="built_in">x</span>][<span class="built_in">y</span>]!=-<span class="number">1</span>){
+							cout&lt;&lt;<span class="string">"Bad placement."</span>&lt;&lt;endl<span class="comment">;</span>
+							exit(<span class="number">0</span>)<span class="comment">;</span>
+						}
+					}
+				}
+			}
+
+		}
+	}
+	cout&lt;&lt;<span class="string">"There are "</span>&lt;&lt;s&lt;&lt;<span class="string">" ships."</span>&lt;&lt;endl<span class="comment">;</span>
+	return <span class="number">0</span><span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 3 ms, mem = 4484 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 4476 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 4484 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 7 ms, mem = 4860 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 4488 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 4488 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 390 ms, mem = 4480 KiB, score = 10</li>
+<li>Accepted, time = 415 ms, mem = 4860 KiB, score = 100</li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/模拟/" term="模拟"/>
+    <category scheme="http://shuenhoy.com/tags/动态规划/" term="动态规划"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[摆花问题存档]]></title>
+    <link href="http://shuenhoy.com/2013/08/07/08-07cundang/"/>
+    <id>http://shuenhoy.com/2013/08/07/08-07cundang/</id>
+    <published>2013-08-07T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<h3>代码</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">n</span>;
+<span class="title">int</span> <span class="title">m</span>;
+<span class="title">int</span> <span class="title">f</span>[1001][1001]={</span><span class="number">0</span>};
+<span class="keyword">int</span> a[<span class="number">1001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> main()
+{
+
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)  cin&gt;&gt;a[i];
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= a[<span class="number">1</span>]; ++i)	f[<span class="number">1</span>][i]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i){
+		f[i][<span class="number">0</span>]=<span class="number">1</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= m; ++j)
+			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt;= a[i]; ++k)
+				if(j-k&gt;=<span class="number">0</span>)
+					f[i][j]=(f[i][j]+f[i-<span class="number">1</span>][j-k])%<span class="number">1000007</span>;
+	}
+	
+	cout&lt;&lt;f[n][m]&lt;&lt;endl;
+	system(<span class="string">"pause"</span>);
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<h3>分析</h3>
+<p>f[i][j] 代表将 i 种花放在 j 个花瓶中的最大方案数</p>
+<pre><code>f[i][j]={ 1 若 j=0(即无空间） 或 i=0 且 0<span class="tag">&lt;<span class="title">=j&lt;=a[1]</span> (即只有一种花）  
+        { Σ <span class="attribute">f</span>[<span class="attribute">i-1</span>][<span class="attribute">j-k</span>] 选择<span class="attribute">k</span>中花的情况之和</code></pre>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/动态规划/" term="动态规划"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[8月6日存档]]></title>
+    <link href="http://shuenhoy.com/2013/08/06/08-06-NOIP存档/"/>
+    <id>http://shuenhoy.com/2013/08/06/08-06-NOIP存档/</id>
+    <published>2013-08-06T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<hr>
+<h3>P1025 小飞侠的游园方案</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">T</span>;
+<span class="title">int</span> <span class="title">l</span>[100];
+<span class="title">int</span> <span class="title">t</span>[100];
+<span class="title">int</span> <span class="title">f</span>[100][1001]={</span><span class="number">0</span>};
+<span class="preprocessor">#define MAX(x,y) ((x)&gt;(y)?(x):(y))</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+  cin&gt;&gt;N&gt;&gt;T;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)	{
+		cin&gt;&gt;l[i]&gt;&gt;t[i];
+	}
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;T;i++){
+		if(t[<span class="number">0</span>]&lt;=i)
+			f[<span class="number">0</span>][i]=l[<span class="number">0</span>];
+		<span class="keyword">else</span>
+			f[<span class="number">0</span>][i]=<span class="number">0</span>;
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= T; ++j)
+		{
+			if(j-t[i]&gt;=<span class="number">0</span>){
+				f[i][j]=MAX(f[i-<span class="number">1</span>][j],f[i-<span class="number">1</span>][j-t[i]]+l[i]);	
+			}<span class="keyword">else</span>{
+				f[i][j]=f[i-<span class="number">1</span>][j];
+			}
+		}
+	}
+	cout&lt;&lt;f[N-<span class="number">1</span>][T]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 15 ms, mem = 864 KiB, score = 100</p>
+<h3>P1028 魔族密码</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstring"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">ans</span>;
+<span class="title">char</span> <span class="title">strs</span>[2000][76]={</span><span class="number">0</span>};
+<span class="keyword">int</span> f[<span class="number">2000</span>]={<span class="number">0</span>};
+<span class="preprocessor">#define MAX(x,y) ((x)&gt;(y)?(x):(y))</span>
+<span class="keyword">bool</span> check(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strlen(strs[a]); ++i){
+		if(strs[a][i]!=strs[b][i]) <span class="keyword">return</span> <span class="literal">false</span>;
+	}
+	<span class="keyword">return</span> <span class="literal">true</span>;
+}
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+	cin&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		cin&gt;&gt;strs[i];
+	}
+	f[N-<span class="number">1</span>]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = N-<span class="number">2</span>; i &gt; -<span class="number">1</span> ; --i){
+		<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;N;j++){
+			if(check(i,j)){
+				f[i]=MAX(f[i],<span class="number">1</span>+f[j]);
+			}
+		}
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		ans=MAX(ans,f[i]);
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 15 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 109 ms, mem = 716 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 139 ms, mem = 716 KiB, score = 100</p>
+<h3>P1113 不高兴的津津</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">C</span>[7],<span class="title">n</span>=0;
+<span class="title">int</span> <span class="title">main</span>(<span class="title">int</span> <span class="title">argc</span>, <span class="title">char</span> <span class="title">const</span> *<span class="title">argv</span>[])
+{</span>
+    <span class="keyword">int</span> max=<span class="number">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">7</span>; ++i)
+	{
+		<span class="keyword">int</span> a,b;
+		cin&gt;&gt;a&gt;&gt;b;
+		C[i]=a+b;
+		if(C[i]&gt;max){
+			max=C[i];
+			n=i;
+		}
+	}
+	if(max&gt;<span class="number">8</span>){
+		cout&lt;&lt;n+<span class="number">1</span>;
+	}<span class="keyword">else</span>{
+		cout&lt;&lt;<span class="number">0</span>;
+	}
+	cout&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 15 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 15 ms, mem = 560 KiB, score = 100</p>
+<h3>P1103 校门外的树</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> d[<span class="number">101</span>][<span class="number">2</span>]={<span class="number">0</span>},m=<span class="number">0</span>,k[<span class="number">101</span>][<span class="number">2</span>],L,M,ans;
+<span class="keyword">inline</span> <span class="keyword">bool</span> chec2k(<span class="keyword">int</span> i,<span class="keyword">int</span> j){
+  <span class="keyword">return</span>  d[i][<span class="number">0</span>]&gt;=d[j][<span class="number">0</span>] && d[i][<span class="number">0</span>]&lt;=d[j][<span class="number">1</span>] ||
+			d[j][<span class="number">0</span>]&gt;=d[i][<span class="number">0</span>] && d[j][<span class="number">0</span>]&lt;=d[i][<span class="number">1</span>];
+}
+
+<span class="keyword">bool</span> check(<span class="keyword">int</span> a){
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; ++i)
+	{
+		<span class="keyword">if</span>(a&gt;=d[i][<span class="number">0</span>]&&a&lt;=d[i][<span class="number">1</span>]) <span class="keyword">return</span> <span class="keyword">true</span>;
+	}
+	<span class="keyword">return</span> <span class="keyword">false</span>;
+}
+<span class="keyword">int</span> main(){
+	<span class="built_in">cin</span>&gt;&gt;L&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; ++i)
+	{
+		<span class="built_in">cin</span>&gt;&gt;d[i][<span class="number">0</span>]&gt;&gt;d[i][<span class="number">1</span>];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L; ++i)
+	{
+		<span class="keyword">if</span>(check(i)) {ans++;<span class="keyword">continue</span>;}
+	}
+	<span class="built_in">cout</span>&lt;&lt;L-ans+<span class="number">1</span>&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: WrongAnswer, time = 0 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #1: WrongAnswer, time = 15 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #2: WrongAnswer, time = 0 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 3 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 568 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 7 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+</ul>
+<p>WrongAnswer, time = 40 ms, mem = 568 KiB, score = 70</p>
+<h3>P1104 采药</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#define MAX(a,b) ((a)&gt;(b)?(a):(b))</span>
+<span class="keyword">int</span> N,T,f[<span class="number">101</span>][<span class="number">1001</span>]={<span class="number">0</span>},t[<span class="number">101</span>]={<span class="number">0</span>},v[<span class="number">101</span>]={<span class="number">0</span>};
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">main</span>(<span class="title">int</span> <span class="title">argc</span>, <span class="title">char</span> <span class="title">const</span> *<span class="title">argv</span>[])
+{</span>
+  cin&gt;&gt;T&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)
+	{
+		cin&gt;&gt;t[i]&gt;&gt;v[i];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= T; ++i)
+	{
+		if(t[<span class="number">0</span>]&lt;=i){
+			f[<span class="number">0</span>][i]=v[<span class="number">0</span>];	
+		} <span class="keyword">else</span> {
+			f[<span class="number">0</span>][i]=<span class="number">0</span>;
+		}
+		
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= T; ++j)
+		{
+			if(j-t[i]&gt;=<span class="number">0</span>){
+				f[i][j]=MAX(f[i-<span class="number">1</span>][j],f[i-<span class="number">1</span>][j-t[i]]+v[i]);
+			}<span class="keyword">else</span>{
+				f[i][j]=f[i-<span class="number">1</span>][j];
+			}
+			
+		}
+	}
+	cout&lt;&lt;f[N-<span class="number">1</span>][T]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 15 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 15 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 60 ms, mem = 872 KiB, score = 100</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/背包问题/" term="背包问题"/>
+    <category scheme="http://shuenhoy.com/tags/动态规划/" term="动态规划"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[NOIP存档]]></title>
+    <link href="http://shuenhoy.com/2013/08/05/虫食算/"/>
+    <id>http://shuenhoy.com/2013/08/05/虫食算/</id>
+    <published>2013-08-05T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<h3>虫食算</h3>
+<p><a href="https://vijos.org/p/1099" target="_blank">https://vijos.org/p/1099</a></p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "cstdio"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> n;
+<span class="keyword">char</span> a[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">char</span> b[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">char</span> c[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> <span class="built_in">map</span>[<span class="number">255</span>]={<span class="number">0</span>};
+<span class="keyword">bool</span> used[<span class="number">28</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> eee;
+<span class="keyword">void</span> dfs(<span class="keyword">char</span> ch,<span class="keyword">int</span> N){
+	<span class="built_in">map</span>[ch]=N;
+	<span class="keyword">if</span>(ch-<span class="string">'A'</span>+<span class="number">1</span>==n){
+		<span class="keyword">int</span> A=<span class="number">0</span>,B=<span class="number">0</span>,C=<span class="number">0</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)	{
+			A=A*n+<span class="built_in">map</span>[a[i]];
+			B=B*n+<span class="built_in">map</span>[b[i]];
+			C=C*n+<span class="built_in">map</span>[c[i]];
+		}
+
+		<span class="keyword">if</span>(A+B==C){
+			<span class="keyword">int</span> i; <span class="keyword">char</span> end=<span class="string">'A'</span>+n-<span class="number">1</span>;
+			<span class="keyword">for</span> ( i= <span class="string">'A'</span>; i &lt; end; ++i)	{
+				<span class="built_in">cout</span>&lt;&lt;<span class="built_in">map</span>[i]&lt;&lt;<span class="string">" "</span>;
+			}
+			<span class="built_in">cout</span>&lt;&lt;<span class="built_in">map</span>[i]&lt;&lt;endl;
+			exit(<span class="number">0</span>);
+		}
+        <span class="keyword">return</span>;
+	}
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=eee;i&gt;-<span class="number">1</span>;--i){
+		<span class="keyword">if</span>(!used[i]){
+			used[i]=<span class="keyword">true</span>;
+			dfs(ch+<span class="number">1</span>,i);	
+			used[i]=<span class="keyword">false</span>;
+		}
+	}
+}
+
+
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+	<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+	eee=n-<span class="number">1</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=eee;i&gt;-<span class="number">1</span>;--i){
+		used[i]=<span class="keyword">true</span>;
+		dfs(<span class="string">'A'</span>,i);	
+		used[i]=<span class="keyword">false</span>;
+	}
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 468 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 468 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 93 ms, mem = 472 KiB, score = 10</li>
+<li>测试数据 #4: TimeLimitExceeded, time = 1015 ms, mem = 456 KiB, score = 0</li>
+<li>测试数据 #5: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #6: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #7: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #8: TimeLimitExceeded, time = 1015 ms, mem = 452 KiB, score = 0</li>
+<li>测试数据 #9: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>TimeLimitExceeded, time = 7198 ms, mem = 472 KiB, score = 30</li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/搜索/" term="搜索"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[存档无限串]]></title>
+    <link href="http://shuenhoy.com/2013/08/04/存档无限串/"/>
+    <id>http://shuenhoy.com/2013/08/04/存档无限串/</id>
+    <published>2013-08-04T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<hr>
+<p><strong> Shuenhoy  15:17:50 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>0<span class="tag">&lt;<span class="title">=i&lt;10</span>          <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-0)*1+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>        <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-10)*2+10</span> 
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>      <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-100)*3+180</span>
+<span class="attribute">1000</span>&lt;=<span class="value">i&lt;10000</span>    <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-1000)*4+2890</span>
+</pre></td></tr></table></figure>
+
+<p>设 w(x) 表示 x 的位数则</p>
+<p><strong> 约修亚 _RK  15:18:17 </strong><br>= =<br>啊喂</p>
+<p><strong> Shuenhoy  15:18:52 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>0<span class="tag">&lt;<span class="title">=i&lt;10</span>          <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-0)*w(i)+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>        <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-10)*w(i)+10</span> 
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>      <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-100)*w(i)+180</span>
+<span class="attribute">1000</span>&lt;=<span class="value">i&lt;10000</span>    <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-1000)*w(i)+2890</span>
+应该是这样的
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:22:10 </strong><br>= =<br>你凌乱了吧</p>
+<p><strong> Shuenhoy  15:22:37 </strong><br>可以看到后面的 0 10 180 2890 就是比他位数少的最大的数  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="function"><span class="title">d</span><span class="params">(i)</span>={0    <span class="title">i</span>==0
+     {10^<span class="title">i</span> <span class="title">i</span>!=0
+</pre></td></tr></table></figure>
+
+<p>所以</p>
+<p><strong> 约修亚 _RK  15:23:32 </strong><br>- -<br>- </p>
+<p><strong> Shuenhoy  15:24:20 </strong> </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="title">f</span><span class="params">(i)</span>=<span class="params">(i-<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>*<span class="title">w</span><span class="params">(i)</span>+<span class="title">f</span><span class="params">(<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:24:23 </strong><br>。</p>
+<p><strong> Shuenhoy  15:24:31 </strong><br>这就是最后的式子</p>
+<p><strong> 约修亚 _RK  15:24:32 </strong><br>= =<br>w(i)=?</p>
+<p><strong> Shuenhoy  15:24:55 </strong><br>最后就是  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="function"><span class="title">f</span><span class="params">(<span class="number">0</span>)</span>=0
+<span class="title">f</span><span class="params">(i)</span>=<span class="params">(i-<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>*<span class="title">w</span><span class="params">(i)</span>+<span class="title">f</span><span class="params">(<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>
+</pre></td></tr></table></figure>
+
+<p><strong> Shuenhoy  15:25:11 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="function"><span class="title">d</span><span class="params">(i)</span>={0    <span class="title">i</span>==0
+     {10^<span class="title">i</span> <span class="title">i</span>!=0
+
+<span class="title">w</span><span class="params">(i)</span>={<span class="title">w</span><span class="params">(i/<span class="number">10</span>)</span>+1 <span class="title">i</span>&lt;10
+     {1 <span class="title">i</span>&gt;=10
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:25:52 </strong><br>设 w(x) 表示 x 的位数<br>.<br><strong> Shuenhoy  15:26:13 </strong><br>现在 RK 来化简 f(i)=(i-d(w(i)-1))*w(i)+f(d(w(i)-1)) 吧</p>
+<p><strong> 约修亚 _RK  15:26:16 </strong><br>= == = = == =<br>这玩意儿看着头痛<br>浩然有个很欠扁的问题  </p>
+<p>你特么是玩哪样啊</p>
+<p><strong> 约修亚 _RK  15:27:18 </strong><br>我看到这个 Data 瞬间凌乱</p>
+<p><strong> Shuenhoy  15:27:21 </strong><br>- -<br>但是现在还有一个很严重的问题<br>就是我应该根据 j 求 i 而不是根据 i 求 j  </p>
+<p><strong> 约修亚 _RK  15:28:13 </strong><br>=<br>我对 i 没好感<br>（↑你吐什么槽啊）<br><strong> Shuenhoy  15:31:46 </strong><br>= =<br>RK 帮我找个地方存个档  </p>
+<p><strong> Shuenhoy  15:36:13 </strong><br>我知道哪有问题了<br>原来是这样分析的  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>190=(100-10)*2+10-1
+0 <span class="tag">&lt;<span class="title">=i&lt;10</span>     <span class="attribute">i</span>=<span class="value">(j-0)*1+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>    <span class="attribute">i</span>=<span class="value">(j-10)*2+10</span> 
+    <span class="attribute">i</span>%<span class="attribute">2</span>=<span class="value">=0</span>    <span class="attribute">j</span>=<span class="value">i</span>/<span class="attribute">2</span>+<span class="attribute">10-10</span>/<span class="attribute">2-1</span>
+    <span class="attribute">i</span>%<span class="attribute">2</span>!=<span class="value">0</span>    <span class="attribute">j</span>=<span class="value">(i-1)</span>/<span class="attribute">2</span>+<span class="attribute">10-10</span>/<span class="attribute">2-1</span>
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>  <span class="attribute">i</span>=<span class="value">(j-100)*3+180</span>
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:37:05 </strong><br>-　-<br>浩然  </p>
+<p><strong> Shuenhoy  15:37:25 </strong><br>问题就在于我假定了 100&lt;=i&lt;=1000 </p>
+<p><strong> 约修亚 _RK  15:37:27 </strong><br>＝　＝</p>
+<p><strong> Shuenhoy  15:37:34 </strong><br>也就是知道了 i 的位数</p>
+<p><strong> 约修亚 _RK  15:37:40 </strong><br>＝　＝<br>浩然<br>如果是我我就全部删掉换条路重来了 0 0  </p>
+<p><strong> Shuenhoy  15:38:14 </strong><br>无线序列怎么换 = =</p>
+<p><strong> 约修亚 _RK  15:38:39 </strong><br>首先问题就是知道要求第几位<br>然后求出第几位<br>然后我们可以倒着算或者正着一个数一个数遍历过去<br>反正后者是很傻的  </p>
+<p><strong> Shuenhoy  15:39:40 </strong><br>无限序列遍历个毛线</p>
+<p><strong> 约修亚 _RK  15:39:50 </strong><br>这样我们要想知道这个数在哪个区间<br>先</p>
+<p><strong> Shuenhoy  15:40:36 </strong><br>一个必要的条件是我得知道结果的位数 </p>
+<p><strong> 约修亚 _RK  15:40:42 </strong><br>0 0 怎么知道这个数在哪个区间? 这个数所在的数是几位的？</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre>f={}
+t={}
+<span class="function"><span class="keyword">function</span> <span class="title">int</span><span class="params">(x)</span></span>
+<span class="keyword">if</span> x &lt;= <span class="number">0</span> <span class="keyword">then</span>
+   <span class="keyword">return</span> <span class="built_in">math</span>.ceil(x);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> <span class="built_in">math</span>.ceil(x) == x <span class="keyword">then</span>
+   x = <span class="built_in">math</span>.ceil(x);
+<span class="keyword">else</span>
+   x = <span class="built_in">math</span>.ceil(x) - <span class="number">1</span>;
+<span class="keyword">end</span>
+<span class="keyword">return</span> x;
+<span class="keyword">end</span>
+<span class="keyword">local</span> index=<span class="number">1</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">fnum</span><span class="params">( i )</span></span>
+	<span class="keyword">local</span> c={}
+	<span class="keyword">while</span>(i&gt;<span class="number">0</span>) <span class="keyword">do</span>
+		<span class="built_in">table</span>.insert(c,i%<span class="number">10</span>)
+		i=int(i/<span class="number">10</span>);
+	<span class="keyword">end</span>
+	<span class="keyword">for</span> i=#c,<span class="number">1</span>,-<span class="number">1</span> <span class="keyword">do</span>
+		<span class="built_in">table</span>.insert(f,c[i])
+		<span class="built_in">table</span>.insert(t,index)
+		index=index+<span class="number">1</span>
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">for</span> i=<span class="number">1</span>,<span class="number">1000</span> <span class="keyword">do</span>
+	fnum(i)
+<span class="keyword">end</span>
+<span class="built_in">print</span>(<span class="built_in">table</span>.concat( f, <span class="string">" "</span>))
+
+<span class="built_in">print</span>(<span class="built_in">table</span>.concat( t, <span class="string">" "</span>))
+</pre></td></tr></table></figure>
+
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[NOIP莱州队需要你！]]></title>
+    <link href="http://shuenhoy.com/2013/08/02/2013-08-02-noip-laizhou-team/"/>
+    <id>http://shuenhoy.com/2013/08/02/2013-08-02-noip-laizhou-team/</id>
+    <published>2013-08-02T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://ww2.sinaimg.cn/large/c4370c69gw1e78fv1m6d7j209c0ciq3m.jpg" alt=""></p>
+<p>同学们，NOIP 莱州队 招人啦！</p>
+<h3>什么是 NOIP？</h3>
+<blockquote>
+<p>全国青少年信息学奥林匹克联赛（National Olympiad in Informatics in Provinces，简称 NOIP）自 1995 年至今已举办 18 次。每年由中国计算机学会统一组织。 NOIP 在同一时间、不同地点以各省市为单位由特派员组织。全国统一大纲、统一试卷。初、高中或其他中等专业学校的学生可报名参加联赛。联赛分初赛和复赛两个阶段。初赛考察通用和实用的计算机科学知识，以笔试为主。复赛为程序设计，须在计算机上调试完成。参加初赛者须达到一定分数线后才有资格参加复赛。联赛分普及组和提高组两个组别，难度不同，分别面向初中和高中阶段的学生。</p>
+</blockquote>
+<h3>不会电脑编程？</h3>
+<p>没关系！只要你有心，热爱计算机即可学习！<br>我们有最优秀的老师，可敬的学哥学姐帮助你们越过门槛。<br>在一中更可享受专用时间，学习，熟练。<br>每年暑假的 OI 夏令营更有 <strong>自幼爱好书法</strong> 的王建德 <strong>王子昱</strong> 等专业讲师为你讲课！</p>
+<h3>为什么要参加？</h3>
+<p>参与 NOIP 比赛还可获得高考加分福利，获得各大知名名校自主招生权利。<br>获得全国赛奖项更可保送国内知名大学！<br>我们郑重承诺：多年来 NOIP 莱州队一直保持着初赛<strong>100% 通过率，复赛 100% 得奖率！</strong><br>还在等什么？机会等着你！</p>
+<h3>所以怎么参加？</h3>
+<p>时间：2014 年暑假（初四升高一）。</p>
+<p>要求：不会破坏秩序，乐于学习，在莱州境内</p>
+<p>名额有限报名越早机会越多！</p>
+<p>有意者请使用 QQ: 178459973 或者 email : shuenhoy@gmail.com 联系，并进一步商议</p>
+<p>——来自 NOIP 莱州队 <em>宣传部</em></p>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[测试]]></title>
+    <link href="http://shuenhoy.com/2013/08/02/测试/"/>
+    <id>http://shuenhoy.com/2013/08/02/测试/</id>
+    <published>2013-08-02T00:00:00.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<h2>A New Post</h2>
+<p>Enter text in <a href="http://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>. Use the toolbar above, or click the <strong>?</strong> button for formatting help.</p>
+<p>Post by Prose &amp; Ci</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[1道NOIP题-开心的金明]]></title>
+    <link href="http://shuenhoy.com/2013/05/01/noip-problems-1/"/>
+    <id>http://shuenhoy.com/2013/05/01/noip-problems-1/</id>
+    <published>2013-05-01T14:07:05.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>以后每个周都要做 NOIP 题或者在这里记录, 先放 1 道 开心的金明</p>
+<p><strong>注意! 这里纯粹是我自己记录的, 被误导了概不负责</strong></p>
+<a id="more"></a>
+
+<h3>开心的金明</h3>
+<p>题目描述:</p>
+<blockquote>
+<p>金明今天很开心，家里购置的新房就要领钥匙了，新房里有一间他自己专用的很宽敞的房间。<br>更让他高兴的是，妈妈昨天对他说：“你的房间需要购买哪些物品，怎么布置，你说了算，只要不超过 N 元钱就行”。<br>今天一早金明就开始做预算，但是他想买的东西太多了，肯定会超过妈妈限定的 N 元。<br>于是，他把每件物品规定了一个重要度，分为 5 等：用整数 1~5 表示，第 5 等最重要。<br>他还从因特网上查到了每件物品的价格（都是整数元）。他希望在不超过 N 元（可以等于 N 元）的前提下，<br>使每件物品的价格与重要度的乘积的总和最大。设第 j 件物品的价格为 v[j]，重要度为 w[j]，共选中了 k 件物品，<br>编号依次为 j1…jk，则所求的总和为：v[j1]<em>w[j1]+..+v[jk]</em>w[jk] 请你帮助金明设计一个满足要求的购物单.</p>
+<p><strong>输入格式</strong></p>
+<p>输入的第 1 行，为两个正整数，用一个空格隔开：<br>N m<br>（其中 N（&lt;30000）表示总钱数，m(&lt;25) 为希望购买物品的个数。）<br>从第 2 行到第 m+1 行，第 j 行给出了编号为 j-1 的物品的基本数据，<br>每行有 2 个非负整数 v p（其中 v 表示该物品的价格（v≤10000），p 表示该物品的重要度（1~5））</p>
+<p><strong>输出格式</strong></p>
+<p>输出只有一个正整数，为不超过总钱数的物品的价格与重要度乘积的总和的<br>最大值（&lt;100000000）</p>
+</blockquote>
+<p>据说这是一个叫做 0/1 背包问题的诡异玩意</p>
+<p>也就是说有一大堆东西, 每个都有一定的价值和重量, 同时你有一个有限容量的包, 要求是使价值最大. 在这里价值就是重要度 * 价格, 重量就是价格, 容量就是总钱数</p>
+<p>现在所有所有的物品的重量和价值分别被仍在了 P 和 I 两个数组中, 我们设 W(n,N) 表示将数组的 0 到 n 这些物品放入容量为 N 的最大收益, 我们可以知道如果 N&lt;=0, 即这些没法装, 这是 W(n,N)=0</p>
+<p>如果 N&gt;0, 就是可以装的下, 分为两种情况, 就是装第 n 个或不装. 装的时候就是就是第 n 的价格加上到第 n-1 个物品扔到 N- 第 n 个的重量, 即 W1=P[n]+(n,N-V[n]), 否则是不装,W2=W(n,N), 两者中大的即是结果</p>
+<p>说了一大堆发现我说不太明白, 上代码吧 = =</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+</pre></td><td class="code"><pre><span class="preprocessor">#include&lt;cstdio&gt;</span>
+<span class="preprocessor">#include&lt;algorithm&gt;</span>
+<span class="preprocessor">#include&lt;functional&gt;</span>
+<span class="preprocessor">#include&lt;iostream&gt;</span>
+
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">const</span> <span class="title">int</span> <span class="title">MAX</span>=25;
+<span class="title">inline</span> <span class="title">int</span> <span class="title">Max</span>(<span class="title">int</span> <span class="title">a</span>,<span class="title">int</span> <span class="title">b</span>){</span>
+    <span class="keyword">return</span> a&gt;b?a:b;
+}
+
+<span class="keyword">int</span> m;
+
+<span class="keyword">int</span> P[MAX]={<span class="number">0</span>}; <span class="comment">// 价值 </span>
+
+<span class="keyword">int</span> V[MAX]={<span class="number">0</span>}; 
+<span class="keyword">int</span> C[MAX][<span class="number">30000</span>]={ { -<span class="number">1</span>, -<span class="number">1</span> } };
+<span class="keyword">int</span> work(<span class="keyword">int</span> n,<span class="keyword">int</span> N){
+    if(n==<span class="number">0</span> || N&lt;=<span class="number">0</span>){
+        C[n][N]=<span class="number">0</span>;
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+    if(C[n][N]!=-<span class="number">1</span>){
+        
+        <span class="keyword">return</span> C[n][N];
+    }
+    <span class="keyword">int</span> i=n-<span class="number">1</span>;
+    if(V[i]&gt;N){
+        C[n][N]= work(i,N);
+    } <span class="keyword">else</span> {
+        <span class="keyword">int</span> tmp1=work(i,N);
+        
+        <span class="keyword">int</span> tmp2=P[i]+work(i,N-V[i]);
+        
+        C[n][N]= Max(tmp1,tmp2);
+    }
+    <span class="keyword">return</span> C[n][N];
+    
+    
+}
+<span class="keyword">int</span> main(){
+    <span class="keyword">int</span> N;
+   
+    scanf(<span class="string">"%d %d"</span>,&N,&m);
+    
+    
+    
+    <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;m;i++){
+        
+        scanf(<span class="string">"%d %d"</span>,V+i,P+i);
+
+        P[i]*=V[i];
+    }
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;i++){
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=N;j++){
+            C[i][j]=-<span class="number">1</span>;
+        }
+    }
+    printf(<span class="string">"%d\n"</span>,work(m,N));
+    system(<span class="string">"pause"</span>);
+    <span class="keyword">return</span> <span class="number">0</span>;   
+}
+</pre></td></tr></table></figure>
+
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/背包问题/" term="背包问题"/>
+    <category scheme="http://shuenhoy.com/categories/NOIP/" term="NOIP"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[换了新的博客系统]]></title>
+    <link href="http://shuenhoy.com/2013/04/29/new-blog-system/"/>
+    <id>http://shuenhoy.com/2013/04/29/new-blog-system/</id>
+    <published>2013-04-29T14:07:05.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>好吧我承认我又折腾了, 前面刚换的 hexo. 前几天我看到了<a href="http://sneezry.com/#!/2013/04/09/ 在 GitHub 上按前端的方式舒服地写博客 " target="_blank">这篇文章</a>. 我本来就像做一个类似的前端的博客, 看到有人做了也 clone 下来玩了一下, 不过不太明白怎么用的 = = 然后我最后就蛋疼的造了个轮子 = = 也就是你现在看到的这个</p>
+<p>现在除了文章和页面什么功能也没有 = = 而且还不支持 IE6/7/8/9= =IE10 好像支持的样子 = = 而且访问速度比较慢不知道是不是 GithubAPI 的问题</p>
+<p>暂时就这样, 等有空扔到 github 上:)</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于这个周(4月14日)]]></title>
+    <link href="http://shuenhoy.com/2013/04/14/this-week-2/"/>
+    <id>http://shuenhoy.com/2013/04/14/this-week-2/</id>
+    <published>2013-04-14T19:24:45.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<ul>
+<li>这个周比较意外的星期五就回家了</li>
+<li>准备每天做一道 NOIP 题</li>
+<li>买了四本书 &lt; 算法导论 &gt; &lt; 编程珠玑 &gt; &lt; 黑客与画家 &gt; <C++Primer></li>
+<li>写了 2013 年 7-8 合刊的稿子</li>
+<li>重新启用番茄工作法</li>
+<li>最后时刻, 奇怪的 QQ 病毒</li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/生活杂事/" term="生活杂事"/>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[对博客做了一些更新]]></title>
+    <link href="http://shuenhoy.com/2013/04/12/some-update/"/>
+    <id>http://shuenhoy.com/2013/04/12/some-update/</id>
+    <published>2013-04-12T18:26:17.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>刚才花了一些时间修改了博客, 主要有</p>
+<ul>
+<li>更新了标签 / 分类地址<br>  如你所见,Github pages 不支持含有中文的 URL, 直接 404, 于是我就改了下 model.js, 直接翻译成拼音了 = =</li>
+<li>修改了 CSS <em>尚未完成</em></li>
+</ul>
+]]></content>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于这个周(4月6日)]]></title>
+    <link href="http://shuenhoy.com/2013/04/06/this-week-1/"/>
+    <id>http://shuenhoy.com/2013/04/06/this-week-1/</id>
+    <published>2013-04-06T13:16:44.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>这个周是清明节, 放了三天 = = 但是好像没有做出什么东西</p>
+<ul>
+<li>先是在泰拉瑞亚上浪费了 1 上午的时间</li>
+<li>然后又去研究 IO 语言耗了一下午 = =</li>
+<li>接着我做<em>**</em>用了一整天 = =</li>
+<li>又捣鼓博客废了很长时间</li>
+<li>今天下午应该会大部分用来写作业 = =</li>
+<li>给淀粉养成记实际开发了代码只有 20 几行 = =</li>
+</ul>
+<p>恩先这样吧 = = 最近效率很低, 下周要调整了</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/生活杂事/" term="生活杂事"/>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于「离线下载」与「高速通道」]]></title>
+    <link href="http://shuenhoy.com/2013/04/05/about-offline-download/"/>
+    <id>http://shuenhoy.com/2013/04/05/about-offline-download/</id>
+    <published>2013-04-05T07:50:56.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>本文只是闲来无事随意谈谈, 不提供破解版下载. 伸手党请绕道. 本文不接受任何提问<br>以上<a id="more"></a></p>
+<h1>历史</h1>
+<p>  自从迅雷做出「高速下载」与「离线下载」这两大功能起, 网友便开始与其斗智斗勇.</p>
+<p>  先是各中针对「离线下载」的「迅雷 VIP 账号获取器」, 一大堆崇高的 ** 主义的青少年自愿花钱购买迅雷 Vip 放在网上供人使用. 起初效果颇为不错, 大家都用上了离线下载, 仿佛世界一下子变得美好了很多.</p>
+<p>  可是, 迅雷马上回击「同一账号每天仅限 10 个 ip 登陆」. 最初并没有带来很大的影响, 但伟大的人类都知晓「获取器」以后便悲剧了. 人们互相被挤掉线, 直到 10 个 ip 被用尽, 便又在凌晨零点争第二天的名额. 哪怕只有几分钟, 或是几秒钟又会被挤掉, 如此循环,while(true).</p>
+<p>  由于第一种方法的失败, 机智勇敢的网友把目光投向了「高速下载」:</p>
+<blockquote>
+<p>虽然「高速下载」本身就是个坑爹的货, 但总比没有好吧.</p>
+</blockquote>
+<p>  伟大的 Hacker 们反编译或者注入——不论如何他们成功更改了迅雷客户端的行为——利用「试用高速通道」</p>
+<p>  新建任务, 试用高速通道,「剩余 1 分钟」,</p>
+<blockquote>
+<p>FK, 不是破解了吗怎么还有时间限制?</p>
+</blockquote>
+<p>  不对!「剩余 1 分钟」 「剩余 2 分钟」 ——「剩余 65536 分钟」. 似乎奏效了, 时间的递减变成了递增, 你再也没有看到可恶的「试用结束」</p>
+<p>  然而, 事情并没有如此简单——仔细观察,3 分钟后, 高速通道速度变成了 0kb/s. 这不是和没破解没区别么!</p>
+<p>  将目光投向世界的彼岸, 一阵旋风如期而至——新版的 QQ 旋风, 也加入了「离线下载」, 但腾讯比较厚道地提供了 90 天的试用期. 广大人民忘记了各种迅雷破解, 高兴地享受起他们合法的新生活, 尽管离线空间稍小. 但大家还是沉浸在这美好的世界里.</p>
+<p>  直到 3 个月以后, 试用期纷纷过期, 下载速度又回到了原来的龟速,. 腾讯再次厚道地说</p>
+<blockquote>
+<p>使劲下载吧! 等升到 8 级就可以永久免费用 25G 的啦, 看, 下载一个 2G 文件 xxx 分, 每天最多 xxx 分, 只要连续 50 天就可以升到 8 级了</p>
+</blockquote>
+<p>  FK, 天朝人民会这么做么?</p>
+<p>  于是……</p>
+<p>  于是我自己做了一个<em>**</em>, 不打算发出来, 主要是给我爸爸下高清电影用的, 以上, 吐槽完毕</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/下载/" term="下载"/>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[不想当美工的程序不是好音乐]]></title>
+    <link href="http://shuenhoy.com/2013/04/01/programmer-paint-music/"/>
+    <id>http://shuenhoy.com/2013/04/01/programmer-paint-music/</id>
+    <published>2013-04-01T14:07:05.000Z</published>
+    <updated>2013-11-10T13:11:56.000Z</updated>
+    <content type="html"><![CDATA[<p>有人说“不想当美工的程序不是好音乐”, 这句话果然不错<br>我最近很深刻的体会到了.</p>
+<p>我自己在课余时间一直专注于编程, 主要是自己做游戏,<br>大概也算是独立游戏制作者吧.</p>
+<p>以前都是用现成的图片和音乐等素材,<br>但果然还是应该使用正版的素材, 正如你所看到的我只是一个穷学生, 买不起正版素材, 那么开发游戏就只能自己制作了 = =</p>
+<p>我本人画画的能力很低的, 画出的图片基本没法看, 前几天在网上看到了<a href="http://gamerboom.com/archives/39884" target="_blank">这篇教材</a>. 我发现用 Inscape 画矢量图还是可以接受的, 就自己画起素材来了 = =</p>
+<p>音乐暂时还没有尝试, 但应该也是必然的吧 = =</p>
+<p>嗯现在在学校, 本文也是为了测试 Hexo 在学校是否成功. 所以我画的图回家不完</p>
+]]></content>
+    <category scheme="http://shuenhoy.com/tags/吐槽/" term="吐槽"/>
+    <category scheme="http://shuenhoy.com/categories/默认分类/" term="默认分类"/>
+  </entry>
+</feed>

@@ -1,0 +1,1971 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives: 2013 | Shuenhoy's Blog</title>
+  <meta name="author" content="Shuenhoy">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Shuenhoy's Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Shuenhoy's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=16049737" charset="UTF-8"></script>
+
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"shuenhoyblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+  
+  
+</head>
+
+
+<body>
+  <div id="maindiv">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Shuenhoy's Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/guestbook">留言本</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">RSS</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title">2013</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-09-15T10:36:08.000Z"><a href="/2013/09/15/lambda-for-lua/">Sep 15 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/09/15/lambda-for-lua/">Lua的Short Anonymous Function</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Lua 的 function 这个关键字有时候挺烦人的。比如我就想要个<code>f(a, b)=a+b</code>的函数就要写成</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(a,b)</span></span> <span class="keyword">return</span> a+b <span class="keyword">end</span>
+</pre></td></tr></table></figure>
+
+<p>于是在 boost::lambda 的启发下，我利用 lua 的重载运算符的特性做了一个“Short Anonymous Function” 我暂时把它狂妄地叫做 lambda 了，不过我也没有仔细研究过不知道能不能称得上 lambda。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2013/09/15/lambda-for-lua/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-31T00:00:00.000Z"><a href="/2013/08/31/为了一种新的生活方式/">Aug 31 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/31/为了一种新的生活方式/">为了一种新的生活</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>明天就是暑假的最后一天了, 今天在这里胡说八道一下。：）<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2013/08/31/为了一种新的生活方式/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-23T00:00:00.000Z"><a href="/2013/08/23/八数码问题/">Aug 23 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/23/八数码问题/">八数码问题</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="https://vijos.org/p/1360" target="_blank">https://vijos.org/p/1360</a></p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "map"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node{
+	<span class="keyword">int</span> n,d;
+};
+<span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+<span class="keyword">int</span> power10[<span class="number">10</span>]={<span class="number">0</span>,<span class="number">1</span>,<span class="number">10</span>,<span class="number">100</span>,<span class="number">1000</span>,<span class="number">10000</span>,<span class="number">100000</span>,<span class="number">1000000</span>,<span class="number">10000000</span>,<span class="number">100000000</span>};
+<span class="keyword">inline</span> <span class="keyword">int</span> geti(<span class="keyword">int</span> n,<span class="keyword">int</span> i){
+	<span class="keyword">return</span> n/power10[i]%<span class="number">10</span>;
+}
+<span class="keyword">inline</span> <span class="keyword">int</span> seti(<span class="keyword">int</span> n,<span class="keyword">int</span> i,<span class="keyword">int</span> v){
+	<span class="keyword">return</span> n-geti(n,i)*power10[i]-geti(n,v)*power10[v]+geti(n,v)*power10[i]+geti(n,i)*power10[v];
+}
+<span class="keyword">int</span> p[<span class="number">10</span>][<span class="number">5</span>]={<span class="number">0</span>},inp;
+
+<span class="stl_container"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">bool</span>&gt;</span> ma;
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="built_in">cin</span>&gt;&gt;inp;
+	p[<span class="number">1</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">1</span>][<span class="number">1</span>]=<span class="number">4</span>;
+	p[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">1</span>;p[<span class="number">2</span>][<span class="number">1</span>]=<span class="number">3</span>;p[<span class="number">2</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">3</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">3</span>][<span class="number">1</span>]=<span class="number">6</span>;
+	p[<span class="number">4</span>][<span class="number">0</span>]=<span class="number">1</span>;p[<span class="number">4</span>][<span class="number">1</span>]=<span class="number">7</span>;p[<span class="number">4</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">5</span>][<span class="number">0</span>]=<span class="number">2</span>;p[<span class="number">5</span>][<span class="number">1</span>]=<span class="number">4</span>;p[<span class="number">5</span>][<span class="number">2</span>]=<span class="number">6</span>;p[<span class="number">5</span>][<span class="number">3</span>]=<span class="number">8</span>;
+	p[<span class="number">6</span>][<span class="number">0</span>]=<span class="number">3</span>;p[<span class="number">6</span>][<span class="number">1</span>]=<span class="number">9</span>;p[<span class="number">6</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">7</span>][<span class="number">0</span>]=<span class="number">4</span>;p[<span class="number">7</span>][<span class="number">1</span>]=<span class="number">8</span>;
+	p[<span class="number">8</span>][<span class="number">0</span>]=<span class="number">9</span>;p[<span class="number">8</span>][<span class="number">1</span>]=<span class="number">7</span>;p[<span class="number">8</span>][<span class="number">2</span>]=<span class="number">5</span>;
+	p[<span class="number">9</span>][<span class="number">0</span>]=<span class="number">8</span>;p[<span class="number">9</span>][<span class="number">1</span>]=<span class="number">6</span>;
+	q.push((Node){inp,<span class="number">0</span>});
+	<span class="keyword">while</span>(!q.empty()){
+		Node t=q.front();q.pop();
+		<span class="keyword">if</span>(t.n==<span class="number">123804765</span>){
+			<span class="built_in">cout</span>&lt;&lt;t.d&lt;&lt;endl;
+			<span class="comment">//system("pause");</span>
+			exit(<span class="number">0</span>);
+		}
+		<span class="keyword">int</span> v=t.n;
+		<span class="keyword">int</span> i;
+		<span class="keyword">for</span> (i = <span class="number">1</span>; geti(t.n,i)!=<span class="number">0</span>; ++i);
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; ++j)
+			<span class="keyword">if</span>(p[<span class="number">9</span>-i+<span class="number">1</span>][j]!=<span class="number">0</span>){
+				<span class="keyword">int</span> ns=seti(t.n,i,p[i][j]);
+				<span class="keyword">if</span>(!ma[ns]){
+					ma[ns]=<span class="keyword">true</span>;
+					q.push((Node){ns,t.d+<span class="number">1</span>});	
+				}
+			}		
+	}
+}
+</pre></td></tr></table></figure>
+
+<p>先上代码，原理有空补</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-12T00:00:00.000Z"><a href="/2013/08/12/kruskal-最小生成树/">Aug 12 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/12/kruskal-最小生成树/">kruskal算法</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>代码镇楼</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "algorithm"</span>
+using namespace std;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+	<span class="keyword">bool</span> operator &lt;(<span class="keyword">const</span> Node &o) <span class="keyword">const</span>{
+		<span class="keyword">return</span> w&lt;o<span class="variable">.w</span>;
+	}
+};
+
+Node fli[<span class="number">10000</span>];
+<span class="keyword">int</span> father[<span class="number">10000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="keyword">int</span> find(<span class="keyword">int</span> x){
+	<span class="keyword">if</span>(father[x]==x) <span class="keyword">return</span> x;
+	father[x]=find(father[x]);
+	<span class="keyword">return</span> father[x];
+}
+<span class="keyword">void</span> Union(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+	father[find(a)]=find(father[b]);
+}
+<span class="preprocessor">#define MAX(a,b) (a)&lt;(b)?(b):(a)</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("ff.txt");</span>
+	cin&gt;&gt;N&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+		father[i]=i;
+
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= M; ++i)
+		cin&gt;&gt;fli[i]<span class="variable">.u</span>&gt;&gt;fli[i]<span class="variable">.v</span>&gt;&gt;fli[i]<span class="variable">.w</span>;
+	sort(fli,fli+M);
+	<span class="keyword">int</span> ans=<span class="number">0</span>;
+	<span class="keyword">int</span> ingraph=<span class="number">1</span>;
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">while</span>(ingraph&lt;N){
+		i++;
+		<span class="keyword">if</span>(find(fli[i]<span class="variable">.u</span>)!=find(fli[i]<span class="variable">.v</span>)){
+			ingraph++;
+			ans=MAX(ans,fli[i]<span class="variable">.w</span>);
+			Union(fli[i]<span class="variable">.u</span>,find(fli[i]<span class="variable">.v</span>));
+		}
+	}
+	cout&lt;&lt;N-<span class="number">1</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;ans;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2013/08/12/kruskal-最小生成树/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-12T00:00:00.000Z"><a href="/2013/08/12/SPFA最短路/">Aug 12 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/12/SPFA最短路/">SPFA</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天写某道难度 1 的最短路问题 (  <a href="https://vijos.org/p/1635" target="_blank">https://vijos.org/p/1635</a>  )  ，然后一开始用 Dijkstra 写写了半天发现一直很奇葩的只输出 0= = 于是一怒之下竟然删掉了代码重新用 SPFA 写。</p>
+<p>SPFA 就是要用一个队列，一开始起点放在队列里，如果队列空了就说明寻路完毕。然后不断取出队首元素，遍历与其相邻的结点，如果从对首结点到遍历到的结点距离之和加起来比遍历到的结点本身的距离小就替换。</p>
+<p>p.s. 自我感觉 SPFA 比 Dijkstra 要好理解到现在我也没弄明白 Dijkstara 是怎么回事 = =</p>
+<p>然后发现输出还是 0 = = == = = = =</p>
+<p>于是折腾了半个下午，最后发现原来竟然是输出的时候输出了 N 而不是 N-1 所以输出了 0.</p>
+<p>然后满心欢喜的去提交了测试，然后奇葩的发现不是超时就是错误啊啊啊啊</p>
+<p>程序附上求好心人解答：</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="code"><pre>
+<span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,c;
+};
+<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span> fklist[<span class="number">10000</span>];
+<span class="keyword">int</span> N;
+<span class="keyword">unsigned</span> <span class="keyword">int</span> D[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">bool</span> inq[<span class="number">100000</span>]={<span class="keyword">false</span>};
+<span class="keyword">int</span> prev[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	scanf(<span class="string">"%d"</span>,&N);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; ++j)
+		{
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a!=<span class="number">0</span>){
+				fklist[i].push_back((Node){i,j,a});
+				fklist[j].push_back((Node){j,i,a});
+			}
+		}
+		D[i]=INT_MAX;
+		prev[i]=-<span class="number">1</span>;
+	}
+	
+	D[<span class="number">0</span>]=<span class="number">0</span>;
+	q.push(<span class="number">0</span>);
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();inq[u]=<span class="keyword">false</span>;
+		<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span>::iterator i = fklist[u].begin(); i != fklist[u].end(); ++i){
+			<span class="keyword">if</span>(D[(*i).v]&gt;D[u]+(*i).c){
+				D[(*i).v]=D[u]+(*i).c;
+				prev[(*i).v]=u;
+				<span class="keyword">if</span>(!inq[(*i).v]){
+					q.push((*i).v);
+					inq[(*i).v]=<span class="keyword">true</span>;
+				}
+			}
+			
+		}
+	}
+	<span class="keyword">int</span> out[<span class="number">10000</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> j=<span class="number">0</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=N-<span class="number">1</span>;i!=-<span class="number">1</span>;i=prev[i],j++) out[j]=i+<span class="number">1</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=j-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) <span class="built_in">cout</span>&lt;&lt;out[i]&lt;&lt;<span class="string">" "</span>;
+	<span class="built_in">cout</span>&lt;&lt;endl&lt;&lt;D[N-<span class="number">1</span>]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<h1>8 月 14 日修正</h1>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+};
+<span class="keyword">unsigned</span> <span class="keyword">int</span> L[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span> fl[<span class="number">5001</span>];
+
+<span class="keyword">int</span> s,t;
+<span class="keyword">bool</span> inq[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> pa[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">int</span> bb;
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("cl.txt");</span>
+	<span class="built_in">cin</span>&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j &lt;= N; ++j){
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a){
+				fl[i].push_back((Node){i,j,a});
+				<span class="comment">//fl[j].push_back((Node){j,i,a});	</span>
+			}
+		}
+		
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		L[i]=INT_MAX;
+	}
+	
+	L[<span class="number">1</span>]=<span class="number">0</span>;
+
+	q.push(<span class="number">1</span>);
+	inq[<span class="number">1</span>]=<span class="keyword">true</span>;
+
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();
+
+		<span class="keyword">for</span>(<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span>::iterator it=fl[u].begin();it!=fl[u].end();++it){
+			<span class="keyword">int</span> v=(*it).v;
+			<span class="keyword">int</span> w=(*it).w;
+
+			<span class="keyword">if</span>(L[u]+w&lt;L[v] ){
+				L[v]=L[u]+w;
+				pa[v]=u;
+				<span class="keyword">if</span>(!inq[v]){
+					q.push(v);
+					inq[v]=<span class="keyword">true</span>;
+				}
+			}
+		}
+		inq[u]=<span class="keyword">false</span>;
+	}
+	<span class="keyword">int</span> ff[<span class="number">1001</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">int</span> f=N;
+	<span class="keyword">while</span>(f){
+		ff[i++]=f;
+		f=pa[f];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> j = i-<span class="number">1</span>; j &gt; <span class="number">0</span>; --j)
+	{
+		<span class="built_in">cout</span>&lt;&lt;ff[j]&lt;&lt;<span class="string">" "</span>;
+	}
+	<span class="built_in">cout</span>&lt;&lt;ff[<span class="number">0</span>]&lt;&lt;endl;
+	<span class="built_in">cout</span>&lt;&lt;L[N]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<p>这个题有个坑爹的地方就是是有向图所以昨天当做无向图就全错了 = =</p>
+<p>然后超时的问题直接用 scanf 代替 cin 解决了 = =</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-11T00:00:00.000Z"><a href="/2013/08/11/替换式密码小试/">Aug 11 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/11/替换式密码小试/">替换式密码小试</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <hr>
+<blockquote>
+<p>替换式密码，又名取代加密法 [1]，是密码学中按规律将文字加密的一种方式 [2]。替换式密码中可以用不同字母数为一单元，例如每一个或两个字母为一单元，然后再作加密。密文接收者解密时需用原加密方式解码才可取得原文本。由于拼音文字中字的组成为有限的字母，以英语为例只有 26 个字母，组成可能的单元数较少，因此使用替换式密码相对较为容易，而且亦可使用简单机械进行加密；相反，非拼音文字如中文则因单元数非常大难以使用一般加密方式，必需建立密码本，然后逐字替换。更何况某些非拼音文字中字字皆由不同大小的字根来组字，较难转换，因此使用替换式密码的示例比较少。</p>
+</blockquote>
+<p>——来自维基百科</p>
+<p>今天上午的 NOIP 题中奇葩的出现了这样的一道题 = = 竟然是完全自己翻译，于是一上午后整出一了个</p>
+<blockquote>
+<p>O Dmoee cy Npmz<br>A Glass of Milk<br>Cxu goa, o lccr vca kbc koe wrapxd wc loa bpe koa wbrctdb eibccm va eummpxd dccge gccr wc gccr yctxg wbow bu cxma bog cxu gpnu muyw. Bu koe btxdra ec bu guipgug wc vud ycr o nuom ow wbu xufw bcteu. </p>
+<p>Bckusur, bu mcew bpe xursu kbux o mcsuma actxd kcnox cluxug wbu gccr. Pxewuog cy o nuom bu oezug ycr o grpxz cy kowur. Ebu wbctdbw bu mcczug btxdra ec ebu vrctdbw bpn o mordu dmoee cy npmz. Bu groxz pw emckma, oxg wbux oezug, “Bck ntib gc P cku act?” </p>
+<p>“Act gcx&#39;w cku nu oxawbpxd,” ebu rulmpug. “Ncwbur boe wotdbw nu xusur wc oiiulw loa ycr o zpxgxuee.” Bu eopg, “Wbux P wboxz act yrcn wbu vcwwcn cy na buorw.” Oe Bckorg Zumma muyw wbow bcteu, bu xcw cxma yumw ewrcxdur lbaepiomma, vtw pw omec pxiruoeug bpe yopwb px Dcg oxg wbu btnox roiu. Bu koe ovctw wc dpsu tl oxg htpw vuycru wbpe lcpxw. </p>
+<p>Auore mowur wbu actxd kcnox vuionu irpwpiomma pmm. Wbu mciom gciwcre kuru voyymug. Wbua ypxomma euxw bur wc wbu vpd ipwa, kburu eluipompewe iox vu iommug px wc ewtga bur roru gpeuoeu. Gr. Bckorg Zumma, xck yoncte koe iommug px ycr wbu icxetmwowpcx. Kbux bu buorg wbu xonu cy wbu wckx ebu ionu yrcn, o ewroxdu mpdbw ypmmug bpe uaue. Pnnugpowuma, bu rceu oxg kuxw gckx wbrctdb wbu bcelpwom bomm pxwc bur rccn. </p>
+<p>Grueeug px bpe gciwcr&#39;e dckx bu kuxw px wc euu bur. Bu ruicdxpqug bur ow cxiu. Bu kuxw voiz wc wbu icxetmwowpcx rccn oxg guwurnpxug wc gc bpe vuew wc eosu bur mpyu. Yrcn wbow goa cx, bu dosu eluipom owwuxwpcx wc bur ioeu.</p>
+<p>Oywur o mcxd ewrtddmu, wbu vowwmu koe kcx. Gr. Zumma ruhtuewug wbu vtepxuee cyypiu wc loee wbu ypxom vpmm wc bpn ycr ollrcsom. Bu mcczug ow pw oxg wbux krcwu ecnuwbpxd cx wbu epgu. Wbu vpmm koe euxw wc bur rccn. Ebu koe oyropg wc clux pw vuioteu ebu koe lcepwpsu wbow pw kctmg wozu wbu ruew cy bur mpyu wc loa pw cyy. Ypxomma ebu mcczug, oxg wbu xcwu cx wbu epgu cy wbu vpmm iotdbw bur owwuxwpcx. Ebu ruog wbueu kcrge… </p>
+<p>“Lopg px ytmm kpwb o dmoee cy npmz.”<br>(Epdxug) Gr. Bckorg Zumma </p>
+<p>Wuore cy jca ymccgug bur uaue oe ebu lroaug epmuxwma: “Wboxz Act, Dcg. Actr mcsu boe elruog wbrctdb btnox buorwe oxg boxge.” </p>
+</blockquote>
+<p>通过分析得出的密码本：</p>
+<ul>
+<li>A - y</li>
+<li>B - h</li>
+<li>C - o</li>
+<li>D - g</li>
+<li>E - s</li>
+<li>F - x</li>
+<li>G - d</li>
+<li>H - Q</li>
+<li>I - c</li>
+<li>J - j</li>
+<li>K - w</li>
+<li>L - p</li>
+<li>M - l</li>
+<li>N - m</li>
+<li>O - a</li>
+<li>P - i</li>
+<li>Q - z</li>
+<li>R - r</li>
+<li>S - v</li>
+<li>T - u</li>
+<li>U - e</li>
+<li>V - b</li>
+<li>W - t</li>
+<li>X - n</li>
+<li>Y - f</li>
+<li>Z - k</li>
+</ul>
+<p>于是最后竟然是 A Glass Of Milk = = = =</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-10T00:00:00.000Z"><a href="/2013/08/10/2013-08-10-8-10/">Aug 10 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/10/2013-08-10-8-10/">8-10存档</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3>P1093 文科生的悲哀</h3>
+<pre><code><span class="comment">/*</span>
+                 <span class="comment">1</span>
+               <span class="comment">/</span>
+             <span class="comment">/</span>
+         <span class="comment">1</span> <span class="comment">3</span>
+       <span class="comment">/</span>         <span class="comment">4</span>
+     <span class="comment">/</span>
+<span class="comment">1</span> <span class="comment">3</span>  <span class="comment">\</span>     <span class="comment">2</span>     <span class="comment">4</span>
+       <span class="comment">\</span>  <span class="comment">/</span>
+         <span class="comment">4</span>
+          <span class="comment">\</span>
+           <span class="comment">3</span>     <span class="comment">4</span>
+                 <span class="comment">1</span>
+<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>
+<span class="comment">1</span> <span class="comment">1</span>      <span class="comment">2</span> <span class="comment">3</span>     <span class="comment">5</span>
+<span class="comment">*/</code></pre>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>=0;
+
+<span class="title">unsigned</span> <span class="title">long</span> <span class="title">long</span> <span class="title">f</span>[10001]={</span><span class="number">0</span>};
+
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	cin&gt;&gt;N;
+
+	f[<span class="number">1</span>]=<span class="number">1</span>;
+	f[<span class="number">2</span>]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">3</span>; i &lt;= N; ++i)
+	{
+		f[i]=(f[i-<span class="number">1</span>]+f[i-<span class="number">2</span>])%<span class="number">7654321</span>;
+	}
+	cout&lt;&lt;(f[N])&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 640 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 636 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 644 KiB, score = 10</li>
+<li>Accepted, time = 0 ms, mem = 644 KiB, score = 100</li>
+</ul>
+<h3>P1057 盖房子</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">M</span>;
+<span class="title">int</span> <span class="title">t</span>[1001][1001]={</span><span class="number">0</span>};
+<span class="keyword">int</span> f[<span class="number">1001</span>][<span class="number">1001</span>]={<span class="number">0</span>};
+
+<span class="preprocessor">#define MAX(a,b) ((a)&gt;(b)?(a):(b))</span>
+<span class="preprocessor">#define MIN(a,b,c) MIN2(a,MIN2(b,c))</span>
+<span class="preprocessor">#define MIN2(a,b) ((a)&lt;(b)?(a):(b))</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="keyword">int</span> max=<span class="number">0</span>;
+	cin&gt;&gt;N&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= M; ++j)
+		{
+			cin&gt;&gt;t[i][j];
+		}
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= M; ++j)
+		{
+			if(t[i][j]!=<span class="number">0</span>){
+				f[i][j]=MIN(f[i-<span class="number">1</span>][j-<span class="number">1</span>],f[i-<span class="number">1</span>][j],f[i][j-<span class="number">1</span>])+<span class="number">1</span>;
+	
+			}
+			max=MAX(max,f[i][j]);
+		}
+	}
+	cout&lt;&lt;max&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 15 ms, mem = 8304 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 15 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 15 ms, mem = 8304 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 15 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 8312 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 8308 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 31 ms, mem = 8304 KiB, score = 10</li>
+<li>Accepted, time = 121 ms, mem = 8312 KiB, score = 100</li>
+</ul>
+<h3>P1076 海战</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "limits.h"</span>
+using namespace <span class="keyword">std</span><span class="comment">;</span>
+int R,C,D[<span class="number">1001</span>][<span class="number">1001</span>]={<span class="number">0</span>},s<span class="comment">;</span>
+struct point
+{
+	point(){
+		<span class="built_in">x</span>=<span class="built_in">y</span>=<span class="number">0</span><span class="comment">;</span>
+	}
+	int <span class="built_in">x</span>,<span class="built_in">y</span><span class="comment">;</span>
+}<span class="comment">;</span>
+bool dfs(int <span class="built_in">x</span>,int <span class="built_in">y</span>,int p,point &l,point &r,point &t,point &b){
+	if(D[<span class="built_in">x</span>][<span class="built_in">y</span>]!=<span class="number">1</span>) return false<span class="comment">;</span>
+	
+	if(p==<span class="number">0</span>) s++<span class="comment">;</span>
+	D[<span class="built_in">x</span>][<span class="built_in">y</span>]=-<span class="number">1</span><span class="comment">;</span>
+	if(l<span class="preprocessor">.x</span>&gt;<span class="built_in">x</span>){
+		l<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+		l<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+	}
+	if(r<span class="preprocessor">.x</span>&lt;<span class="built_in">x</span>){
+		r<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+		r<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+	}
+	if(t<span class="preprocessor">.y</span>&gt;<span class="built_in">y</span>){
+		t<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+		t<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+	}
+	if(b<span class="preprocessor">.y</span>&lt;<span class="built_in">y</span>){
+		b<span class="preprocessor">.y</span>=<span class="built_in">y</span><span class="comment">;</span>
+		b<span class="preprocessor">.x</span>=<span class="built_in">x</span><span class="comment">;</span>
+	}
+	dfs(<span class="built_in">x</span>,<span class="built_in">y</span>-<span class="number">1</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>,<span class="built_in">y</span>+<span class="number">1</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>+<span class="number">1</span>,<span class="built_in">y</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	dfs(<span class="built_in">x</span>-<span class="number">1</span>,<span class="built_in">y</span>,<span class="number">1</span>,l,r,t,b)<span class="comment">;</span>
+	return true<span class="comment">;</span>
+}
+int main(int argc, char const *argv[])
+{
+	cin&gt;&gt;R&gt;&gt;C<span class="comment">;</span>
+	for (int i = <span class="number">1</span><span class="comment">; i &lt;= R; ++i)</span>
+	{
+		for (int j = <span class="number">1</span><span class="comment">; j &lt;= C; ++j)</span>
+		{
+			char c<span class="comment">;</span>
+			cin&gt;&gt;c<span class="comment">;</span>
+			D[i][j]=c==<span class="string">'.'</span>?<span class="number">0</span>:<span class="number">1</span><span class="comment">;</span>
+		}
+	}
+	for (int i = <span class="number">1</span><span class="comment">; i &lt;= R; ++i)</span>
+	{
+		for (int j = <span class="number">1</span><span class="comment">; j &lt;= C; ++j)</span>
+		{
+			point l,r,t,b<span class="comment">;</span>
+			l<span class="preprocessor">.x</span>=INT_MAX<span class="comment">;</span>
+			t<span class="preprocessor">.y</span>=INT_MAX<span class="comment">;</span>
+			r<span class="preprocessor">.x</span>=-<span class="number">1</span><span class="comment">;</span>
+			b<span class="preprocessor">.y</span>=-<span class="number">1</span><span class="comment">;</span>
+			bool bs=dfs(i,j,<span class="number">0</span>,l,r,t,b)<span class="comment">;</span>
+			if(bs){
+				for(int <span class="built_in">x</span>=l<span class="preprocessor">.x</span><span class="comment">;x&lt;=r.x;x++){</span>
+					for(int <span class="built_in">y</span>=t<span class="preprocessor">.y</span><span class="comment">;y&lt;=b.y;y++){</span>
+						if(D[<span class="built_in">x</span>][<span class="built_in">y</span>]!=-<span class="number">1</span>){
+							cout&lt;&lt;<span class="string">"Bad placement."</span>&lt;&lt;endl<span class="comment">;</span>
+							exit(<span class="number">0</span>)<span class="comment">;</span>
+						}
+					}
+				}
+			}
+
+		}
+	}
+	cout&lt;&lt;<span class="string">"There are "</span>&lt;&lt;s&lt;&lt;<span class="string">" ships."</span>&lt;&lt;endl<span class="comment">;</span>
+	return <span class="number">0</span><span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 3 ms, mem = 4484 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 4476 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 4484 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 7 ms, mem = 4860 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 4488 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 4488 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 4480 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 390 ms, mem = 4480 KiB, score = 10</li>
+<li>Accepted, time = 415 ms, mem = 4860 KiB, score = 100</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-07T00:00:00.000Z"><a href="/2013/08/07/08-07cundang/">Aug 7 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/07/08-07cundang/">摆花问题存档</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3>代码</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">n</span>;
+<span class="title">int</span> <span class="title">m</span>;
+<span class="title">int</span> <span class="title">f</span>[1001][1001]={</span><span class="number">0</span>};
+<span class="keyword">int</span> a[<span class="number">1001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> main()
+{
+
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)  cin&gt;&gt;a[i];
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= a[<span class="number">1</span>]; ++i)	f[<span class="number">1</span>][i]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i){
+		f[i][<span class="number">0</span>]=<span class="number">1</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= m; ++j)
+			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt;= a[i]; ++k)
+				if(j-k&gt;=<span class="number">0</span>)
+					f[i][j]=(f[i][j]+f[i-<span class="number">1</span>][j-k])%<span class="number">1000007</span>;
+	}
+	
+	cout&lt;&lt;f[n][m]&lt;&lt;endl;
+	system(<span class="string">"pause"</span>);
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<h3>分析</h3>
+<p>f[i][j] 代表将 i 种花放在 j 个花瓶中的最大方案数</p>
+<pre><code>f[i][j]={ 1 若 j=0(即无空间） 或 i=0 且 0<span class="tag">&lt;<span class="title">=j&lt;=a[1]</span> (即只有一种花）  
+        { Σ <span class="attribute">f</span>[<span class="attribute">i-1</span>][<span class="attribute">j-k</span>] 选择<span class="attribute">k</span>中花的情况之和</code></pre>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-06T00:00:00.000Z"><a href="/2013/08/06/08-06-NOIP存档/">Aug 6 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/06/08-06-NOIP存档/">8月6日存档</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <hr>
+<h3>P1025 小飞侠的游园方案</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">T</span>;
+<span class="title">int</span> <span class="title">l</span>[100];
+<span class="title">int</span> <span class="title">t</span>[100];
+<span class="title">int</span> <span class="title">f</span>[100][1001]={</span><span class="number">0</span>};
+<span class="preprocessor">#define MAX(x,y) ((x)&gt;(y)?(x):(y))</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+  cin&gt;&gt;N&gt;&gt;T;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)	{
+		cin&gt;&gt;l[i]&gt;&gt;t[i];
+	}
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;T;i++){
+		if(t[<span class="number">0</span>]&lt;=i)
+			f[<span class="number">0</span>][i]=l[<span class="number">0</span>];
+		<span class="keyword">else</span>
+			f[<span class="number">0</span>][i]=<span class="number">0</span>;
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= T; ++j)
+		{
+			if(j-t[i]&gt;=<span class="number">0</span>){
+				f[i][j]=MAX(f[i-<span class="number">1</span>][j],f[i-<span class="number">1</span>][j-t[i]]+l[i]);	
+			}<span class="keyword">else</span>{
+				f[i][j]=f[i-<span class="number">1</span>][j];
+			}
+		}
+	}
+	cout&lt;&lt;f[N-<span class="number">1</span>][T]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 856 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 860 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 860 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 15 ms, mem = 864 KiB, score = 100</p>
+<h3>P1028 魔族密码</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstring"</span>
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">N</span>,<span class="title">ans</span>;
+<span class="title">char</span> <span class="title">strs</span>[2000][76]={</span><span class="number">0</span>};
+<span class="keyword">int</span> f[<span class="number">2000</span>]={<span class="number">0</span>};
+<span class="preprocessor">#define MAX(x,y) ((x)&gt;(y)?(x):(y))</span>
+<span class="keyword">bool</span> check(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strlen(strs[a]); ++i){
+		if(strs[a][i]!=strs[b][i]) <span class="keyword">return</span> <span class="literal">false</span>;
+	}
+	<span class="keyword">return</span> <span class="literal">true</span>;
+}
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+	cin&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		cin&gt;&gt;strs[i];
+	}
+	f[N-<span class="number">1</span>]=<span class="number">1</span>;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = N-<span class="number">2</span>; i &gt; -<span class="number">1</span> ; --i){
+		<span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;N;j++){
+			if(check(i,j)){
+				f[i]=MAX(f[i],<span class="number">1</span>+f[j]);
+			}
+		}
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		ans=MAX(ans,f[i]);
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 15 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 716 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 712 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 109 ms, mem = 716 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 139 ms, mem = 716 KiB, score = 100</p>
+<h3>P1113 不高兴的津津</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">C</span>[7],<span class="title">n</span>=0;
+<span class="title">int</span> <span class="title">main</span>(<span class="title">int</span> <span class="title">argc</span>, <span class="title">char</span> <span class="title">const</span> *<span class="title">argv</span>[])
+{</span>
+    <span class="keyword">int</span> max=<span class="number">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">7</span>; ++i)
+	{
+		<span class="keyword">int</span> a,b;
+		cin&gt;&gt;a&gt;&gt;b;
+		C[i]=a+b;
+		if(C[i]&gt;max){
+			max=C[i];
+			n=i;
+		}
+	}
+	if(max&gt;<span class="number">8</span>){
+		cout&lt;&lt;n+<span class="number">1</span>;
+	}<span class="keyword">else</span>{
+		cout&lt;&lt;<span class="number">0</span>;
+	}
+	cout&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 15 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 0 ms, mem = 556 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 15 ms, mem = 560 KiB, score = 100</p>
+<h3>P1103 校门外的树</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> d[<span class="number">101</span>][<span class="number">2</span>]={<span class="number">0</span>},m=<span class="number">0</span>,k[<span class="number">101</span>][<span class="number">2</span>],L,M,ans;
+<span class="keyword">inline</span> <span class="keyword">bool</span> chec2k(<span class="keyword">int</span> i,<span class="keyword">int</span> j){
+  <span class="keyword">return</span>  d[i][<span class="number">0</span>]&gt;=d[j][<span class="number">0</span>] && d[i][<span class="number">0</span>]&lt;=d[j][<span class="number">1</span>] ||
+			d[j][<span class="number">0</span>]&gt;=d[i][<span class="number">0</span>] && d[j][<span class="number">0</span>]&lt;=d[i][<span class="number">1</span>];
+}
+
+<span class="keyword">bool</span> check(<span class="keyword">int</span> a){
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; ++i)
+	{
+		<span class="keyword">if</span>(a&gt;=d[i][<span class="number">0</span>]&&a&lt;=d[i][<span class="number">1</span>]) <span class="keyword">return</span> <span class="keyword">true</span>;
+	}
+	<span class="keyword">return</span> <span class="keyword">false</span>;
+}
+<span class="keyword">int</span> main(){
+	<span class="built_in">cin</span>&gt;&gt;L&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; ++i)
+	{
+		<span class="built_in">cin</span>&gt;&gt;d[i][<span class="number">0</span>]&gt;&gt;d[i][<span class="number">1</span>];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; L; ++i)
+	{
+		<span class="keyword">if</span>(check(i)) {ans++;<span class="keyword">continue</span>;}
+	}
+	<span class="built_in">cout</span>&lt;&lt;L-ans+<span class="number">1</span>&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: WrongAnswer, time = 0 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #1: WrongAnswer, time = 15 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #2: WrongAnswer, time = 0 ms, mem = 564 KiB, score = 0</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 3 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 0 ms, mem = 568 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 7 ms, mem = 564 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 560 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 560 KiB, score = 10</li>
+</ul>
+<p>WrongAnswer, time = 40 ms, mem = 568 KiB, score = 70</p>
+<h3>P1104 采药</h3>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#define MAX(a,b) ((a)&gt;(b)?(a):(b))</span>
+<span class="keyword">int</span> N,T,f[<span class="number">101</span>][<span class="number">1001</span>]={<span class="number">0</span>},t[<span class="number">101</span>]={<span class="number">0</span>},v[<span class="number">101</span>]={<span class="number">0</span>};
+<span class="keyword">using</span> <span class="class"><span class="keyword">namespace</span> <span class="title">std</span>;
+<span class="title">int</span> <span class="title">main</span>(<span class="title">int</span> <span class="title">argc</span>, <span class="title">char</span> <span class="title">const</span> *<span class="title">argv</span>[])
+{</span>
+  cin&gt;&gt;T&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)
+	{
+		cin&gt;&gt;t[i]&gt;&gt;v[i];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= T; ++i)
+	{
+		if(t[<span class="number">0</span>]&lt;=i){
+			f[<span class="number">0</span>][i]=v[<span class="number">0</span>];	
+		} <span class="keyword">else</span> {
+			f[<span class="number">0</span>][i]=<span class="number">0</span>;
+		}
+		
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; ++i)
+	{
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= T; ++j)
+		{
+			if(j-t[i]&gt;=<span class="number">0</span>){
+				f[i][j]=MAX(f[i-<span class="number">1</span>][j],f[i-<span class="number">1</span>][j-t[i]]+v[i]);
+			}<span class="keyword">else</span>{
+				f[i][j]=f[i-<span class="number">1</span>][j];
+			}
+			
+		}
+	}
+	cout&lt;&lt;f[N-<span class="number">1</span>][T]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #1: Accepted, time = 15 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #4: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #5: Accepted, time = 0 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #6: Accepted, time = 15 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #7: Accepted, time = 15 ms, mem = 872 KiB, score = 10</li>
+<li>测试数据 #8: Accepted, time = 15 ms, mem = 864 KiB, score = 10</li>
+<li>测试数据 #9: Accepted, time = 0 ms, mem = 864 KiB, score = 10</li>
+</ul>
+<p>Accepted, time = 60 ms, mem = 872 KiB, score = 100</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-05T00:00:00.000Z"><a href="/2013/08/05/虫食算/">Aug 5 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/05/虫食算/">NOIP存档</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3>虫食算</h3>
+<p><a href="https://vijos.org/p/1099" target="_blank">https://vijos.org/p/1099</a></p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "cstdlib"</span>
+<span class="preprocessor">#include "cstdio"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> n;
+<span class="keyword">char</span> a[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">char</span> b[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">char</span> c[<span class="number">26</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> <span class="built_in">map</span>[<span class="number">255</span>]={<span class="number">0</span>};
+<span class="keyword">bool</span> used[<span class="number">28</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> eee;
+<span class="keyword">void</span> dfs(<span class="keyword">char</span> ch,<span class="keyword">int</span> N){
+	<span class="built_in">map</span>[ch]=N;
+	<span class="keyword">if</span>(ch-<span class="string">'A'</span>+<span class="number">1</span>==n){
+		<span class="keyword">int</span> A=<span class="number">0</span>,B=<span class="number">0</span>,C=<span class="number">0</span>;
+		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)	{
+			A=A*n+<span class="built_in">map</span>[a[i]];
+			B=B*n+<span class="built_in">map</span>[b[i]];
+			C=C*n+<span class="built_in">map</span>[c[i]];
+		}
+
+		<span class="keyword">if</span>(A+B==C){
+			<span class="keyword">int</span> i; <span class="keyword">char</span> end=<span class="string">'A'</span>+n-<span class="number">1</span>;
+			<span class="keyword">for</span> ( i= <span class="string">'A'</span>; i &lt; end; ++i)	{
+				<span class="built_in">cout</span>&lt;&lt;<span class="built_in">map</span>[i]&lt;&lt;<span class="string">" "</span>;
+			}
+			<span class="built_in">cout</span>&lt;&lt;<span class="built_in">map</span>[i]&lt;&lt;endl;
+			exit(<span class="number">0</span>);
+		}
+        <span class="keyword">return</span>;
+	}
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=eee;i&gt;-<span class="number">1</span>;--i){
+		<span class="keyword">if</span>(!used[i]){
+			used[i]=<span class="keyword">true</span>;
+			dfs(ch+<span class="number">1</span>,i);	
+			used[i]=<span class="keyword">false</span>;
+		}
+	}
+}
+
+
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[]){
+	<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;a&gt;&gt;b&gt;&gt;c;
+	eee=n-<span class="number">1</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=eee;i&gt;-<span class="number">1</span>;--i){
+		used[i]=<span class="keyword">true</span>;
+		dfs(<span class="string">'A'</span>,i);	
+		used[i]=<span class="keyword">false</span>;
+	}
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<ul>
+<li>测试数据 #0: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #1: Accepted, time = 0 ms, mem = 468 KiB, score = 10</li>
+<li>测试数据 #2: Accepted, time = 0 ms, mem = 468 KiB, score = 10</li>
+<li>测试数据 #3: Accepted, time = 93 ms, mem = 472 KiB, score = 10</li>
+<li>测试数据 #4: TimeLimitExceeded, time = 1015 ms, mem = 456 KiB, score = 0</li>
+<li>测试数据 #5: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #6: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #7: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>测试数据 #8: TimeLimitExceeded, time = 1015 ms, mem = 452 KiB, score = 0</li>
+<li>测试数据 #9: TimeLimitExceeded, time = 1015 ms, mem = 460 KiB, score = 0</li>
+<li>TimeLimitExceeded, time = 7198 ms, mem = 472 KiB, score = 30</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+    <a href="/archives/2013/page/2/" class="alignright next">Next</a>
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:shuenhoy.com">
+  </form>
+</div>
+
+  <div class="widget about">
+  <h3 class="title">About</h3>
+  <ul class="entry">
+  <li>
+  孙浩然,网名Shuenhoy,浩然正气<br/>
+  初中生编程爱好者<br/>
+  目前在莱州市云峰中学学习<br/>
+  Email: shuenhoy [at] gmail.com
+  <iframe scrolling="no" width="182" height="27" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" src="http://follow.v.t.qq.com/index.php?c=follow&amp;a=quick&amp;name=shuenhoy&amp;style=4&amp;t=1364635078114&amp;f=1"></iframe>
+  </li>
+  </ul>
+  
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Lua/">Lua</a><small>1</small></li>
+  
+    <li><a href="/categories/NOIP/">NOIP</a><small>11</small></li>
+  
+    <li><a href="/categories/默认分类/">默认分类</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Function/" style="font-size: 10.00px;">Function</a><a href="/tags/下载/" style="font-size: 10.00px;">下载</a><a href="/tags/动态规划/" style="font-size: 20.00px;">动态规划</a><a href="/tags/吐槽/" style="font-size: 10.00px;">吐槽</a><a href="/tags/密码学/" style="font-size: 10.00px;">密码学</a><a href="/tags/搜索/" style="font-size: 15.00px;">搜索</a><a href="/tags/最小生成树/" style="font-size: 10.00px;">最小生成树</a><a href="/tags/最短路/" style="font-size: 10.00px;">最短路</a><a href="/tags/模拟/" style="font-size: 10.00px;">模拟</a><a href="/tags/生活杂事/" style="font-size: 20.00px;">生活杂事</a><a href="/tags/背包问题/" style="font-size: 15.00px;">背包问题</a>
+  </div>
+</div>
+
+
+  
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  
+    <li><a href="http://srkf.tk">暗影の森</a><small>约修亚_RK的博客</small></li>
+  
+    <li><a href="http://blog.mdtt.tk">萌之天堂</a><small>小梦卖萌打酱油吃烙饼的地方~</small></li>
+  
+    <li><a href="http://superlb.tk">烙饼摊</a><small>欢迎来买烙饼</small></li>
+  
+    <li><a href="http://zhyupe.54df.net">Zhyupe's Blog</a><small>云鹏的博客</small></li>
+  
+  </ul>
+</div>
+
+
+  <div class="widget visitor">
+  <h3 class="title">最近评论</h3>
+  <div class="entry">
+  <ul class="ds-recent-comments" data-num-items="5" data-excerpt-length="0"></ul>
+  </div>
+</div>
+
+<div class="widget visitor">
+  <h3 class="title">最近访客</h3>
+  <div class="entry">
+  <ul class="ds-recent-visitors" data-num-items="15"></ul>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignright">
+  
+  &copy; 2013 Shuenhoy
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

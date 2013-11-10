@@ -1,0 +1,495 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>最短路 | Shuenhoy's Blog</title>
+  <meta name="author" content="Shuenhoy">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Shuenhoy's Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Shuenhoy's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=16049737" charset="UTF-8"></script>
+
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"shuenhoyblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+  
+  
+</head>
+
+
+<body>
+  <div id="maindiv">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Shuenhoy's Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/guestbook">留言本</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">RSS</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title tag">最短路</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-12T00:00:00.000Z"><a href="/2013/08/12/SPFA最短路/">Aug 12 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/12/SPFA最短路/">SPFA</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>今天写某道难度 1 的最短路问题 (  <a href="https://vijos.org/p/1635" target="_blank">https://vijos.org/p/1635</a>  )  ，然后一开始用 Dijkstra 写写了半天发现一直很奇葩的只输出 0= = 于是一怒之下竟然删掉了代码重新用 SPFA 写。</p>
+<p>SPFA 就是要用一个队列，一开始起点放在队列里，如果队列空了就说明寻路完毕。然后不断取出队首元素，遍历与其相邻的结点，如果从对首结点到遍历到的结点距离之和加起来比遍历到的结点本身的距离小就替换。</p>
+<p>p.s. 自我感觉 SPFA 比 Dijkstra 要好理解到现在我也没弄明白 Dijkstara 是怎么回事 = =</p>
+<p>然后发现输出还是 0 = = == = = = =</p>
+<p>于是折腾了半个下午，最后发现原来竟然是输出的时候输出了 N 而不是 N-1 所以输出了 0.</p>
+<p>然后满心欢喜的去提交了测试，然后奇葩的发现不是超时就是错误啊啊啊啊</p>
+<p>程序附上求好心人解答：</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+</pre></td><td class="code"><pre>
+<span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,c;
+};
+<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span> fklist[<span class="number">10000</span>];
+<span class="keyword">int</span> N;
+<span class="keyword">unsigned</span> <span class="keyword">int</span> D[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">bool</span> inq[<span class="number">100000</span>]={<span class="keyword">false</span>};
+<span class="keyword">int</span> prev[<span class="number">100000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	scanf(<span class="string">"%d"</span>,&N);
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i){
+		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; ++j)
+		{
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a!=<span class="number">0</span>){
+				fklist[i].push_back((Node){i,j,a});
+				fklist[j].push_back((Node){j,i,a});
+			}
+		}
+		D[i]=INT_MAX;
+		prev[i]=-<span class="number">1</span>;
+	}
+	
+	D[<span class="number">0</span>]=<span class="number">0</span>;
+	q.push(<span class="number">0</span>);
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();inq[u]=<span class="keyword">false</span>;
+		<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="stl_container"><span class="built_in">list</span>&lt;Node&gt;</span>::iterator i = fklist[u].begin(); i != fklist[u].end(); ++i){
+			<span class="keyword">if</span>(D[(*i).v]&gt;D[u]+(*i).c){
+				D[(*i).v]=D[u]+(*i).c;
+				prev[(*i).v]=u;
+				<span class="keyword">if</span>(!inq[(*i).v]){
+					q.push((*i).v);
+					inq[(*i).v]=<span class="keyword">true</span>;
+				}
+			}
+			
+		}
+	}
+	<span class="keyword">int</span> out[<span class="number">10000</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> j=<span class="number">0</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=N-<span class="number">1</span>;i!=-<span class="number">1</span>;i=prev[i],j++) out[j]=i+<span class="number">1</span>;
+	<span class="keyword">for</span>(<span class="keyword">int</span> i=j-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) <span class="built_in">cout</span>&lt;&lt;out[i]&lt;&lt;<span class="string">" "</span>;
+	<span class="built_in">cout</span>&lt;&lt;endl&lt;&lt;D[N-<span class="number">1</span>]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<h1>8 月 14 日修正</h1>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "list"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "queue"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "climits"</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+};
+<span class="keyword">unsigned</span> <span class="keyword">int</span> L[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span> fl[<span class="number">5001</span>];
+
+<span class="keyword">int</span> s,t;
+<span class="keyword">bool</span> inq[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> pa[<span class="number">5001</span>]={<span class="number">0</span>};
+<span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> q;
+<span class="keyword">int</span> bb;
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("cl.txt");</span>
+	<span class="built_in">cin</span>&gt;&gt;N;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j &lt;= N; ++j){
+			<span class="keyword">int</span> a;
+			scanf(<span class="string">"%d"</span>,&a);
+			<span class="keyword">if</span>(a){
+				fl[i].push_back((Node){i,j,a});
+				<span class="comment">//fl[j].push_back((Node){j,i,a});	</span>
+			}
+		}
+		
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+	{
+		L[i]=INT_MAX;
+	}
+	
+	L[<span class="number">1</span>]=<span class="number">0</span>;
+
+	q.push(<span class="number">1</span>);
+	inq[<span class="number">1</span>]=<span class="keyword">true</span>;
+
+	<span class="keyword">while</span>(!q.empty()){
+		<span class="keyword">int</span> u=q.front();q.pop();
+
+		<span class="keyword">for</span>(<span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span>::iterator it=fl[u].begin();it!=fl[u].end();++it){
+			<span class="keyword">int</span> v=(*it).v;
+			<span class="keyword">int</span> w=(*it).w;
+
+			<span class="keyword">if</span>(L[u]+w&lt;L[v] ){
+				L[v]=L[u]+w;
+				pa[v]=u;
+				<span class="keyword">if</span>(!inq[v]){
+					q.push(v);
+					inq[v]=<span class="keyword">true</span>;
+				}
+			}
+		}
+		inq[u]=<span class="keyword">false</span>;
+	}
+	<span class="keyword">int</span> ff[<span class="number">1001</span>]={<span class="number">0</span>};
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">int</span> f=N;
+	<span class="keyword">while</span>(f){
+		ff[i++]=f;
+		f=pa[f];
+	}
+	<span class="keyword">for</span> (<span class="keyword">int</span> j = i-<span class="number">1</span>; j &gt; <span class="number">0</span>; --j)
+	{
+		<span class="built_in">cout</span>&lt;&lt;ff[j]&lt;&lt;<span class="string">" "</span>;
+	}
+	<span class="built_in">cout</span>&lt;&lt;ff[<span class="number">0</span>]&lt;&lt;endl;
+	<span class="built_in">cout</span>&lt;&lt;L[N]&lt;&lt;endl;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+<p>这个题有个坑爹的地方就是是有向图所以昨天当做无向图就全错了 = =</p>
+<p>然后超时的问题直接用 scanf 代替 cin 解决了 = =</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:shuenhoy.com">
+  </form>
+</div>
+
+  <div class="widget about">
+  <h3 class="title">About</h3>
+  <ul class="entry">
+  <li>
+  孙浩然,网名Shuenhoy,浩然正气<br/>
+  初中生编程爱好者<br/>
+  目前在莱州市云峰中学学习<br/>
+  Email: shuenhoy [at] gmail.com
+  <iframe scrolling="no" width="182" height="27" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" src="http://follow.v.t.qq.com/index.php?c=follow&amp;a=quick&amp;name=shuenhoy&amp;style=4&amp;t=1364635078114&amp;f=1"></iframe>
+  </li>
+  </ul>
+  
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Lua/">Lua</a><small>1</small></li>
+  
+    <li><a href="/categories/NOIP/">NOIP</a><small>11</small></li>
+  
+    <li><a href="/categories/默认分类/">默认分类</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Function/" style="font-size: 10.00px;">Function</a><a href="/tags/下载/" style="font-size: 10.00px;">下载</a><a href="/tags/动态规划/" style="font-size: 20.00px;">动态规划</a><a href="/tags/吐槽/" style="font-size: 10.00px;">吐槽</a><a href="/tags/密码学/" style="font-size: 10.00px;">密码学</a><a href="/tags/搜索/" style="font-size: 15.00px;">搜索</a><a href="/tags/最小生成树/" style="font-size: 10.00px;">最小生成树</a><a href="/tags/最短路/" style="font-size: 10.00px;">最短路</a><a href="/tags/模拟/" style="font-size: 10.00px;">模拟</a><a href="/tags/生活杂事/" style="font-size: 20.00px;">生活杂事</a><a href="/tags/背包问题/" style="font-size: 15.00px;">背包问题</a>
+  </div>
+</div>
+
+
+  
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  
+    <li><a href="http://srkf.tk">暗影の森</a><small>约修亚_RK的博客</small></li>
+  
+    <li><a href="http://blog.mdtt.tk">萌之天堂</a><small>小梦卖萌打酱油吃烙饼的地方~</small></li>
+  
+    <li><a href="http://superlb.tk">烙饼摊</a><small>欢迎来买烙饼</small></li>
+  
+    <li><a href="http://zhyupe.54df.net">Zhyupe's Blog</a><small>云鹏的博客</small></li>
+  
+  </ul>
+</div>
+
+
+  <div class="widget visitor">
+  <h3 class="title">最近评论</h3>
+  <div class="entry">
+  <ul class="ds-recent-comments" data-num-items="5" data-excerpt-length="0"></ul>
+  </div>
+</div>
+
+<div class="widget visitor">
+  <h3 class="title">最近访客</h3>
+  <div class="entry">
+  <ul class="ds-recent-visitors" data-num-items="15"></ul>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignright">
+  
+  &copy; 2013 Shuenhoy
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

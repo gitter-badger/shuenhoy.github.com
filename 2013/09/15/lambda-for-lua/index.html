@@ -1,0 +1,783 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Lua的Short Anonymous Function | Shuenhoy's Blog</title>
+  <meta name="author" content="Shuenhoy">
+  
+  <meta name="description" content="Lua 的 function 这个关键字有时候挺烦人的。比如我就想要个f(a, b)=a+b的函数就要写成
+1
+function f(a,b) return a+b end
+
+
+于是在 boost::lambda 的启发下，我利用 lua 的重载运算符的特性做了一个“Short Anonymous Function” 我暂时把它狂妄地叫做 lambda 了，不过我也没有仔细研究过不知道能不能称得上 lambda。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Lua的Short Anonymous Function"/>
+  <meta property="og:site_name" content="Shuenhoy's Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Shuenhoy's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=16049737" charset="UTF-8"></script>
+
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"shuenhoyblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+  
+  
+</head>
+
+
+<body>
+  <div id="maindiv">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Shuenhoy's Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/guestbook">留言本</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">RSS</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-09-15T10:36:08.000Z"><a href="/2013/09/15/lambda-for-lua/">Sep 15 2013</a></time>
+      
+      
+  
+    <h1 class="title">Lua的Short Anonymous Function</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Lua 的 function 这个关键字有时候挺烦人的。比如我就想要个<code>f(a, b)=a+b</code>的函数就要写成</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(a,b)</span></span> <span class="keyword">return</span> a+b <span class="keyword">end</span>
+</pre></td></tr></table></figure>
+
+<p>于是在 boost::lambda 的启发下，我利用 lua 的重载运算符的特性做了一个“Short Anonymous Function” 我暂时把它狂妄地叫做 lambda 了，不过我也没有仔细研究过不知道能不能称得上 lambda。<br><a id="more"></a><br>现在可以做到这些： </p>
+<h3>普通的计算</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f1 = _1 + _2
+<span class="built_in">print</span>(f1(<span class="number">1</span>,<span class="number">3</span>)) <span class="comment">--&gt; 4</span>
+</pre></td></tr></table></figure>
+
+<h3>调用其他函数</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f2 = _call(<span class="built_in">print</span>,<span class="number">1</span>)
+f2() <span class="comment">--&gt; 1</span>
+</pre></td></tr></table></figure>
+
+<h3>读取 table 值</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">local</span> f3 = _index({<span class="number">1</span>,<span class="number">2</span>},<span class="number">1</span>)
+<span class="built_in">print</span>(f3) <span class="comment">--&gt;1</span>
+</pre></td></tr></table></figure>
+
+<h3>if 和 递归</h3>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">local</span> fbi = _if(_lt(_1,<span class="number">3</span>)):
+            _then(<span class="number">1</span>):
+            _else(_resuc(_1-<span class="number">1</span>)+_resuc(_1-<span class="number">2</span>))
+<span class="built_in">print</span>(fbi(<span class="number">40</span>)) <span class="comment">--&gt;102334155</span>
+</pre></td></tr></table></figure>
+
+<h2>实现</h2>
+<p>因为我的水平比较低，所以实现的也比较烂了。</p>
+<p>为了方便起见我直接把 lambda 定义为表达式了，表达式本身也是一个递归的定义：</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>Exp={Exp1,Exp2,Operator}
+</pre></td></tr></table></figure>
+
+<p>表达式的基本单位就是<code>_1</code> <code>_2</code>这样的参数，参数也是表达式，但是它只需要返回在上下文 (Context) 中自身的值。</p>
+<p>这样比如<code>_1+_2 * _3</code>这个表达式实际上就拆成了<code>{_1, {_2, _3, *}, +}</code></p>
+<p>在调用一个 lambda 时 （即使用形如<code>f()</code>的调用）时，会创建一个上下文环境，里面保存着参数，表达式本身。上下文环境会一直传到参数那里。接着表达式使用对 Exp1 和 Exp2 进行 Operator 操作，并返回结果到上一层。递归的为每一层都这样计算，直到表达式不可以继续计算为止。</p>
+<p>比如<code>_1+_2 * _3</code>（即<code>{_1, {_2, _3, *}, +}</code>）调用参数为 (2,3,4) 时：</p>
+<ul>
+<li>建立上下文</li>
+<li>首先对<code>_1</code> 和<code>{_2, _3, *}</code>进行<code>+</code>运算</li>
+<li><ul>
+<li><code>{_2, _3, *}</code> 是一个可以继续计算的表达式，对<code>_2</code> <code>_3</code>进行`* 运算</li>
+</ul>
+</li>
+<li><ul>
+<li>从上下文中获得<code>_2</code>的值为 3 <code>_3</code>的值为 4，返回 3*4=12</li>
+</ul>
+</li>
+<li>从上下文中获得<code>_1</code>的值为 2，并得到<code>{_2, _3, *}</code>的值为 12 返回 2*12=24</li>
+</ul>
+<p>至于递归也很容易就实现了，只需要在调用 () 的时候把自身保存在 context 即可</p>
+<h3>存在问题</h3>
+<ol>
+<li>Lua 的<code>__lt</code> <code>__le</code>以及<code>__eq</code>的重载只会返回 boolean，不管你在函数里返回了什么，只要不是 nil 或 false，在外面只会得到 true。以及无法重载 and or not</li>
+<li>嵌套的定义 lambda 问题。<code>a = _index(_call(table.sort,_lt(_1,_2)),2)+_1</code> 怎么知道哪部分是 新的 lambda？</li>
+<li>运算速度太慢</li>
+</ol>
+<p>对于第一点，除了改 lua 的源码给他打补丁以外的方法都比较蛋疼。我最后是实现了<code>_lt</code> <code>_le</code> <code>_rt</code> <code>_re</code> <code>_eq</code> <code>_and</code> <code>_or</code> <code>_not</code> 这几个函数。。。</p>
+<p>对于第二点，我发现其实 lamdba 之间本身是没有区别的，他们的区别只在于得到的参数不同，也就是 Context 不同，而且这种不同只在计算的时候才表现出来。所以要实现区别不同的函数，只需要设置一个标志，然后告诉表达式“这个不是你的一部分，不用计算了！”就可以解决。</p>
+<p>我的方法是定义一个 lambda 函数, 用第二个返回值做标志，这样即使在普通的时候调用它也不会出现问题</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">lambda</span><span class="params">(exp)</span></span>
+  <span class="keyword">return</span> exp, NOT_EXEC
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> f1 = _call(<span class="built_in">table</span>.sort, lambda(_lt(_1, _2)))
+<span class="keyword">local</span> f2 = lambda(_1 + _2)
+</pre></td></tr></table></figure>
+
+<p>第三个问题比较严重，前面提到的 fbi，在 25 的时候普通的函数耗时 0s 而 lambda 却用了整整 11s！</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="keyword">local</span> fbi = _if(_lt(_1,<span class="number">3</span>)):
+            _then(<span class="number">1</span>):
+            _else(_resuc(_1-<span class="number">1</span>)+_resuc(_1-<span class="number">2</span>))
+<span class="function"><span class="keyword">function</span> <span class="title">fbin</span><span class="params">(n)</span></span>
+	<span class="keyword">if</span> n&lt;<span class="number">3</span> <span class="keyword">then</span>
+		<span class="keyword">return</span> <span class="number">1</span>
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> fbin(n-<span class="number">1</span>)+fbin(n-<span class="number">2</span>)
+<span class="keyword">end</span>
+<span class="keyword">local</span> t
+
+t=<span class="built_in">os</span>.time()
+<span class="built_in">print</span>(fbin(<span class="number">25</span>))
+<span class="built_in">print</span>(<span class="built_in">os</span>.time()-t) <span class="comment">--&gt; 0</span>
+
+t=<span class="built_in">os</span>.time()
+<span class="built_in">print</span>(fbi(<span class="number">25</span>))
+<span class="built_in">print</span>(<span class="built_in">os</span>.time()-t) <span class="comment">--&gt; 11</span>
+</pre></td></tr></table></figure>
+
+<p>这个问题确实不好办，但是考虑到这些 lambda 大概都没有副作用，所以我是用了一个表来存了参数和结果的对应关系。。。</p>
+<p>使用<code>lambda()</code>建立 lambda 时就会自动开启这个效果</p>
+<p>最后仍上实现代码，前面有 50 行左右 lambda 依赖的我自己写的类似 IO 语言的对象系统</p>
+<p>欢迎吐槽</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+</pre></td><td class="code"><pre><span class="comment">---------------- 功能函数部分 ----------------------</span>
+<span class="function"><span class="keyword">function</span> <span class="title">table.eachi</span><span class="params">(t, f)</span></span>
+	<span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">ipairs</span>(t) <span class="keyword">do</span>
+		<span class="keyword">if</span> f(i, v,t[i+<span class="number">1</span>]) == <span class="keyword">false</span> <span class="keyword">then</span> <span class="keyword">break</span> <span class="keyword">end</span>
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+Object = {property={}}
+<span class="function"><span class="keyword">function</span> <span class="title">Object:clone</span> <span class="params">( _t )</span></span>
+	_t.property = _t.property <span class="keyword">or</span> self.property <span class="keyword">or</span> {}
+	<span class="built_in">setmetatable</span>(_t, {__index = self.__index, __newindex = self.__newindex, __pa=self, __call = self.__call,
+						__add = self.__add, __sub = self.__sub, __div = self.__div, 
+						__mul = self.__mul, __pow = self.__pow, __mod = self.__mod,
+						__eq = self.__eq, __lt = self.__lt, __le = self.__le} )
+
+	<span class="keyword">if</span> _t.property ~= self.property <span class="keyword">then</span>
+		<span class="built_in">setmetatable</span>(_t.property, {__index = self.property})
+	<span class="keyword">end</span>
+	<span class="keyword">if</span> self.init <span class="keyword">then</span> self.init(_t) <span class="keyword">end</span>
+	<span class="keyword">return</span> _t
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Object:__index</span><span class="params">( key )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	
+	<span class="keyword">if</span> self.property[key] <span class="keyword">and</span> self.property[key].get <span class="keyword">then</span> 
+		<span class="keyword">return</span> self.property[key].get() 
+	<span class="keyword">end</span>
+	<span class="keyword">if</span> <span class="built_in">type</span>(mt.__pa)==<span class="string">"table"</span> <span class="keyword">then</span>
+		<span class="keyword">return</span> mt.__pa[key]
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> <span class="keyword">nil</span>
+<span class="keyword">end</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">Object:__newindex</span><span class="params">( key,value )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	<span class="keyword">if</span> self.property[key] <span class="keyword">and</span> self.property[key].set <span class="keyword">then</span> <span class="keyword">return</span> self.property[key].set(self,value) <span class="keyword">end</span>
+	<span class="built_in">rawset</span>(self,key,value)
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Object:is_a</span><span class="params">( pa )</span></span>
+	<span class="keyword">local</span> mt=<span class="built_in">getmetatable</span>(self)
+	<span class="keyword">if</span> mt.__pa==pa <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">true</span> <span class="keyword">end</span>
+	<span class="keyword">return</span> mt.__pa:is_a(pa)
+<span class="keyword">end</span>
+
+<span class="built_in">setmetatable</span>(Object,{__index=Object.__index,__newindex=Object.__newindex})
+
+<span class="built_in">table</span>.eachi({<span class="string">"add"</span>,<span class="string">"sub"</span>,<span class="string">"div"</span>, <span class="string">"mul"</span>, <span class="string">"pow"</span>, <span class="string">"mod"</span>, <span class="string">"call"</span>, <span class="string">"eq"</span> , <span class="string">"le"</span>, <span class="string">"lt"</span>}, function(k, v)
+	Object.property[<span class="string">"__"</span>..v] = {set = function(self, value)
+		<span class="built_in">getmetatable</span>(self)[<span class="string">"__"</span>..v] = value
+		<span class="built_in">rawset</span>(self, <span class="string">"__"</span>..v, value)
+	<span class="keyword">end</span>}	
+<span class="keyword">end</span>)
+<span class="comment">------------------ 功能函数部分结束 -----------------------</span>
+<span class="comment">------------------ Lambda 部分开始 ------------------------</span>
+Lambda = Object:clone{
+	__call = function(...)
+		
+	<span class="keyword">end</span>
+}
+<span class="keyword">local</span> op={
+	add = function(a, b) <span class="keyword">return</span> a + b <span class="keyword">end</span>;	sub = function(a, b) <span class="keyword">return</span> a - b <span class="keyword">end</span>;
+	div = function(a, b) <span class="keyword">return</span> a / b <span class="keyword">end</span>;	mul = function(a, b) <span class="keyword">return</span> a * b <span class="keyword">end</span>;
+	mod = function(a, b) <span class="keyword">return</span> a % b <span class="keyword">end</span>;	pow = function(a, b) <span class="keyword">return</span> a ^ b <span class="keyword">end</span>;
+	eq  = function(a, b) <span class="keyword">return</span> a == b <span class="keyword">end</span>;	lt  = function(a, b) <span class="keyword">return</span> a &lt;  b <span class="keyword">end</span>;
+	le  = function(a, b) <span class="keyword">return</span> a &lt;= b <span class="keyword">end</span>;
+}
+<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">exec</span><span class="params">(obj, context)</span></span>
+	<span class="keyword">if</span> <span class="built_in">type</span>(obj) == <span class="string">"table"</span> <span class="keyword">and</span> obj:is_a(Exp) <span class="keyword">then</span>
+		<span class="keyword">return</span> obj:exec(context)
+	<span class="keyword">end</span>
+	<span class="keyword">return</span> obj
+<span class="keyword">end</span>
+<span class="keyword">local</span> NOT_CALL = {}
+<span class="keyword">local</span> VAR = {}
+Exp = Lambda:clone{
+	
+	And = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context) <span class="keyword">and</span> exec(second, context)
+	<span class="keyword">end</span>;
+	Or = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context) <span class="keyword">or</span> exec(second, context)
+	<span class="keyword">end</span>;
+
+	Not = function(first, second, context)
+		<span class="keyword">return</span> <span class="keyword">not</span> exec(first, context)
+	<span class="keyword">end</span>;
+
+	Index = function(first, second, context)
+		<span class="keyword">return</span> exec(first, context)[exec(second, context)]
+	<span class="keyword">end</span>;
+
+	IndexSet = function(first, second, context)
+		<span class="keyword">local</span> result = exec(second, context)
+		first[<span class="number">1</span>]:exec(context)[first[<span class="number">2</span>]:exec(context)] = result
+		<span class="keyword">return</span> result
+	<span class="keyword">end</span>;
+
+	Call = function(first, second, context)
+		<span class="keyword">local</span> args = {} 
+		<span class="built_in">table</span>.eachi(second, function(i, arg, n)
+			<span class="keyword">if</span> arg ~= NOT_CALL <span class="keyword">then</span>
+				<span class="keyword">if</span> n ~= NOT_CALL <span class="keyword">then</span>
+					<span class="built_in">table</span>.insert(args, exec(arg, context))
+				<span class="keyword">else</span>
+					<span class="built_in">table</span>.insert(args, arg)
+				<span class="keyword">end</span>
+			<span class="keyword">end</span>
+		<span class="keyword">end</span>)
+		<span class="keyword">return</span> exec(first, context)(<span class="built_in">unpack</span>(args))
+	<span class="keyword">end</span>;
+
+	exec = function(self, context)
+		<span class="keyword">return</span> self.operator(self.first, self.second,context)
+	<span class="keyword">end</span>;
+	__call = function(self, ...)
+		<span class="keyword">local</span> context = {args = {...}, base = self}
+		<span class="keyword">if</span> self.memorize <span class="keyword">then</span>
+			self.memory = self.memory <span class="keyword">or</span> {}
+			<span class="keyword">local</span> match = <span class="keyword">true</span>
+			<span class="keyword">local</span> m = self.memory
+			<span class="keyword">local</span> ret
+			<span class="keyword">for</span> i=<span class="number">1</span>, #context.args <span class="keyword">do</span>
+				m[context.args[i]] = m[context.args[i]] <span class="keyword">or</span> {}
+				m = m[context.args[i]]
+			<span class="keyword">end</span>
+			m[context.args[#context.args]] = m[context.args[#context.args]] <span class="keyword">or</span> {}
+			m[context.args[#context.args]][VAR] = m[context.args[#context.args]][VAR] <span class="keyword">or</span> exec(self, context)
+			<span class="keyword">return</span> m[context.args[#context.args]][VAR]
+		<span class="keyword">end</span>
+		<span class="keyword">return</span> exec(self, context)
+	<span class="keyword">end</span>;
+}
+<span class="built_in">table</span>.eachi({<span class="string">"Add"</span>,<span class="string">"Sub"</span>,<span class="string">"Div"</span>, <span class="string">"Mul"</span>, <span class="string">"Pow"</span>, <span class="string">"Mod"</span>,  <span class="string">"Eq"</span> , <span class="string">"Le"</span>, <span class="string">"Lt"</span>},function(k, v)
+	Exp[v] = function(first, second, context)
+		<span class="keyword">return</span> op[v:lower()](exec(first, context),exec(second, context))
+	<span class="keyword">end</span>;
+	Exp[<span class="string">"__"</span>..v:lower()] = function(self, other)		
+		<span class="keyword">return</span> Exp:clone{first = self, second = other, operator = Exp[v]}
+	<span class="keyword">end</span>;
+<span class="keyword">end</span>)
+
+<span class="keyword">local</span> IfExp = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">if</span> exec(self.exp, context) <span class="keyword">then</span>
+			<span class="keyword">return</span> exec(self.thenexp, context)
+		<span class="keyword">else</span>
+			<span class="keyword">return</span> exec(self.elseexp, context)
+		<span class="keyword">end</span>
+	<span class="keyword">end</span>;
+	_then = function(self, exp)
+		self.thenexp = exp
+		<span class="keyword">return</span> self
+	<span class="keyword">end</span>;
+	_else = function(self, exp)
+		self.elseexp = exp
+		<span class="keyword">return</span> self
+	<span class="keyword">end</span>;
+	_elseif = function(self, exp)
+		self.elseexp = _if(exp)
+		<span class="keyword">return</span> self.elseexp
+	<span class="keyword">end</span>
+}
+<span class="keyword">local</span> resuc = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">return</span> context.base
+	<span class="keyword">end</span>
+}
+Argument = Exp:clone{
+	exec = function(self, context)
+		<span class="keyword">return</span> context.args[self.index]
+	<span class="keyword">end</span>;
+	__call = function(self, val)
+		<span class="keyword">return</span> val
+	<span class="keyword">end</span>;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">_indexset</span><span class="params">(obj, key, value)</span></span>
+	<span class="keyword">return</span> Exp:clone{first = {obj, key}, second = value, operator = Exp.IndexSet}
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">_call</span><span class="params">(func, ...)</span></span>
+	<span class="keyword">return</span> Exp:clone{first = func, second = {...}, operator = Exp.Call}
+<span class="keyword">end</span>
+
+<span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">getf1</span><span class="params">(name)</span></span>
+	<span class="keyword">return</span> function(a, b)
+		<span class="keyword">return</span> Exp:clone{first = a, second = b, operator = Exp[name]}	
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+_and   = getf1(<span class="string">"And"</span>)   _or    = getf1(<span class="string">"Or"</span>)
+_not   = getf1(<span class="string">"Not"</span>)   _index = getf1(<span class="string">"Index"</span>)
+_lt    = getf1(<span class="string">"Lt"</span>)    _le    = getf1(<span class="string">"Le"</span>)
+_rt    = getf1(<span class="string">"Rt"</span>)    _re    = getf1(<span class="string">"Re"</span>)
+_eq    = getf1(<span class="string">"Eq"</span>)
+<span class="function"><span class="keyword">function</span> <span class="title">_if</span><span class="params">(exp)</span></span>
+	<span class="keyword">return</span> IfExp:clone{exp = exp}
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">_resuc</span><span class="params">(...)</span></span>
+	<span class="keyword">return</span> _call(resuc,...)
+<span class="keyword">end</span>
+<span class="function"><span class="keyword">function</span> <span class="title">lambda</span><span class="params">(exp, nmemorize)</span></span>
+	exp.memorize = <span class="keyword">not</span> nmemorize
+	<span class="keyword">return</span> exp, NOT_CALL
+<span class="keyword">end</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">args</span><span class="params">(index)</span></span>
+	<span class="keyword">return</span> Argument:clone{index = index}
+<span class="keyword">end</span>
+
+_1 = args(<span class="number">1</span>)
+_2 = args(<span class="number">2</span>)
+_3 = args(<span class="number">3</span>)
+</pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/Lua/">Lua</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Function/">Function</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<script type="text/javascript">
+nuffnang_bid = "896ddaef6ccaede8598944ef519b7b3f";
+document.write( "<div id='nuffnang_lb'></div>" );
+(function() {	
+var nn = document.createElement('script'); nn.type = 'text/javascript';    
+nn.src = 'http://synad2.nuffnang.com.cn/lb2.js';    
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(nn, s.nextSibling);
+})();
+</script>
+<!-- nuffnang-->
+	
+<section id="comment">
+  <h1 class="title">Comments</h1>
+ <!-- Duoshuo Comment BEGIN -->
+
+	<div class="ds-thread" data-thread-key="2013/09/15/lambda-for-lua/" data-title="Lua的Short Anonymous Function" data-author-key="2"></div>
+
+<!-- Duoshuo Comment END -->
+</section>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:shuenhoy.com">
+  </form>
+</div>
+
+  <div class="widget about">
+  <h3 class="title">About</h3>
+  <ul class="entry">
+  <li>
+  孙浩然,网名Shuenhoy,浩然正气<br/>
+  初中生编程爱好者<br/>
+  目前在莱州市云峰中学学习<br/>
+  Email: shuenhoy [at] gmail.com
+  <iframe scrolling="no" width="182" height="27" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" src="http://follow.v.t.qq.com/index.php?c=follow&amp;a=quick&amp;name=shuenhoy&amp;style=4&amp;t=1364635078114&amp;f=1"></iframe>
+  </li>
+  </ul>
+  
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Lua/">Lua</a><small>1</small></li>
+  
+    <li><a href="/categories/NOIP/">NOIP</a><small>11</small></li>
+  
+    <li><a href="/categories/默认分类/">默认分类</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Function/" style="font-size: 10.00px;">Function</a><a href="/tags/下载/" style="font-size: 10.00px;">下载</a><a href="/tags/动态规划/" style="font-size: 20.00px;">动态规划</a><a href="/tags/吐槽/" style="font-size: 10.00px;">吐槽</a><a href="/tags/密码学/" style="font-size: 10.00px;">密码学</a><a href="/tags/搜索/" style="font-size: 15.00px;">搜索</a><a href="/tags/最小生成树/" style="font-size: 10.00px;">最小生成树</a><a href="/tags/最短路/" style="font-size: 10.00px;">最短路</a><a href="/tags/模拟/" style="font-size: 10.00px;">模拟</a><a href="/tags/生活杂事/" style="font-size: 20.00px;">生活杂事</a><a href="/tags/背包问题/" style="font-size: 15.00px;">背包问题</a>
+  </div>
+</div>
+
+
+  
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  
+    <li><a href="http://srkf.tk">暗影の森</a><small>约修亚_RK的博客</small></li>
+  
+    <li><a href="http://blog.mdtt.tk">萌之天堂</a><small>小梦卖萌打酱油吃烙饼的地方~</small></li>
+  
+    <li><a href="http://superlb.tk">烙饼摊</a><small>欢迎来买烙饼</small></li>
+  
+    <li><a href="http://zhyupe.54df.net">Zhyupe's Blog</a><small>云鹏的博客</small></li>
+  
+  </ul>
+</div>
+
+
+  <div class="widget visitor">
+  <h3 class="title">最近评论</h3>
+  <div class="entry">
+  <ul class="ds-recent-comments" data-num-items="5" data-excerpt-length="0"></ul>
+  </div>
+</div>
+
+<div class="widget visitor">
+  <h3 class="title">最近访客</h3>
+  <div class="entry">
+  <ul class="ds-recent-visitors" data-num-items="15"></ul>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignright">
+  
+  &copy; 2013 Shuenhoy
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

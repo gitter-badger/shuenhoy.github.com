@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>存档无限串 | Shuenhoy's Blog</title>
+  <meta name="author" content="Shuenhoy">
+  
+  <meta name="description" content="Shuenhoy  15:17:50   
+1
+2
+3
+4
+0&lt;=i&lt;10          f(i)=(j-0)*1+0
+10&lt;=i&lt;100        f(i)=(j-10)*2+10 
+100&lt;=i&lt;1000      f(i)=(j-100)*3+180">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="存档无限串"/>
+  <meta property="og:site_name" content="Shuenhoy's Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Shuenhoy's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=16049737" charset="UTF-8"></script>
+
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"shuenhoyblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+  
+  
+</head>
+
+
+<body>
+  <div id="maindiv">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Shuenhoy's Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/guestbook">留言本</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">RSS</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-04T00:00:00.000Z"><a href="/2013/08/04/存档无限串/">Aug 4 2013</a></time>
+      
+      
+  
+    <h1 class="title">存档无限串</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <hr>
+<p><strong> Shuenhoy  15:17:50 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>0<span class="tag">&lt;<span class="title">=i&lt;10</span>          <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-0)*1+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>        <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-10)*2+10</span> 
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>      <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-100)*3+180</span>
+<span class="attribute">1000</span>&lt;=<span class="value">i&lt;10000</span>    <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(j-1000)*4+2890</span>
+</pre></td></tr></table></figure>
+
+<p>设 w(x) 表示 x 的位数则</p>
+<p><strong> 约修亚 _RK  15:18:17 </strong><br>= =<br>啊喂</p>
+<p><strong> Shuenhoy  15:18:52 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>0<span class="tag">&lt;<span class="title">=i&lt;10</span>          <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-0)*w(i)+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>        <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-10)*w(i)+10</span> 
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>      <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-100)*w(i)+180</span>
+<span class="attribute">1000</span>&lt;=<span class="value">i&lt;10000</span>    <span class="attribute">f</span>(<span class="attribute">i</span>)=<span class="value">(i-1000)*w(i)+2890</span>
+应该是这样的
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:22:10 </strong><br>= =<br>你凌乱了吧</p>
+<p><strong> Shuenhoy  15:22:37 </strong><br>可以看到后面的 0 10 180 2890 就是比他位数少的最大的数  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="function"><span class="title">d</span><span class="params">(i)</span>={0    <span class="title">i</span>==0
+     {10^<span class="title">i</span> <span class="title">i</span>!=0
+</pre></td></tr></table></figure>
+
+<p>所以</p>
+<p><strong> 约修亚 _RK  15:23:32 </strong><br>- -<br>- </p>
+<p><strong> Shuenhoy  15:24:20 </strong> </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="title">f</span><span class="params">(i)</span>=<span class="params">(i-<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>*<span class="title">w</span><span class="params">(i)</span>+<span class="title">f</span><span class="params">(<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:24:23 </strong><br>。</p>
+<p><strong> Shuenhoy  15:24:31 </strong><br>这就是最后的式子</p>
+<p><strong> 约修亚 _RK  15:24:32 </strong><br>= =<br>w(i)=?</p>
+<p><strong> Shuenhoy  15:24:55 </strong><br>最后就是  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="function"><span class="title">f</span><span class="params">(<span class="number">0</span>)</span>=0
+<span class="title">f</span><span class="params">(i)</span>=<span class="params">(i-<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>*<span class="title">w</span><span class="params">(i)</span>+<span class="title">f</span><span class="params">(<span class="function_name">d</span>(<span class="function_name">w</span>(i)-<span class="number">1</span>))</span>
+</pre></td></tr></table></figure>
+
+<p><strong> Shuenhoy  15:25:11 </strong>  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="function"><span class="title">d</span><span class="params">(i)</span>={0    <span class="title">i</span>==0
+     {10^<span class="title">i</span> <span class="title">i</span>!=0
+
+<span class="title">w</span><span class="params">(i)</span>={<span class="title">w</span><span class="params">(i/<span class="number">10</span>)</span>+1 <span class="title">i</span>&lt;10
+     {1 <span class="title">i</span>&gt;=10
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:25:52 </strong><br>设 w(x) 表示 x 的位数<br>.<br><strong> Shuenhoy  15:26:13 </strong><br>现在 RK 来化简 f(i)=(i-d(w(i)-1))*w(i)+f(d(w(i)-1)) 吧</p>
+<p><strong> 约修亚 _RK  15:26:16 </strong><br>= == = = == =<br>这玩意儿看着头痛<br>浩然有个很欠扁的问题  </p>
+<p>你特么是玩哪样啊</p>
+<p><strong> 约修亚 _RK  15:27:18 </strong><br>我看到这个 Data 瞬间凌乱</p>
+<p><strong> Shuenhoy  15:27:21 </strong><br>- -<br>但是现在还有一个很严重的问题<br>就是我应该根据 j 求 i 而不是根据 i 求 j  </p>
+<p><strong> 约修亚 _RK  15:28:13 </strong><br>=<br>我对 i 没好感<br>（↑你吐什么槽啊）<br><strong> Shuenhoy  15:31:46 </strong><br>= =<br>RK 帮我找个地方存个档  </p>
+<p><strong> Shuenhoy  15:36:13 </strong><br>我知道哪有问题了<br>原来是这样分析的  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>190=(100-10)*2+10-1
+0 <span class="tag">&lt;<span class="title">=i&lt;10</span>     <span class="attribute">i</span>=<span class="value">(j-0)*1+0</span>
+<span class="attribute">10</span>&lt;=<span class="value">i&lt;100</span>    <span class="attribute">i</span>=<span class="value">(j-10)*2+10</span> 
+    <span class="attribute">i</span>%<span class="attribute">2</span>=<span class="value">=0</span>    <span class="attribute">j</span>=<span class="value">i</span>/<span class="attribute">2</span>+<span class="attribute">10-10</span>/<span class="attribute">2-1</span>
+    <span class="attribute">i</span>%<span class="attribute">2</span>!=<span class="value">0</span>    <span class="attribute">j</span>=<span class="value">(i-1)</span>/<span class="attribute">2</span>+<span class="attribute">10-10</span>/<span class="attribute">2-1</span>
+<span class="attribute">100</span>&lt;=<span class="value">i&lt;1000</span>  <span class="attribute">i</span>=<span class="value">(j-100)*3+180</span>
+</pre></td></tr></table></figure>
+
+<p><strong> 约修亚 _RK  15:37:05 </strong><br>-　-<br>浩然  </p>
+<p><strong> Shuenhoy  15:37:25 </strong><br>问题就在于我假定了 100&lt;=i&lt;=1000 </p>
+<p><strong> 约修亚 _RK  15:37:27 </strong><br>＝　＝</p>
+<p><strong> Shuenhoy  15:37:34 </strong><br>也就是知道了 i 的位数</p>
+<p><strong> 约修亚 _RK  15:37:40 </strong><br>＝　＝<br>浩然<br>如果是我我就全部删掉换条路重来了 0 0  </p>
+<p><strong> Shuenhoy  15:38:14 </strong><br>无线序列怎么换 = =</p>
+<p><strong> 约修亚 _RK  15:38:39 </strong><br>首先问题就是知道要求第几位<br>然后求出第几位<br>然后我们可以倒着算或者正着一个数一个数遍历过去<br>反正后者是很傻的  </p>
+<p><strong> Shuenhoy  15:39:40 </strong><br>无限序列遍历个毛线</p>
+<p><strong> 约修亚 _RK  15:39:50 </strong><br>这样我们要想知道这个数在哪个区间<br>先</p>
+<p><strong> Shuenhoy  15:40:36 </strong><br>一个必要的条件是我得知道结果的位数 </p>
+<p><strong> 约修亚 _RK  15:40:42 </strong><br>0 0 怎么知道这个数在哪个区间? 这个数所在的数是几位的？</p>
+<figure class="highlight lang-lua"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre></td><td class="code"><pre>f={}
+t={}
+<span class="function"><span class="keyword">function</span> <span class="title">int</span><span class="params">(x)</span></span>
+<span class="keyword">if</span> x &lt;= <span class="number">0</span> <span class="keyword">then</span>
+   <span class="keyword">return</span> <span class="built_in">math</span>.ceil(x);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> <span class="built_in">math</span>.ceil(x) == x <span class="keyword">then</span>
+   x = <span class="built_in">math</span>.ceil(x);
+<span class="keyword">else</span>
+   x = <span class="built_in">math</span>.ceil(x) - <span class="number">1</span>;
+<span class="keyword">end</span>
+<span class="keyword">return</span> x;
+<span class="keyword">end</span>
+<span class="keyword">local</span> index=<span class="number">1</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">fnum</span><span class="params">( i )</span></span>
+	<span class="keyword">local</span> c={}
+	<span class="keyword">while</span>(i&gt;<span class="number">0</span>) <span class="keyword">do</span>
+		<span class="built_in">table</span>.insert(c,i%<span class="number">10</span>)
+		i=int(i/<span class="number">10</span>);
+	<span class="keyword">end</span>
+	<span class="keyword">for</span> i=#c,<span class="number">1</span>,-<span class="number">1</span> <span class="keyword">do</span>
+		<span class="built_in">table</span>.insert(f,c[i])
+		<span class="built_in">table</span>.insert(t,index)
+		index=index+<span class="number">1</span>
+	<span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">for</span> i=<span class="number">1</span>,<span class="number">1000</span> <span class="keyword">do</span>
+	fnum(i)
+<span class="keyword">end</span>
+<span class="built_in">print</span>(<span class="built_in">table</span>.concat( f, <span class="string">" "</span>))
+
+<span class="built_in">print</span>(<span class="built_in">table</span>.concat( t, <span class="string">" "</span>))
+</pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/NOIP/">NOIP</a>
+  </div>
+
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+<script type="text/javascript">
+nuffnang_bid = "896ddaef6ccaede8598944ef519b7b3f";
+document.write( "<div id='nuffnang_lb'></div>" );
+(function() {	
+var nn = document.createElement('script'); nn.type = 'text/javascript';    
+nn.src = 'http://synad2.nuffnang.com.cn/lb2.js';    
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(nn, s.nextSibling);
+})();
+</script>
+<!-- nuffnang-->
+	
+<section id="comment">
+  <h1 class="title">Comments</h1>
+ <!-- Duoshuo Comment BEGIN -->
+
+	<div class="ds-thread" data-thread-key="2013/08/04/存档无限串/" data-title="存档无限串" data-author-key="2"></div>
+
+<!-- Duoshuo Comment END -->
+</section>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:shuenhoy.com">
+  </form>
+</div>
+
+  <div class="widget about">
+  <h3 class="title">About</h3>
+  <ul class="entry">
+  <li>
+  孙浩然,网名Shuenhoy,浩然正气<br/>
+  初中生编程爱好者<br/>
+  目前在莱州市云峰中学学习<br/>
+  Email: shuenhoy [at] gmail.com
+  <iframe scrolling="no" width="182" height="27" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" src="http://follow.v.t.qq.com/index.php?c=follow&amp;a=quick&amp;name=shuenhoy&amp;style=4&amp;t=1364635078114&amp;f=1"></iframe>
+  </li>
+  </ul>
+  
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Lua/">Lua</a><small>1</small></li>
+  
+    <li><a href="/categories/NOIP/">NOIP</a><small>11</small></li>
+  
+    <li><a href="/categories/默认分类/">默认分类</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Function/" style="font-size: 10.00px;">Function</a><a href="/tags/下载/" style="font-size: 10.00px;">下载</a><a href="/tags/动态规划/" style="font-size: 20.00px;">动态规划</a><a href="/tags/吐槽/" style="font-size: 10.00px;">吐槽</a><a href="/tags/密码学/" style="font-size: 10.00px;">密码学</a><a href="/tags/搜索/" style="font-size: 15.00px;">搜索</a><a href="/tags/最小生成树/" style="font-size: 10.00px;">最小生成树</a><a href="/tags/最短路/" style="font-size: 10.00px;">最短路</a><a href="/tags/模拟/" style="font-size: 10.00px;">模拟</a><a href="/tags/生活杂事/" style="font-size: 20.00px;">生活杂事</a><a href="/tags/背包问题/" style="font-size: 15.00px;">背包问题</a>
+  </div>
+</div>
+
+
+  
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  
+    <li><a href="http://srkf.tk">暗影の森</a><small>约修亚_RK的博客</small></li>
+  
+    <li><a href="http://blog.mdtt.tk">萌之天堂</a><small>小梦卖萌打酱油吃烙饼的地方~</small></li>
+  
+    <li><a href="http://superlb.tk">烙饼摊</a><small>欢迎来买烙饼</small></li>
+  
+    <li><a href="http://zhyupe.54df.net">Zhyupe's Blog</a><small>云鹏的博客</small></li>
+  
+  </ul>
+</div>
+
+
+  <div class="widget visitor">
+  <h3 class="title">最近评论</h3>
+  <div class="entry">
+  <ul class="ds-recent-comments" data-num-items="5" data-excerpt-length="0"></ul>
+  </div>
+</div>
+
+<div class="widget visitor">
+  <h3 class="title">最近访客</h3>
+  <div class="entry">
+  <ul class="ds-recent-visitors" data-num-items="15"></ul>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignright">
+  
+  &copy; 2013 Shuenhoy
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>最小生成树 | Shuenhoy's Blog</title>
+  <meta name="author" content="Shuenhoy">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Shuenhoy's Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Shuenhoy's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script type="text/javascript" src="http://tajs.qq.com/stats?sId=16049737" charset="UTF-8"></script>
+
+<script type="text/javascript">
+
+var duoshuoQuery = {short_name:"shuenhoyblog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+  
+  
+</head>
+
+
+<body>
+  <div id="maindiv">
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Shuenhoy's Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/guestbook">留言本</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">RSS</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title tag">最小生成树</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content jiathis_streak">
+    <header>
+      
+        
+        <time datetime="2013-08-12T00:00:00.000Z"><a href="/2013/08/12/kruskal-最小生成树/">Aug 12 2013</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2013/08/12/kruskal-最小生成树/">kruskal算法</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>代码镇楼</p>
+<figure class="highlight lang-c++"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="code"><pre><span class="preprocessor">#include "iostream"</span>
+<span class="preprocessor">#include "vector"</span>
+<span class="preprocessor">#include "fstream"</span>
+<span class="preprocessor">#include "algorithm"</span>
+using namespace std;
+<span class="keyword">struct</span> Node
+{
+	<span class="keyword">int</span> u,v,w;
+	<span class="keyword">bool</span> operator &lt;(<span class="keyword">const</span> Node &o) <span class="keyword">const</span>{
+		<span class="keyword">return</span> w&lt;o<span class="variable">.w</span>;
+	}
+};
+
+Node fli[<span class="number">10000</span>];
+<span class="keyword">int</span> father[<span class="number">10000</span>]={<span class="number">0</span>};
+<span class="keyword">int</span> N,M;
+<span class="keyword">int</span> find(<span class="keyword">int</span> x){
+	<span class="keyword">if</span>(father[x]==x) <span class="keyword">return</span> x;
+	father[x]=find(father[x]);
+	<span class="keyword">return</span> father[x];
+}
+<span class="keyword">void</span> Union(<span class="keyword">int</span> a,<span class="keyword">int</span> b){
+	father[find(a)]=find(father[b]);
+}
+<span class="preprocessor">#define MAX(a,b) (a)&lt;(b)?(b):(a)</span>
+<span class="keyword">int</span> main(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])
+{
+	<span class="comment">//ifstream cin("ff.txt");</span>
+	cin&gt;&gt;N&gt;&gt;M;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)
+		father[i]=i;
+
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= M; ++i)
+		cin&gt;&gt;fli[i]<span class="variable">.u</span>&gt;&gt;fli[i]<span class="variable">.v</span>&gt;&gt;fli[i]<span class="variable">.w</span>;
+	sort(fli,fli+M);
+	<span class="keyword">int</span> ans=<span class="number">0</span>;
+	<span class="keyword">int</span> ingraph=<span class="number">1</span>;
+	<span class="keyword">int</span> i=<span class="number">0</span>;
+	<span class="keyword">while</span>(ingraph&lt;N){
+		i++;
+		<span class="keyword">if</span>(find(fli[i]<span class="variable">.u</span>)!=find(fli[i]<span class="variable">.v</span>)){
+			ingraph++;
+			ans=MAX(ans,fli[i]<span class="variable">.w</span>);
+			Union(fli[i]<span class="variable">.u</span>,find(fli[i]<span class="variable">.v</span>));
+		}
+	}
+	cout&lt;&lt;N-<span class="number">1</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;ans;
+	<span class="keyword">return</span> <span class="number">0</span>;
+}
+</pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2013/08/12/kruskal-最小生成树/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:shuenhoy.com">
+  </form>
+</div>
+
+  <div class="widget about">
+  <h3 class="title">About</h3>
+  <ul class="entry">
+  <li>
+  孙浩然,网名Shuenhoy,浩然正气<br/>
+  初中生编程爱好者<br/>
+  目前在莱州市云峰中学学习<br/>
+  Email: shuenhoy [at] gmail.com
+  <iframe scrolling="no" width="182" height="27" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" src="http://follow.v.t.qq.com/index.php?c=follow&amp;a=quick&amp;name=shuenhoy&amp;style=4&amp;t=1364635078114&amp;f=1"></iframe>
+  </li>
+  </ul>
+  
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Lua/">Lua</a><small>1</small></li>
+  
+    <li><a href="/categories/NOIP/">NOIP</a><small>11</small></li>
+  
+    <li><a href="/categories/默认分类/">默认分类</a><small>9</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Function/" style="font-size: 10.00px;">Function</a><a href="/tags/下载/" style="font-size: 10.00px;">下载</a><a href="/tags/动态规划/" style="font-size: 20.00px;">动态规划</a><a href="/tags/吐槽/" style="font-size: 10.00px;">吐槽</a><a href="/tags/密码学/" style="font-size: 10.00px;">密码学</a><a href="/tags/搜索/" style="font-size: 15.00px;">搜索</a><a href="/tags/最小生成树/" style="font-size: 10.00px;">最小生成树</a><a href="/tags/最短路/" style="font-size: 10.00px;">最短路</a><a href="/tags/模拟/" style="font-size: 10.00px;">模拟</a><a href="/tags/生活杂事/" style="font-size: 20.00px;">生活杂事</a><a href="/tags/背包问题/" style="font-size: 15.00px;">背包问题</a>
+  </div>
+</div>
+
+
+  
+<div class="widget friends">
+  <h3 class="title">Friends</h3>
+  <ul class="entry">
+  
+    <li><a href="http://srkf.tk">暗影の森</a><small>约修亚_RK的博客</small></li>
+  
+    <li><a href="http://blog.mdtt.tk">萌之天堂</a><small>小梦卖萌打酱油吃烙饼的地方~</small></li>
+  
+    <li><a href="http://superlb.tk">烙饼摊</a><small>欢迎来买烙饼</small></li>
+  
+    <li><a href="http://zhyupe.54df.net">Zhyupe's Blog</a><small>云鹏的博客</small></li>
+  
+  </ul>
+</div>
+
+
+  <div class="widget visitor">
+  <h3 class="title">最近评论</h3>
+  <div class="entry">
+  <ul class="ds-recent-comments" data-num-items="5" data-excerpt-length="0"></ul>
+  </div>
+</div>
+
+<div class="widget visitor">
+  <h3 class="title">最近访客</h3>
+  <div class="entry">
+  <ul class="ds-recent-visitors" data-num-items="15"></ul>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignright">
+  
+  &copy; 2013 Shuenhoy
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
